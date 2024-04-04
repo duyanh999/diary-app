@@ -113,7 +113,7 @@ export default function Home() {
   const [selectedGroupData, setSelectedGroupData] = useState([]);
   const [isClick, setClick] = useState(false);
 
-  const handleGroupChange = (event: any) => {
+  const handleGroupChange = (event) => {
     const selectedGroup = event.target.value;
     setSelectedGroup(selectedGroup);
     setSelectedGroupData(groupedData[selectedGroup] || []);
@@ -190,7 +190,7 @@ export default function Home() {
     setIsFireworkActive(true);
   };
 
-  const renderPosterMovies = (item: any) => {
+  const renderPosterMovies = (item) => {
     return (
       <OverlayFadeRenderItem
         id={item?.id}
@@ -228,7 +228,7 @@ export default function Home() {
           onChange={handleGroupChange}
           className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 relative"
         >
-          <option value="">Yêu em</option>
+          <option value=""> Thời điểm </option>
           {Object.keys(groupedData).map((groupKey) => (
             <option key={groupKey} value={groupKey} className="relative">
               {groupKey}

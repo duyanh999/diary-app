@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={"bg-[#101010]"}>
+      <body style={{ backgroundImage: `url(bg.jpg)`, backgroundSize: "cover" }}>
         <div className="text-white top-0 w-full fixed flex justify-center z-50 bg-red-700">
           Huong Duy Anh
         </div>

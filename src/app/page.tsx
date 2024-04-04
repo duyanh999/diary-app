@@ -2,43 +2,122 @@
 import { useCallback, useEffect, useState } from "react";
 import OverlayFadeRenderItem from "./Component/overlayFadeItems";
 import { Fireworks } from "fireworks-js";
-
-const data = [
-  {
-    id: "1",
-    name: "duyhuong",
-    image: "huong.png",
-    title: "Người mẫu và lon bia",
-    genreIds: "",
-    voteAverage: "2",
-  },
-  {
-    id: "1",
-    name: "duyhuong",
-    image: "duyanhhuong.jpg",
-    title: "Đẹp đôi 10 điểm",
-    genreIds: "",
-    voteAverage: "2",
-  },
-  {
-    id: "1",
-    name: "duyhuong",
-    image: "huong2.jpg",
-    title: "Người mẫu dễ thương nhất",
-    genreIds: "",
-    voteAverage: "2",
-  },
-  {
-    id: "1",
-    name: "duyhuong",
-    image: "huong3.jpg",
-    title: "Người mẫu thần thái 10 điểm",
-    genreIds: "",
-    voteAverage: "2",
-  },
-];
+import Heart from "react-animated-heart";
+const groupedData = {
+  Oceanpark: [
+    {
+      id: "1",
+      name: "duyhuong",
+      image: "huong.png",
+      title: "Người mẫu và lon bia",
+      genreIds: "",
+      voteAverage: "2",
+    },
+    {
+      id: "1",
+      name: "duyhuong",
+      image: "duyanhhuong.jpg",
+      title: "Đẹp đôi 10 điểm",
+      genreIds: "",
+      voteAverage: "2",
+    },
+    {
+      id: "1",
+      name: "duyhuong",
+      image: "huong2.jpg",
+      title: "Người mẫu dễ thương nhất",
+      genreIds: "",
+      voteAverage: "2",
+    },
+    {
+      id: "1",
+      name: "duyhuong",
+      image: "huong3.jpg",
+      title: "Người mẫu thần thái 10 điểm",
+      genreIds: "",
+      voteAverage: "2",
+    },
+  ],
+  Pizza4P: [
+    {
+      id: "1",
+      name: "duyhuong",
+      image: "4p1.jpg",
+      title: "Người mẫu và máy ảnh",
+      genreIds: "",
+      voteAverage: "2",
+    },
+    {
+      id: "1",
+      name: "duyhuong",
+      image: "4p2.jpg",
+      title: "Xinh gái 10 điểm",
+      genreIds: "",
+      voteAverage: "2",
+    },
+    {
+      id: "1",
+      name: "duyhuongdấdas",
+      image: "4p3.jpg",
+      title: "Dễ thương nhất",
+      genreIds: "",
+      voteAverage: "2",
+    },
+    {
+      id: "1",
+      name: "duyhuong",
+      image: "4p4.jpg",
+      title: "Gia trưởng yêu anh",
+      genreIds: "",
+      voteAverage: "2",
+    },
+  ],
+  AeonMall: [
+    {
+      id: "1",
+      name: "duyhuong",
+      image: "aeon1.jpg",
+      title: "Đẹp đôi cool ngầu",
+      genreIds: "",
+      voteAverage: "2",
+    },
+    {
+      id: "1",
+      name: "duyhuong",
+      image: "aeon2.jpg",
+      title: "Tổng tài xinh gái yêu anh",
+      genreIds: "",
+      voteAverage: "2",
+    },
+    {
+      id: "1",
+      name: "duyhuongdấdas",
+      image: "aeon3.jpg",
+      title: "Đẹp đôi dễ thương",
+      genreIds: "",
+      voteAverage: "2",
+    },
+    {
+      id: "1",
+      name: "duyhuong",
+      image: "aeon4.jpg",
+      title: "đẹp trai xinh gái",
+      genreIds: "",
+      voteAverage: "2",
+    },
+  ],
+};
 
 export default function Home() {
+  const [selectedGroup, setSelectedGroup] = useState("");
+  const [selectedGroupData, setSelectedGroupData] = useState([]);
+  const [isClick, setClick] = useState(false);
+
+  const handleGroupChange = (event: any) => {
+    const selectedGroup = event.target.value;
+    setSelectedGroup(selectedGroup);
+    setSelectedGroupData(groupedData[selectedGroup] || []);
+  };
   const [isFireworkActive, setIsFireworkActive] = useState(false);
 
   useEffect(() => {
@@ -100,7 +179,7 @@ export default function Home() {
       const stopFireworks = setTimeout(() => {
         fireworks.stop();
         setIsFireworkActive(false);
-      }, 5000);
+      }, 2000);
 
       // Clear the timeout to stop the fireworks if component unmounts or isFireworkActive changes
       return () => clearTimeout(stopFireworks);
@@ -108,11 +187,8 @@ export default function Home() {
   }, [isFireworkActive]);
 
   const handleFireworkActivation = () => {
-    // console.log("dsada");
     setIsFireworkActive(true);
   };
-
-  console.log(isFireworkActive);
 
   const renderPosterMovies = (item: any) => {
     return (
@@ -124,6 +200,7 @@ export default function Home() {
         genreIds={item?.genre_ids}
         voteAverage={item?.vote_average}
         activeFirework={handleFireworkActivation}
+        selectedGroupData={selectedGroupData}
       />
     );
   };
@@ -131,20 +208,34 @@ export default function Home() {
     return (
       <div className="">
         <div className="grid place-content-center gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-          <div className=" text-xs text-white flex justify-center">
-            Ngày 29/3/2024
-          </div>
+          <div className=" text-xs text-white flex justify-center"></div>
           <div className="items-center flex justify-center">
             {" "}
-            <div className="rounded-full bg-red-700 w-[10px]  h-[10px]"> </div>
+            <Heart isClick={isClick} onClick={() => setClick(!isClick)} />
           </div>
-          {data?.map(renderPosterMovies)}
+          {selectedGroupData.map(renderPosterMovies)}
         </div>
       </div>
     );
   };
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-20 relative">
+      <div className="text-white text-3xl mb-5">Yêu Hương</div>
+      <div>
+        <select
+          id="groupSelect"
+          value={selectedGroup}
+          onChange={handleGroupChange}
+          className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 relative"
+        >
+          <option value="">Yêu em</option>
+          {Object.keys(groupedData).map((groupKey) => (
+            <option key={groupKey} value={groupKey} className="relative">
+              {groupKey}
+            </option>
+          ))}
+        </select>
+      </div>
       {/* Add class "container" here */}
       {/* Ensure the container has position:relative to establish stacking context */}
       {isFireworkActive && (

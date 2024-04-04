@@ -9,7 +9,7 @@ import Image from "next/image";
 import styles from "./styles.module.css";
 // import GenresMovies from "../GenresMovies/genresMovies";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Heart from "react-animated-heart";
 
 // import { originalPathPoster } from "@/core/constants";
@@ -25,6 +25,7 @@ interface Props {
   type?: string;
   title: string;
   voteAverage?: number;
+  selectedGroupData: any;
   activeFirework: () => any;
 }
 
@@ -35,6 +36,7 @@ const OverlayFadeRenderItem = ({
   content,
   images,
   title,
+  selectedGroupData,
   id,
   time,
   index,
@@ -43,7 +45,11 @@ const OverlayFadeRenderItem = ({
   type,
 }: Props) => {
   const [isClick, setClick] = useState(false);
-
+  useEffect(() => {
+    if (selectedGroupData) {
+      setClick(false); // Reset isClick state when id changes
+    }
+  }, [selectedGroupData]);
   return (
     <div className={`${styles.container} hover:scale-105 `}>
       <div className="  ">
@@ -53,7 +59,9 @@ const OverlayFadeRenderItem = ({
         className={styles.overlayRed}
         onClick={() => {
           setClick(true);
-          activeFirework();
+          if (!isClick) {
+            activeFirework();
+          }
         }}
       >
         <div className={`${styles.text} line-clamp-6 grid grid-cols-1`}>

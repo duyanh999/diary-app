@@ -1,12 +1,13 @@
 .container {
   position: relative;
-  width: 100%;
-  flex: content;
-  justify-content: center;
-  height: 100%;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  overflow: hidden; /* Đảm bảo hình ảnh không bị tràn ra khỏi div */
 }
 
+.container img {
+  width: 100%; /* Đảm bảo hình ảnh rộng bằng toàn bộ chiều rộng của div */
+  height: 300px; /* Đảm bảo tỷ lệ hình ảnh không bị bóp lại */
+  object-fit: cover; /* Lấp đầy hình ảnh trong div mà vẫn giữ tỷ lệ khung hình */
+}
 .image {
   display: block;
   width: 100%;

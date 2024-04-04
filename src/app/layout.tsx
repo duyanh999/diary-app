@@ -16,7 +16,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={"bg-[#101010]"}>
+        <div className="text-white top-0 w-full fixed flex justify-center z-50 bg-red-700">
+          Huong Duy Anh
+        </div>
+        {children}
+      </body>
     </html>
   );
 }

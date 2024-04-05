@@ -123,46 +123,38 @@ export default function Home() {
   const scrollRef = useRef(null);
 
   useEffect(() => {
+    const handleWheel = (event) => {
+      event.preventDefault(); // Ngăn chặn cuộn mặc định
+
+      const deltaY = event.deltaY;
+      const itemHeight =
+        scrollRef.current.scrollHeight / selectedGroupData.length;
+
+      if (deltaY < 0) {
+        // Lăn lên
+        const newIndex =
+          Math.floor(scrollRef.current.scrollTop / itemHeight) - 1;
+        const scrollTo = newIndex * itemHeight;
+        scrollRef.current.scrollTo({ top: scrollTo, behavior: "smooth" });
+      } else if (deltaY > 0) {
+        // Lăn xuống
+        const newIndex =
+          Math.ceil(scrollRef.current.scrollTop / itemHeight) + 1;
+        const scrollTo = newIndex * itemHeight;
+        scrollRef.current.scrollTo({ top: scrollTo, behavior: "smooth" });
+      }
+    };
+
     if (scrollRef.current) {
-      let scrollTimer;
-      let lastScrollTime = Date.now();
-
-      const handleScroll = () => {
-        const currentTime = Date.now();
-        if (currentTime - lastScrollTime > 2000) {
-          // Đặt ngưỡng thời gian để kiểm tra khựng lâu hơn
-          const scrollTop = scrollRef.current.scrollTop;
-          const itemHeight =
-            scrollRef.current.scrollHeight / selectedGroupData.length;
-          const newIndex = Math.floor(scrollTop / itemHeight);
-          if (newIndex !== currentIndex) {
-            setCurrentIndex(newIndex);
-            const scrollTo = newIndex * itemHeight;
-            scrollRef.current.scrollTo({ top: scrollTo, behavior: "smooth" });
-          }
-          lastScrollTime = currentTime; // Cập nhật thời gian cuộn cuối cùng
-        } else {
-          clearTimeout(scrollTimer);
-          scrollTimer = setTimeout(() => {
-            const scrollTop = scrollRef.current.scrollTop;
-            const itemHeight =
-              scrollRef.current.scrollHeight / selectedGroupData.length;
-            const newIndex = Math.floor(scrollTop / itemHeight);
-            setCurrentIndex(newIndex);
-            const scrollTo = newIndex * itemHeight;
-            scrollRef.current.scrollTo({ top: scrollTo, behavior: "smooth" });
-          }, 2000); // Đặt lại currentIndex sau 2000ms
-        }
-      };
-
-      scrollRef.current.addEventListener("scroll", handleScroll);
-
-      return () => {
-        scrollRef.current.removeEventListener("scroll", handleScroll);
-      };
+      scrollRef.current.addEventListener("wheel", handleWheel);
     }
-  }, [selectedGroupData, currentIndex]);
 
+    return () => {
+      if (scrollRef.current) {
+        scrollRef.current.removeEventListener("wheel", handleWheel);
+      }
+    };
+  }, [selectedGroupData]);
   useEffect(() => {
     if (isFireworkActive) {
       const container = document?.querySelector(".container");

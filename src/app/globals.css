@@ -2,32 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
-/* :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+/* globals.css */
+
+/* Common styles for all screens */
+/* Global scrollbar styles */
+/* Thiết lập chiều rộng và màu sắc thanh cuộn */
+::-webkit-scrollbar {
+  width: 0px; /* Chiều rộng của thanh cuộn */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+::-webkit-scrollbar-thumb {
+  background-color: #1c00ff00; /* Màu sắc của thanh cuộn */
+  border-radius: 4px; /* Đường viền cong của thanh cuộn */
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+/* Thiết lập màu nền cho toàn bộ thanh cuộn */
+::-webkit-scrollbar-track {
+  background: #1c00ff00;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-} */
+/* Thiết lập chiều rộng của thanh cuộn khi hover */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #1c00ff00;
+}
+
+/* Thiết lập màu nền cho phần nền của thanh cuộn khi hover */
+::-webkit-scrollbar-track:hover {
+  background: #1c00ff00;
+}

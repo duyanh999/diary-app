@@ -207,19 +207,17 @@ export default function Home() {
   const suggestUserChoiceList = () => {
     return (
       <div className="">
-        <div className="grid place-content-center gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <div className="grid place-content-center gap-4">
           <div className=" text-xs text-white flex justify-center"></div>
-          <div className="items-center flex justify-center">
-            {" "}
-            <Heart isClick={isClick} onClick={() => setClick(!isClick)} />
+          <div className="h-[550px] w-[300px] overflow-x-hidden overflow-y-auto gap-3">
+            {selectedGroupData.map(renderPosterMovies)}
           </div>
-          {selectedGroupData.map(renderPosterMovies)}
         </div>
       </div>
     );
   };
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-20 relative">
+    <main className="flex min-h-screen flex-col items-center justify-between p-5 relative">
       <div className="text-white text-3xl mb-5">Yêu Hương</div>
       <div>
         <select
@@ -236,15 +234,12 @@ export default function Home() {
           ))}
         </select>
       </div>
-      {/* Add class "container" here */}
-      {/* Ensure the container has position:relative to establish stacking context */}
+
       {isFireworkActive && (
         <div className="firework container z-[50] absolute top-0 bottom-0 left-1/2 transform -translate-x-1/2" />
       )}
-      {/* Place your fireworks here */}
-      {/* <CarouselMovie dataPopularMovies={popularMovies} /> */}
-      <div className="relative flex-1">{suggestUserChoiceList()}</div>
-      {/* Make sure to add z-index to the suggest to ensure it is above other content */}
+
+      <div className="relative flex-1 ">{suggestUserChoiceList()}</div>
     </main>
   );
 }

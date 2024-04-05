@@ -29,15 +29,15 @@
 
 .overlayRed {
   position: absolute;
-  top: 0;
-  bottom: 0;
+  top: 10;
   left: 0;
-  right: 0;
-  height: 100%;
-  width: 100%;
+  width: 100%; /* Đảm bảo overlay rộng bằng hình ảnh */
+  height: 100%; /* Đảm bảo overlay cao bằng hình ảnh */
   opacity: 0;
   transition: 0.5s ease;
   background-color: pink;
+  padding-top: 10rem /* 16px */;
+  padding-bottom: 1rem /* 16px */;
 }
 
 .container:hover .overlayRed {

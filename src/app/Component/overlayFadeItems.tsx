@@ -1,18 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
-// import { Button, Divider } from "antd";
-// import React from "react";
-// import { Space } from "antd";
-// import { StarOutlined } from "@ant-design/icons";
 
-// import { Link, useNavigate } from "react-router-dom";
-import Image from "next/image";
 import styles from "./styles.module.css";
-// import GenresMovies from "../GenresMovies/genresMovies";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import Heart from "react-animated-heart";
 
-// import { originalPathPoster } from "@/core/constants";
 interface Props {
   name: string;
   id: number;
@@ -51,12 +42,20 @@ const OverlayFadeRenderItem = ({
     }
   }, [selectedGroupData]);
   return (
-    <div className={`${styles.container} hover:scale-105 `}>
+    <div
+      className={`${styles.container} hover: hover:origin-center
+
+      duration-500	delay-100 py-3 relative rounded-2xl`}
+    >
       <div className="  ">
-        <img src={"/" + images} alt="Example" className="" />
+        <img
+          src={"/" + images}
+          alt="Example"
+          className="rounded-lg relative "
+        />
       </div>
       <div
-        className={styles.overlayRed}
+        className={`${styles.overlayRed} absolute top-0 left-0 w-full h-full`}
         onClick={() => {
           setClick(true);
           if (!isClick) {

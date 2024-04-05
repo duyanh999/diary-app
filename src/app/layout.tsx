@@ -16,11 +16,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body style={{ backgroundImage: `url(bg.jpg)`, backgroundSize: "cover" }}>
-        <div className="text-white top-0 w-full fixed flex justify-center z-50 bg-red-700">
-          Huong Duy Anh
+      <body className=" w-full h-full flex justify-center">
+        <div
+          className="w-[428px] justify-center flex "
+          style={{ backgroundImage: `url(bg.jpg)`, backgroundSize: "cover" }}
+        >
+          <div className="text-white w-[428px] top-0 fixed flex justify-center z-50 bg-red-700">
+            Huong Duy Anh
+          </div>
+          {children}
         </div>
-        {children}
       </body>
     </html>
   );

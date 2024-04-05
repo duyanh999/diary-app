@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import OverlayFadeRenderItem from "./Component/overlayFadeItems";
 import { Fireworks } from "fireworks-js";
 import Heart from "react-animated-heart";
@@ -119,6 +119,49 @@ export default function Home() {
     setSelectedGroupData(groupedData[selectedGroup] || []);
   };
   const [isFireworkActive, setIsFireworkActive] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const scrollRef = useRef(null);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      let scrollTimer;
+      let lastScrollTime = Date.now();
+
+      const handleScroll = () => {
+        const currentTime = Date.now();
+        if (currentTime - lastScrollTime > 2000) {
+          // Đặt ngưỡng thời gian để kiểm tra khựng lâu hơn
+          const scrollTop = scrollRef.current.scrollTop;
+          const itemHeight =
+            scrollRef.current.scrollHeight / selectedGroupData.length;
+          const newIndex = Math.floor(scrollTop / itemHeight);
+          if (newIndex !== currentIndex) {
+            setCurrentIndex(newIndex);
+            const scrollTo = newIndex * itemHeight;
+            scrollRef.current.scrollTo({ top: scrollTo, behavior: "smooth" });
+          }
+          lastScrollTime = currentTime; // Cập nhật thời gian cuộn cuối cùng
+        } else {
+          clearTimeout(scrollTimer);
+          scrollTimer = setTimeout(() => {
+            const scrollTop = scrollRef.current.scrollTop;
+            const itemHeight =
+              scrollRef.current.scrollHeight / selectedGroupData.length;
+            const newIndex = Math.floor(scrollTop / itemHeight);
+            setCurrentIndex(newIndex);
+            const scrollTo = newIndex * itemHeight;
+            scrollRef.current.scrollTo({ top: scrollTo, behavior: "smooth" });
+          }, 2000); // Đặt lại currentIndex sau 2000ms
+        }
+      };
+
+      scrollRef.current.addEventListener("scroll", handleScroll);
+
+      return () => {
+        scrollRef.current.removeEventListener("scroll", handleScroll);
+      };
+    }
+  }, [selectedGroupData, currentIndex]);
 
   useEffect(() => {
     if (isFireworkActive) {
@@ -209,7 +252,10 @@ export default function Home() {
       <div className="">
         <div className="grid place-content-center gap-4">
           <div className=" text-xs text-white flex justify-center"></div>
-          <div className="h-[550px] w-[300px] overflow-x-hidden overflow-y-auto gap-3">
+          <div
+            ref={scrollRef}
+            className="h-[420px] w-[400px] overflow-x-hidden overflow-y-auto gap-3"
+          >
             {selectedGroupData.map(renderPosterMovies)}
           </div>
         </div>
@@ -218,13 +264,13 @@ export default function Home() {
   };
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-5 relative">
-      <div className="text-white text-3xl mb-5">Yêu Hương</div>
+      {/* <div className="text-white text-3xl mb-5">Yêu Hương</div> */}
       <div>
         <select
           id="groupSelect"
           value={selectedGroup}
           onChange={handleGroupChange}
-          className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 relative"
+          className="block appearance-none mt-4 w-full bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 relative"
         >
           <option value=""> Thời điểm </option>
           {Object.keys(groupedData).map((groupKey) => (

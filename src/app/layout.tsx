@@ -22,7 +22,7 @@ export default function RootLayout({
           style={{ backgroundImage: `url(bg.jpg)`, backgroundSize: "cover" }}
         >
           <div className="text-white w-[428px] top-0 fixed flex justify-center z-50 bg-red-700">
-            Huong Duy Anh
+            Diary
           </div>
           {children}
         </div>

@@ -45,17 +45,13 @@ const OverlayFadeRenderItem = ({
     <div
       className={`${styles.container} hover: hover:origin-center
 
-      duration-500	delay-100 py-3 relative rounded-2xl`}
+      duration-500	delay-100 py-3  rounded-2xl`}
     >
       <div className="  ">
-        <img
-          src={"/" + images}
-          alt="Example"
-          className="rounded-lg relative "
-        />
+        <img src={"/" + images} alt="Example" className="rounded-lg" />
       </div>
       <div
-        className={`${styles.overlayRed} absolute top-0 left-0 w-full h-full`}
+        className={`${styles.overlayRed} top-0 left-0 w-full h-full`}
         onClick={() => {
           setClick(true);
           if (!isClick) {

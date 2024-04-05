@@ -123,6 +123,7 @@ export default function Home() {
   const scrollRef = useRef(null);
   useEffect(() => {
     let startY = 0;
+    let scrollTimer = null;
 
     const handleTouchStart = (event) => {
       startY = event.touches[0].clientY;
@@ -135,6 +136,9 @@ export default function Home() {
       const itemHeight =
         scrollRef.current.scrollHeight / selectedGroupData.length;
 
+      // Hủy bộ đếm thời gian nếu có
+      clearTimeout(scrollTimer);
+
       if (deltaY < 0) {
         // Lăn lên
         const newIndex = Math.floor(scrollRef.current.scrollTop / itemHeight);
@@ -146,6 +150,11 @@ export default function Home() {
         const scrollTo = newIndex * itemHeight;
         scrollRef.current.scrollTo({ top: scrollTo, behavior: "smooth" });
       }
+
+      // Tạm dừng việc cuộn trong 300ms
+      scrollTimer = setTimeout(() => {
+        startY = event.touches[0].clientY;
+      }, 300);
     };
 
     if (scrollRef.current) {
@@ -154,6 +163,7 @@ export default function Home() {
     }
 
     return () => {
+      clearTimeout(scrollTimer);
       if (scrollRef.current) {
         scrollRef.current.removeEventListener("touchstart", handleTouchStart);
         scrollRef.current.removeEventListener("touchmove", handleTouchMove);

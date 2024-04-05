@@ -123,7 +123,7 @@ export default function Home() {
   const scrollRef = useRef(null);
   useEffect(() => {
     let startY = 0;
-    let scrollTimer = null;
+    let requestId = null;
 
     const handleTouchStart = (event) => {
       startY = event.touches[0].clientY;
@@ -132,29 +132,36 @@ export default function Home() {
     const handleTouchMove = (event) => {
       event.preventDefault(); // Ngăn chặn cuộn mặc định
 
+      // Hủy bỏ yêu cầu khung chuyển tiếp nếu có
+      cancelAnimationFrame(requestId);
+
+      // Xác định khoảng cách di chuyển
       const deltaY = event.touches[0].clientY - startY;
       const itemHeight =
         scrollRef.current.scrollHeight / selectedGroupData.length;
 
-      // Hủy bộ đếm thời gian nếu có
-      clearTimeout(scrollTimer);
-
+      // Tính toán chỉ số mới dựa trên hướng di chuyển
+      let newIndex;
       if (deltaY < 0) {
         // Lăn lên
-        const newIndex = Math.floor(scrollRef.current.scrollTop / itemHeight);
-        const scrollTo = newIndex * itemHeight;
-        scrollRef.current.scrollTo({ top: scrollTo, behavior: "smooth" });
+        newIndex = Math.floor(scrollRef.current.scrollTop / itemHeight) - 1;
       } else if (deltaY > 0) {
         // Lăn xuống
-        const newIndex = Math.ceil(scrollRef.current.scrollTop / itemHeight);
-        const scrollTo = newIndex * itemHeight;
-        scrollRef.current.scrollTo({ top: scrollTo, behavior: "smooth" });
+        newIndex = Math.ceil(scrollRef.current.scrollTop / itemHeight) + 1;
       }
 
-      // Tạm dừng việc cuộn trong 300ms
-      scrollTimer = setTimeout(() => {
-        startY = event.touches[0].clientY;
-      }, 300);
+      // Cuộn đến vị trí mới với hiệu ứng mượt mà
+      const scrollTo = newIndex * itemHeight;
+      const scrollOptions = {
+        top: scrollTo,
+        behavior: "smooth",
+      };
+      requestId = requestAnimationFrame(() => {
+        scrollRef.current.scrollTo(scrollOptions);
+      });
+
+      // Cập nhật vị trí khởi đầu mới
+      startY = event.touches[0].clientY;
     };
 
     if (scrollRef.current) {
@@ -163,7 +170,7 @@ export default function Home() {
     }
 
     return () => {
-      clearTimeout(scrollTimer);
+      cancelAnimationFrame(requestId);
       if (scrollRef.current) {
         scrollRef.current.removeEventListener("touchstart", handleTouchStart);
         scrollRef.current.removeEventListener("touchmove", handleTouchMove);

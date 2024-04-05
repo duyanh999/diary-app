@@ -121,12 +121,17 @@ export default function Home() {
   const [isFireworkActive, setIsFireworkActive] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollRef = useRef(null);
-
   useEffect(() => {
-    const handleWheel = (event) => {
+    let startY = 0;
+
+    const handleTouchStart = (event) => {
+      startY = event.touches[0].clientY;
+    };
+
+    const handleTouchMove = (event) => {
       event.preventDefault(); // Ngăn chặn cuộn mặc định
 
-      const deltaY = event.deltaY;
+      const deltaY = event.touches[0].clientY - startY;
       const itemHeight =
         scrollRef.current.scrollHeight / selectedGroupData.length;
 
@@ -146,15 +151,18 @@ export default function Home() {
     };
 
     if (scrollRef.current) {
-      scrollRef.current.addEventListener("wheel", handleWheel);
+      scrollRef.current.addEventListener("touchstart", handleTouchStart);
+      scrollRef.current.addEventListener("touchmove", handleTouchMove);
     }
 
     return () => {
       if (scrollRef.current) {
-        scrollRef.current.removeEventListener("wheel", handleWheel);
+        scrollRef.current.removeEventListener("touchstart", handleTouchStart);
+        scrollRef.current.removeEventListener("touchmove", handleTouchMove);
       }
     };
   }, [selectedGroupData]);
+
   useEffect(() => {
     if (isFireworkActive) {
       const container = document?.querySelector(".container");

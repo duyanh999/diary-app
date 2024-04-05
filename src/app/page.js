@@ -137,14 +137,12 @@ export default function Home() {
 
       if (deltaY < 0) {
         // Lăn lên
-        const newIndex =
-          Math.floor(scrollRef.current.scrollTop / itemHeight) - 1;
+        const newIndex = Math.floor(scrollRef.current.scrollTop / itemHeight);
         const scrollTo = newIndex * itemHeight;
         scrollRef.current.scrollTo({ top: scrollTo, behavior: "smooth" });
       } else if (deltaY > 0) {
         // Lăn xuống
-        const newIndex =
-          Math.ceil(scrollRef.current.scrollTop / itemHeight) + 1;
+        const newIndex = Math.ceil(scrollRef.current.scrollTop / itemHeight);
         const scrollTo = newIndex * itemHeight;
         scrollRef.current.scrollTo({ top: scrollTo, behavior: "smooth" });
       }

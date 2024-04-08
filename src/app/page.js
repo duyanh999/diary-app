@@ -5,6 +5,8 @@ import OverlayFadeRenderItem from "./Component/overlayFadeItems";
 import { Fireworks } from "fireworks-js";
 import Heart from "react-animated-heart";
 import Image from "next/image";
+import Link from "next/link";
+import { AwesomeButton } from "react-awesome-button";
 const groupedData = {
   Oceanpark: [
     {
@@ -287,13 +289,21 @@ export default function Home() {
           className="w-3 absolute top-[70%] left-[80%]"
         />
       </div>
-
       {isFireworkActive && (
         <div className="firework container z-[50] absolute top-0 bottom-0 left-1/2 transform -translate-x-1/2" />
       )}
-
       <div className="relative flex-1 ">{suggestUserChoiceList()}</div>
-      {/* <div className=" text-white">Hôm nay em ăn gì</div> */}
+      <AwesomeButton type="primary" className="w-[80%] bottom-10 absolute ">
+        <Link
+          className="mx-4 group text-black-500 transition-all duration-300 ease-in-out"
+          href="/gacha"
+        >
+          {" "}
+          <span className="bg-left-bottom text-sm font-bold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
+            Chọn món
+          </span>{" "}
+        </Link>{" "}
+      </AwesomeButton>{" "}
     </main>
   );
 }

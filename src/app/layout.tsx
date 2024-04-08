@@ -21,7 +21,7 @@ export default function RootLayout({
           className="w-[428px] justify-center flex "
           style={{ backgroundImage: `url(bg.jpg)`, backgroundSize: "cover" }}
         >
-          <div className="text-white w-[428px] top-0 fixed flex justify-center z-50 bg-red-700">
+          <div className="text-white rounded-b-full w-[428px] h-7 top-0 fixed flex justify-center z-50 bg-red-700">
             Diary
           </div>
           {children}

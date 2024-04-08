@@ -1,8 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import OverlayFadeRenderItem from "./Component/overlayFadeItems";
 import { Fireworks } from "fireworks-js";
 import Heart from "react-animated-heart";
+import Image from "next/image";
 const groupedData = {
   Oceanpark: [
     {
@@ -105,70 +107,6 @@ const groupedData = {
       genreIds: "",
       voteAverage: "2",
     },
-    {
-      id: "1",
-      name: "duyhuong",
-      image: "aeon1.jpg",
-      title: "Đẹp đôi cool ngầu",
-      genreIds: "",
-      voteAverage: "2",
-    },
-    {
-      id: "1",
-      name: "duyhuong",
-      image: "aeon2.jpg",
-      title: "Tổng tài xinh gái yêu anh",
-      genreIds: "",
-      voteAverage: "2",
-    },
-    {
-      id: "1",
-      name: "duyhuongdấdas",
-      image: "aeon3.jpg",
-      title: "Đẹp đôi dễ thương",
-      genreIds: "",
-      voteAverage: "2",
-    },
-    {
-      id: "1",
-      name: "duyhuong",
-      image: "aeon4.jpg",
-      title: "đẹp trai xinh gái",
-      genreIds: "",
-      voteAverage: "2",
-    },
-    {
-      id: "1",
-      name: "duyhuong",
-      image: "aeon1.jpg",
-      title: "Đẹp đôi cool ngầu",
-      genreIds: "",
-      voteAverage: "2",
-    },
-    {
-      id: "1",
-      name: "duyhuong",
-      image: "aeon2.jpg",
-      title: "Tổng tài xinh gái yêu anh",
-      genreIds: "",
-      voteAverage: "2",
-    },
-    {
-      id: "1",
-      name: "duyhuongdấdas",
-      image: "aeon3.jpg",
-      title: "Đẹp đôi dễ thương",
-      genreIds: "",
-      voteAverage: "2",
-    },
-    {
-      id: "1",
-      name: "duyhuong",
-      image: "aeon4.jpg",
-      title: "đẹp trai xinh gái",
-      genreIds: "",
-      voteAverage: "2",
-    },
   ],
 };
 
@@ -199,13 +137,13 @@ export default function Home() {
       const itemHeight =
         scrollRef.current.scrollHeight / selectedGroupData.length;
 
-      if (deltaY < 0) {
+      if (deltaY > 0) {
         // Lăn lên
         const newIndex =
           Math.floor(scrollRef.current.scrollTop / itemHeight) - 0.01;
         const scrollTo = newIndex * itemHeight;
         scrollRef.current.scrollTo({ top: scrollTo, behavior: "smooth" });
-      } else if (deltaY > 0) {
+      } else if (deltaY < 0) {
         // Lăn xuống
         const newIndex =
           Math.ceil(scrollRef.current.scrollTop / itemHeight) + 0.01;
@@ -329,12 +267,12 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-5 relative">
       {/* <div className="text-white text-3xl mb-5">Yêu Hương</div> */}
-      <div>
+      <div className="relative">
         <select
           id="groupSelect"
           value={selectedGroup}
           onChange={handleGroupChange}
-          className="block appearance-none mt-4 w-full bg-white border border-gray-300 hover:border-gray-400 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 relative"
+          className="block appearance-none mt-8 w-[150px] rounded-full text-slate-300 bg-[#2D2D2D] px-4 py-2 pr-8 shadow leading-tight focus:outline-none focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 relative"
         >
           <option value=""> Thời điểm </option>
           {Object.keys(groupedData).map((groupKey) => (
@@ -343,6 +281,11 @@ export default function Home() {
             </option>
           ))}
         </select>
+        <img
+          src={"./arrowselect.png"}
+          alt="dsad"
+          className="w-3 absolute top-[70%] left-[80%]"
+        />
       </div>
 
       {isFireworkActive && (
@@ -350,6 +293,7 @@ export default function Home() {
       )}
 
       <div className="relative flex-1 ">{suggestUserChoiceList()}</div>
+      {/* <div className=" text-white">Hôm nay em ăn gì</div> */}
     </main>
   );
 }

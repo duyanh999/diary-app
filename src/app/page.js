@@ -115,7 +115,8 @@ const groupedData = {
 
 export default function Home() {
   // const { width, height } = useWindowSize();
-  const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+
+  const { scrollTop, scrollHeight, clientHeight } = document?.documentElement;
   const scrollRef = useRef(null);
 
   const [selectedGroup, setSelectedGroup] = useState("");

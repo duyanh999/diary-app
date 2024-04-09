@@ -67,40 +67,7 @@ const groupedData = {
       title: "",
     },
   ],
-  Pizza4P: [
-    {
-      id: "1",
-      name: "duyhuong",
-      image: "4p1.jpg",
-      title: "Người mẫu và máy ảnh",
-      genreIds: "",
-      voteAverage: "2",
-    },
-    {
-      id: "1",
-      name: "duyhuong",
-      image: "4p2.jpg",
-      title: "Xinh gái 10 điểm",
-      genreIds: "",
-      voteAverage: "2",
-    },
-    {
-      id: "1",
-      name: "duyhuongdấdas",
-      image: "4p3.jpg",
-      title: "Dễ thương nhất",
-      genreIds: "",
-      voteAverage: "2",
-    },
-    {
-      id: "1",
-      name: "duyhuong",
-      image: "4p4.jpg",
-      title: "Gia trưởng yêu anh",
-      genreIds: "",
-      voteAverage: "2",
-    },
-  ],
+
   AeonMall: [
     {
       id: "1",
@@ -125,6 +92,22 @@ const groupedData = {
       title: "Đẹp đôi dễ thương",
       genreIds: "",
       voteAverage: "2",
+    },
+    {
+      image: "aeon7.jpg",
+      title: "đẹp trai xinh gái",
+    },
+    {
+      image: "aeon8.jpg",
+      title: "",
+    },
+    {
+      image: "aeon9.jpg",
+      title: "",
+    },
+    {
+      image: "aeon10.jpg",
+      title: "",
     },
     {
       image: "aeon4.jpg",

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -114,18 +115,46 @@ const groupedData = {
 
 export default function Home() {
   // const { width, height } = useWindowSize();
+  const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+  const scrollRef = useRef(null);
 
   const [selectedGroup, setSelectedGroup] = useState("");
   const [selectedGroupData, setSelectedGroupData] = useState([]);
-  const [isClick, setClick] = useState(false);
+  const [runScreen, setRunScreen] = useState(false);
+  const [counter, setCounter] = useState(0);
+  const [isFireworkActive, setIsFireworkActive] = useState(false);
+
+  console.log("scroolRef", counter);
+  console.log("scroolHeifht", scrollHeight);
+
+  // console.log("clientHeight", clientHeight);
 
   const handleGroupChange = (event) => {
     const selectedGroup = event.target.value;
     setSelectedGroup(selectedGroup);
     setSelectedGroupData(groupedData[selectedGroup] || []);
   };
-  const [isFireworkActive, setIsFireworkActive] = useState(false);
-  const scrollRef = useRef(null);
+
+  useEffect(() => {
+    if (runScreen) {
+      const intervalId = setInterval(() => {
+        setCounter((prevCounter) => prevCounter + 424);
+      }, 1000); // Thay đổi khoảng thời gian tăng giá trị ở đây, đơn vị là milliseconds (1000ms = 1 giây)
+
+      // Clear interval khi component unmount
+      return () => clearInterval(intervalId);
+    }
+  }, [clientHeight, counter, runScreen, scrollHeight, scrollTop]); // Tham số thứ hai của
+
+  useEffect(() => {
+    if (runScreen && counter < scrollHeight + 424) {
+      scrollRef.current.scrollTo({ top: counter, behavior: "smooth" });
+    } else {
+      setCounter(0);
+      scrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [clientHeight, counter, runScreen, scrollHeight, scrollTop]);
+
   useEffect(() => {
     let startY = 0;
 
@@ -199,7 +228,13 @@ export default function Home() {
   };
   const suggestUserChoiceList = () => {
     return (
-      <div className="">
+      <div className="mt-10">
+        {runScreen && (
+          <img
+            src="./frame.png"
+            className="absolute top-8 object-fill h-[450px] z-50 rounded-2xl w-full"
+          />
+        )}
         <div className="grid place-content-center gap-4">
           <div className=" text-xs text-white flex justify-center"></div>
           <div
@@ -210,6 +245,7 @@ export default function Home() {
               <Confetti
                 width={400}
                 height={900}
+                className="z-100"
                 run={isFireworkActive}
                 numberOfPieces={100}
                 drawShape={(ctx) => {
@@ -262,6 +298,16 @@ export default function Home() {
         <div className="firework container z-[50] absolute top-0 bottom-0 left-1/2 transform -translate-x-1/2" />
       )} */}
       <div className="relative flex-1 ">{suggestUserChoiceList()} </div>
+      <AwesomeButton
+        className="bottom-32 absolute w-full"
+        onPress={() => {
+          setRunScreen((prevRunScreen) => !prevRunScreen);
+        }}
+      >
+        <span className="bg-left-bottom text-base font-bold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
+          {runScreen ? "Dừng thước phim" : " Chạy thước phim"}
+        </span>
+      </AwesomeButton>{" "}
       <Link className="w-[full] bottom-24 absolute" href="/gacha">
         <AwesomeButton type="link" className="">
           <span className="bg-left-bottom text-base font-bold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">

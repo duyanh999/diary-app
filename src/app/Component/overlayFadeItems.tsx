@@ -45,7 +45,7 @@ const OverlayFadeRenderItem = ({
     <div
       className={`${styles.container} hover: hover:origin-center
 
-      duration-500	delay-100 py-3  rounded-2xl`}
+      duration-500	delay-100 py-3  rounded-2xl `}
     >
       <div className="  ">
         <img src={"/" + images} alt="Example" className="rounded-lg" />

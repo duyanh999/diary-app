@@ -116,8 +116,7 @@ const groupedData = {
 export default function Home() {
   // const { width, height } = useWindowSize();
 
-  const { scrollTop, scrollHeight, clientHeight } = document?.documentElement;
-  const scrollRef = useRef(null);
+  const [scrollHeight, setScrollHeight] = useState(0);
 
   const [selectedGroup, setSelectedGroup] = useState("");
   const [selectedGroupData, setSelectedGroupData] = useState([]);
@@ -125,17 +124,20 @@ export default function Home() {
   const [counter, setCounter] = useState(0);
   const [isFireworkActive, setIsFireworkActive] = useState(false);
 
-  console.log("scroolRef", counter);
-  console.log("scroolHeifht", scrollHeight);
-
-  // console.log("clientHeight", clientHeight);
-
   const handleGroupChange = (event) => {
     const selectedGroup = event.target.value;
     setSelectedGroup(selectedGroup);
     setSelectedGroupData(groupedData[selectedGroup] || []);
   };
+  useEffect(() => {
+    if (scrollRef.current) {
+      const { scrollHeight } = scrollRef.current;
+      const length = scrollHeight;
+      setScrollHeight(length);
+    }
+  }, [selectedGroupData.length]);
 
+  const scrollRef = useRef(null);
   useEffect(() => {
     if (runScreen) {
       const intervalId = setInterval(() => {
@@ -145,7 +147,7 @@ export default function Home() {
       // Clear interval khi component unmount
       return () => clearInterval(intervalId);
     }
-  }, [clientHeight, counter, runScreen, scrollHeight, scrollTop]); // Tham số thứ hai của
+  }, [counter, runScreen, scrollHeight]); // Tham số thứ hai của
 
   useEffect(() => {
     if (runScreen && counter < scrollHeight + 424) {
@@ -154,7 +156,7 @@ export default function Home() {
       setCounter(0);
       scrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
     }
-  }, [clientHeight, counter, runScreen, scrollHeight, scrollTop]);
+  }, [counter, runScreen, scrollHeight]);
 
   useEffect(() => {
     let startY = 0;

@@ -23,6 +23,14 @@ export default function Page() {
     "./bonuong.jpg",
     "./garan.jpg",
     "./bittet.jpg",
+    "./phoxao.jpg",
+    "./pizza.jpg",
+    "./nemcuon.jpg",
+    "./com123.jpg",
+    "./bunrieu.jpg",
+    "./bunmoc.jpg",
+    "./bunbonambo.jpg",
+
     // Thêm các hình ảnh slide khác nếu cần
   ];
 
@@ -116,7 +124,12 @@ export default function Page() {
     <div className="flex h-screen w-screen flex-col items-center justify-between relative">
       slide{" "}
       <div className=" mt-28 absolute w-[300px] h-[500px] rounded-2xl">
-        <Fade {...properties} onMouseEnter={undefined} onMouseLeave={undefined}>
+        <Fade
+          {...properties}
+          onMouseEnter={undefined}
+          onMouseLeave={undefined}
+          pauseOnHover={false}
+        >
           {slideImages.map((fadeImage, index) => (
             <div key={index}>
               <img
@@ -142,17 +155,18 @@ export default function Page() {
       )}
       <AwesomeButton
         type="primary"
-        className="w-[80%] bottom-20 absolute"
+        disabled={running || showBox}
+        className="w-[80%] bottom-28 absolute text-base"
         onPress={toggleRunning}
       >
-        Hôm nay em ăn gì
+        Chọn món
       </AwesomeButton>
       <Link
-        className="mx-4 group text-black-500 transition-all  bottom-10  absolute duration-300 ease-in-out"
+        className="mx-4 group text-black-500 transition-all  bottom-20  absolute duration-300 ease-in-out"
         href="/"
       >
         {" "}
-        <div className="text-white">Quay lại</div>{" "}
+        <div className="text-white text-sm">Quay lại</div>{" "}
       </Link>{" "}
     </div>
   );

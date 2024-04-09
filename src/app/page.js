@@ -3,10 +3,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import OverlayFadeRenderItem from "./Component/overlayFadeItems";
 import { Fireworks } from "fireworks-js";
-import Heart from "react-animated-heart";
-import Image from "next/image";
 import Link from "next/link";
 import { AwesomeButton } from "react-awesome-button";
+import "react-awesome-button/dist/styles.css";
 const groupedData = {
   Oceanpark: [
     {
@@ -293,17 +292,13 @@ export default function Home() {
         <div className="firework container z-[50] absolute top-0 bottom-0 left-1/2 transform -translate-x-1/2" />
       )}
       <div className="relative flex-1 ">{suggestUserChoiceList()}</div>
-      <AwesomeButton type="primary" className="w-[80%] bottom-10 absolute ">
-        <Link
-          className="mx-4 group text-black-500 transition-all duration-300 ease-in-out"
-          href="/gacha"
-        >
-          {" "}
-          <span className="bg-left-bottom text-sm font-bold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
-            Chọn món
-          </span>{" "}
-        </Link>{" "}
-      </AwesomeButton>{" "}
+      <Link className="w-[full] bottom-24 absolute" href="/gacha">
+        <AwesomeButton type="link" className="">
+          <span className="bg-left-bottom text-base font-bold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
+            Hôm nay em ăn gì
+          </span>
+        </AwesomeButton>
+      </Link>
     </main>
   );
 }

@@ -302,7 +302,7 @@ export default function Home() {
       )} */}
       <div className="relative flex-1 ">{suggestUserChoiceList()} </div>
       <AwesomeButton
-        className="bottom-32 absolute w-full"
+        className="bottom-10 absolute w-full"
         onPress={() => {
           setRunScreen((prevRunScreen) => !prevRunScreen);
         }}
@@ -311,7 +311,7 @@ export default function Home() {
           {runScreen ? "Dừng thước phim" : " Chạy thước phim"}
         </span>
       </AwesomeButton>{" "}
-      <Link className="w-[full] bottom-24 absolute" href="/gacha">
+      <Link className="w-[full] bottom-0 absolute" href="/gacha">
         <AwesomeButton type="link" className="">
           <span className="bg-left-bottom text-base font-bold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
             Hôm nay em ăn gì

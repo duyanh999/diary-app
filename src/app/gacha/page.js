@@ -48,7 +48,6 @@ export default function Page() {
     if (!running) {
       setTimeout(() => {
         setRunning(false);
-        setIsFireworkActive(true);
         setShowBox(true);
       }, randomInteger(3000, 10000));
     }
@@ -140,12 +139,14 @@ export default function Page() {
             </div>
           ))}
         </Fade>
+
         {showBox && (
           <img
             src="./gifbox.gif"
             className="absolute top-0 object-fill h-60 z-50 rounded-2xl w-full"
             onClick={() => {
               setShowBox(false);
+              setIsFireworkActive(true);
             }}
           />
         )}

@@ -6,6 +6,7 @@ import { Fireworks } from "fireworks-js";
 import Link from "next/link";
 import { AwesomeButton } from "react-awesome-button";
 import "react-awesome-button/dist/styles.css";
+import Confetti from "react-confetti";
 const groupedData = {
   Oceanpark: [
     {
@@ -112,6 +113,8 @@ const groupedData = {
 };
 
 export default function Home() {
+  // const { width, height } = useWindowSize();
+
   const [selectedGroup, setSelectedGroup] = useState("");
   const [selectedGroupData, setSelectedGroupData] = useState([]);
   const [isClick, setClick] = useState(false);
@@ -122,7 +125,6 @@ export default function Home() {
     setSelectedGroupData(groupedData[selectedGroup] || []);
   };
   const [isFireworkActive, setIsFireworkActive] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
   const scrollRef = useRef(null);
   useEffect(() => {
     let startY = 0;
@@ -168,64 +170,9 @@ export default function Home() {
 
   useEffect(() => {
     if (isFireworkActive) {
-      const container = document?.querySelector(".container");
-      if (!container) return; // Make sure container is available
-      const fireworks = new Fireworks(container, {
-        autoresize: true,
-        opacity: 0.5,
-        acceleration: 1.05,
-        friction: 0.97,
-        gravity: 1.5,
-        particles: 309,
-        traceLength: 30,
-        traceSpeed: 10,
-        explosion: 15,
-        intensity: 30,
-        flickering: 50,
-        lineStyle: "square",
-        hue: {
-          min: 0,
-          max: 360,
-        },
-        delay: {
-          min: 30,
-          max: 60,
-        },
-        rocketsPoint: {
-          min: 0,
-          max: 100,
-        },
-        lineWidth: {
-          explosion: {
-            min: 1,
-            max: 3,
-          },
-          trace: {
-            min: 1,
-            max: 2,
-          },
-        },
-        brightness: {
-          min: 50,
-          max: 80,
-        },
-        decay: {
-          min: 0.015,
-          max: 0.03,
-        },
-        mouse: {
-          click: false,
-          move: false,
-          max: 1,
-        },
-      });
-      fireworks.start();
-
-      // Stop the fireworks after 5 seconds
       const stopFireworks = setTimeout(() => {
-        fireworks.stop();
         setIsFireworkActive(false);
-      }, 2000);
+      }, 10000);
 
       // Clear the timeout to stop the fireworks if component unmounts or isFireworkActive changes
       return () => clearTimeout(stopFireworks);
@@ -259,6 +206,29 @@ export default function Home() {
             ref={scrollRef}
             className="h-[420px] w-[400px] overflow-x-hidden overflow-y-auto gap-3"
           >
+            {isFireworkActive && (
+              <Confetti
+                width={400}
+                height={900}
+                run={isFireworkActive}
+                numberOfPieces={100}
+                drawShape={(ctx) => {
+                  ctx.beginPath();
+                  for (let i = 0; i < Math.PI * 2; i += 0.01) {
+                    const x = 16 * Math.pow(Math.sin(i), 3);
+                    const y = -(
+                      13 * Math.cos(i) -
+                      5 * Math.cos(2 * i) -
+                      2 * Math.cos(3 * i) -
+                      Math.cos(4 * i)
+                    );
+                    ctx.lineTo(x, y);
+                  }
+                  ctx.fill(); // Fill hình trái tim
+                  ctx.closePath();
+                }}
+              />
+            )}
             {selectedGroupData.map(renderPosterMovies)}
           </div>
         </div>
@@ -288,10 +258,10 @@ export default function Home() {
           className="w-3 absolute top-[70%] left-[80%]"
         />
       </div>
-      {isFireworkActive && (
+      {/* {isFireworkActive && (
         <div className="firework container z-[50] absolute top-0 bottom-0 left-1/2 transform -translate-x-1/2" />
-      )}
-      <div className="relative flex-1 ">{suggestUserChoiceList()}</div>
+      )} */}
+      <div className="relative flex-1 ">{suggestUserChoiceList()} </div>
       <Link className="w-[full] bottom-24 absolute" href="/gacha">
         <AwesomeButton type="link" className="">
           <span className="bg-left-bottom text-base font-bold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">

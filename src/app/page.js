@@ -138,10 +138,6 @@ const groupedData = {
       image: "aeon6.jpg",
       title: "",
     },
-    {
-      image: "aeon7.jpg",
-      title: "",
-    },
   ],
 };
 

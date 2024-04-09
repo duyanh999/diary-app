@@ -35,12 +35,36 @@ const groupedData = {
       voteAverage: "2",
     },
     {
-      id: "1",
-      name: "duyhuong",
       image: "huong3.jpg",
       title: "Người mẫu thần thái 10 điểm",
-      genreIds: "",
-      voteAverage: "2",
+    },
+    {
+      image: "ocp1.jpg",
+      title: "",
+    },
+    {
+      image: "ocp2.jpg",
+      title: "",
+    },
+    {
+      image: "ocp3.jpg",
+      title: "",
+    },
+    {
+      image: "ocp4.jpg",
+      title: "",
+    },
+    {
+      image: "ocp5.jpg",
+      title: "",
+    },
+    {
+      image: "ocp6.jpg",
+      title: "",
+    },
+    {
+      image: "ocp7.jpg",
+      title: "",
     },
   ],
   Pizza4P: [
@@ -103,12 +127,20 @@ const groupedData = {
       voteAverage: "2",
     },
     {
-      id: "1",
-      name: "duyhuong",
       image: "aeon4.jpg",
       title: "đẹp trai xinh gái",
-      genreIds: "",
-      voteAverage: "2",
+    },
+    {
+      image: "aeon5.jpg",
+      title: "",
+    },
+    {
+      image: "aeon6.jpg",
+      title: "",
+    },
+    {
+      image: "aeon7.jpg",
+      title: "",
     },
   ],
 };
@@ -232,12 +264,6 @@ export default function Home() {
   const suggestUserChoiceList = () => {
     return (
       <div className="mt-10">
-        {runScreen && (
-          <img
-            src="./frame.png"
-            className="absolute top-8 object-fill h-[450px] z-50 rounded-2xl w-full"
-          />
-        )}
         <div className="grid place-content-center gap-4">
           <div className=" text-xs text-white flex justify-center"></div>
           <div
@@ -301,16 +327,19 @@ export default function Home() {
         <div className="firework container z-[50] absolute top-0 bottom-0 left-1/2 transform -translate-x-1/2" />
       )} */}
       <div className="relative flex-1 ">{suggestUserChoiceList()} </div>
-      <AwesomeButton
-        className="bottom-10 absolute w-full"
-        onPress={() => {
-          setRunScreen((prevRunScreen) => !prevRunScreen);
-        }}
-      >
-        <span className="bg-left-bottom text-base font-bold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
-          {runScreen ? "Dừng thước phim" : " Chạy thước phim"}
-        </span>
-      </AwesomeButton>{" "}
+      {selectedGroup && (
+        <AwesomeButton
+          className="bottom-10 absolute w-full"
+          onPress={() => {
+            setRunScreen((prevRunScreen) => !prevRunScreen);
+          }}
+        >
+          <span className="bg-left-bottom text-base font-bold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
+            {runScreen ? "Dừng thước phim" : " Chạy thước phim"}
+          </span>
+        </AwesomeButton>
+      )}
+
       <Link className="w-[full] bottom-0 absolute" href="/gacha">
         <AwesomeButton type="link" className="">
           <span className="bg-left-bottom text-base font-bold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">

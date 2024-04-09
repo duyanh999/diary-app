@@ -263,7 +263,7 @@ export default function Home() {
   };
   const suggestUserChoiceList = () => {
     return (
-      <div className="mt-10">
+      <div className="">
         <div className="grid place-content-center gap-4">
           <div className=" text-xs text-white flex justify-center"></div>
           <div
@@ -329,7 +329,7 @@ export default function Home() {
       <div className="relative flex-1 ">{suggestUserChoiceList()} </div>
       {selectedGroup && (
         <AwesomeButton
-          className="bottom-10 absolute w-full"
+          className="bottom-24 absolute w-full"
           onPress={() => {
             setRunScreen((prevRunScreen) => !prevRunScreen);
           }}
@@ -340,7 +340,7 @@ export default function Home() {
         </AwesomeButton>
       )}
 
-      <Link className="w-[full] bottom-0 absolute" href="/gacha">
+      <Link className="w-[full] bottom-16 absolute" href="/gacha">
         <AwesomeButton type="link" className="">
           <span className="bg-left-bottom text-base font-bold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
             Hôm nay em ăn gì

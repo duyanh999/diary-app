@@ -8,6 +8,8 @@ import randomInteger from "random-int";
 import { Fireworks } from "fireworks-js";
 import Link from "next/link";
 import Sun from "../Component/sunmoon";
+import Moon from "../Component/moon";
+
 import { AwesomeButton } from "react-awesome-button";
 import ReactSwitch from "react-switch";
 import { FaSun, FaMoon } from "react-icons/fa"; // Import icon từ thư viện react-icons
@@ -133,10 +135,8 @@ export default function Page() {
           : { backgroundImage: `url(nightday.jpg)`, backgroundSize: "cover" }
       }
     >
-      <div className="absolute top-8">
-        <Sun />
-      </div>
-      <div className=" mt-36 absolute w-[300px] h-[500px] rounded-2xl">
+      <div className="absolute top-11">{checked ? <Sun /> : <Moon />}</div>
+      <div className=" mt-44 absolute w-[300px] h-[500px] rounded-2xl">
         <Fade
           {...properties}
           onMouseEnter={undefined}

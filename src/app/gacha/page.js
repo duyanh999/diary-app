@@ -21,25 +21,7 @@ export default function Page() {
   const { checked } = useSwitch();
 
   const [isFireworkActive, setIsFireworkActive] = useState(false);
-
-  const slideImages = [
-    "./phobo.jpg",
-    "./bunbo.jpg",
-    "./comga.jpg",
-    "./phocuon.jpg",
-    "./bonuong.jpg",
-    "./garan.jpg",
-    "./bittet.jpg",
-    "./phoxao.jpg",
-    "./pizza.jpg",
-    "./nemcuon.jpg",
-    "./com123.jpg",
-    "./bunrieu.jpg",
-    "./bunmoc.jpg",
-    "./bunbonambo.jpg",
-
-    // Thêm các hình ảnh slide khác nếu cần
-  ];
+  const [foodData, setFoodData] = useState([]);
 
   const properties = {
     duration: 50, // Khoảng thời gian giữa các slide (đơn vị: ms)
@@ -59,6 +41,35 @@ export default function Page() {
       }, randomInteger(3000, 10000));
     }
   };
+  useEffect(() => {
+    const dayFoods = [
+      "./phobo.jpg",
+      "./bunbo.jpg",
+      "./bunrieu.jpg",
+      "./bunmoc.jpg",
+      "./bunbonambo.jpg",
+    ];
+
+    const nightFoods = [
+      "./phobo.jpg",
+      "./bunbo.jpg",
+      "./comga.jpg",
+      "./phocuon.jpg",
+      "./bonuong.jpg",
+      "./garan.jpg",
+      "./bittet.jpg",
+      "./phoxao.jpg",
+      "./pizza.jpg",
+      "./nemcuon.jpg",
+      "./com123.jpg",
+      "./bunrieu.jpg",
+      "./bunmoc.jpg",
+      "./bunbonambo.jpg",
+    ];
+
+    const selectedFoods = checked ? dayFoods : nightFoods;
+    setFoodData(selectedFoods);
+  }, [checked]);
 
   useEffect(() => {
     if (isFireworkActive) {
@@ -145,7 +156,7 @@ export default function Page() {
           prevArrow={false}
           className="hide-dots" // Thêm class CSS để tùy chỉnh các dot
         >
-          {slideImages.map((fadeImage, index) => (
+          {foodData?.map((fadeImage, index) => (
             <div key={index}>
               <img
                 src={fadeImage}
@@ -157,7 +168,7 @@ export default function Page() {
         </Fade>
         {showBox && (
           <img
-            src="./gifbox.gif"
+            src="./cookingpot.gif"
             className="absolute top-0 object-fill h-60 z-50 rounded-2xl w-full"
             onClick={() => {
               setShowBox(false);

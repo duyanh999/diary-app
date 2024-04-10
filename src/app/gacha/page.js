@@ -6,13 +6,18 @@ import { Fade, Slide } from "react-slideshow-image";
 import "react-slideshow-image/dist/styles.css";
 import randomInteger from "random-int";
 import { Fireworks } from "fireworks-js";
-import { AwesomeButton } from "react-awesome-button";
-import "react-awesome-button/dist/styles.css";
 import Link from "next/link";
+import Sun from "../Component/sunmoon";
+import { AwesomeButton } from "react-awesome-button";
+import ReactSwitch from "react-switch";
+import { FaSun, FaMoon } from "react-icons/fa"; // Import icon từ thư viện react-icons
+import { useSwitch } from "../SwitchContext";
 
 export default function Page() {
   const [running, setRunning] = useState(false);
   const [showBox, setShowBox] = useState(false);
+  const { checked } = useSwitch();
+
   const [isFireworkActive, setIsFireworkActive] = useState(false);
 
   const slideImages = [
@@ -120,9 +125,18 @@ export default function Page() {
   }, [isFireworkActive]);
 
   return (
-    <div className="flex h-screen w-screen flex-col items-center justify-between relative">
-      slide{" "}
-      <div className=" mt-28 absolute w-[300px] h-[500px] rounded-2xl">
+    <div
+      className="flex h-screen w-screen flex-col items-center justify-between relative"
+      style={
+        checked
+          ? { backgroundImage: `url(sunlight.jpg)`, backgroundSize: "cover" }
+          : { backgroundImage: `url(nightday.jpg)`, backgroundSize: "cover" }
+      }
+    >
+      <div className="absolute top-8">
+        <Sun />
+      </div>
+      <div className=" mt-36 absolute w-[300px] h-[500px] rounded-2xl">
         <Fade
           {...properties}
           onMouseEnter={undefined}
@@ -139,7 +153,6 @@ export default function Page() {
             </div>
           ))}
         </Fade>
-
         {showBox && (
           <img
             src="./gifbox.gif"
@@ -154,14 +167,6 @@ export default function Page() {
       {isFireworkActive && (
         <div className="firework container z-[50] absolute top-0 bottom-0 left-1/2 transform -translate-x-1/2" />
       )}
-      <AwesomeButton
-        type="primary"
-        disabled={running || showBox}
-        className="w-[80%] bottom-28 absolute text-base"
-        onPress={toggleRunning}
-      >
-        Chọn món
-      </AwesomeButton>
       <Link
         className="mx-4 group text-black-500 transition-all  bottom-20  absolute duration-300 ease-in-out"
         href="/"
@@ -169,6 +174,14 @@ export default function Page() {
         {" "}
         <div className="text-white text-sm">Quay lại</div>{" "}
       </Link>{" "}
+      <button
+        type="primary"
+        disabled={running || showBox}
+        className="w-[80%] bottom-28 absolute text-base text-white"
+        onClick={toggleRunning}
+      >
+        Chọn món
+      </button>
     </div>
   );
 }

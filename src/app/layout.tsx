@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
+import { useState } from "react";
+import Header from "./Component/header";
+import { SwitchProvider, useSwitch } from "./SwitchContext";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -17,15 +21,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className=" w-full h-full flex justify-center">
-        <div
-          className="w-[428px] justify-center flex "
-          style={{ backgroundImage: `url(bg.jpg)`, backgroundSize: "cover" }}
-        >
-          <div className="text-white rounded-b-full w-[428px] h-7 top-0 fixed flex justify-center z-50 bg-red-700">
-            Diary
+        <SwitchProvider>
+          <div className="w-[428px] justify-center flex ">
+            <Header />
+            {children}
           </div>
-          {children}
-        </div>
+        </SwitchProvider>
       </body>
     </html>
   );

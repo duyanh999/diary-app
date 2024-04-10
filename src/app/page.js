@@ -8,6 +8,7 @@ import Link from "next/link";
 import { AwesomeButton } from "react-awesome-button";
 import "react-awesome-button/dist/styles.css";
 import Confetti from "react-confetti";
+import { useSwitch } from "./SwitchContext";
 const groupedData = {
   Oceanpark: [
     {
@@ -126,6 +127,7 @@ const groupedData = {
 
 export default function Home() {
   // const { width, height } = useWindowSize();
+  const { checked } = useSwitch();
 
   const [scrollHeight, setScrollHeight] = useState(0);
 
@@ -280,7 +282,14 @@ export default function Home() {
     );
   };
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-5 relative">
+    <main
+      className="flex min-h-screen flex-col items-center justify-between p-5 relative"
+      style={
+        checked
+          ? { backgroundImage: `url(sunlight.jpg)`, backgroundSize: "cover" }
+          : { backgroundImage: `url(nightday.jpg)`, backgroundSize: "cover" }
+      }
+    >
       {/* <div className="text-white text-3xl mb-5">Yêu Hương</div> */}
       <div className="relative">
         <select

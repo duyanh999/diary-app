@@ -10,7 +10,7 @@ import Link from "next/link";
 import Sun from "../Component/sunmoon";
 import Moon from "../Component/moon";
 
-import { AwesomeButton } from "react-awesome-button";
+import { AwesomeButton, AwesomeButtonProgress } from "react-awesome-button";
 import ReactSwitch from "react-switch";
 import { FaSun, FaMoon } from "react-icons/fa"; // Import icon từ thư viện react-icons
 import { useSwitch } from "../SwitchContext";
@@ -187,14 +187,15 @@ export default function Page() {
         {" "}
         <div className="text-white text-sm">Quay lại</div>{" "}
       </Link>{" "}
-      <button
-        type="primary"
-        disabled={running || showBox}
-        className="w-[80%] bottom-28 absolute text-base text-white"
-        onClick={toggleRunning}
-      >
-        Chọn món
-      </button>
+      <div className="w-full flex justify-center bottom-28 absolute text-base text-white">
+        <AwesomeButton
+          type={`${checked ? "danger" : "link"}`}
+          disabled={running || showBox}
+          onClick={toggleRunning}
+        >
+          Chọn món
+        </AwesomeButton>
+      </div>
     </div>
   );
 }

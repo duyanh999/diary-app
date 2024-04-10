@@ -1,6 +1,6 @@
 // SwitchContext.js
 "use client";
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 const SwitchContext = createContext();
 
@@ -8,7 +8,13 @@ export const useSwitch = () => useContext(SwitchContext);
 
 export function SwitchProvider({ children }) {
   const [checked, setChecked] = useState(false);
-
+  useEffect(() => {
+    if (dayjs().get("hour") > 6 && dayjs().get("hour") < 17) {
+      setChecked(true);
+    } else {
+      setChecked(false);
+    }
+  }, []);
   const handleChange = (isChecked) => {
     setChecked(isChecked);
   };

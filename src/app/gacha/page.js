@@ -46,7 +46,7 @@ export default function Page() {
     transitionDuration: 50,
     autoplay: running, // Kích hoạt chế độ tự động chạy
     infinite: running,
-    indicators: running,
+    indicators: false,
     arrows: false,
   };
 
@@ -142,6 +142,8 @@ export default function Page() {
           onMouseEnter={undefined}
           onMouseLeave={undefined}
           pauseOnHover={false}
+          prevArrow={false}
+          className="hide-dots" // Thêm class CSS để tùy chỉnh các dot
         >
           {slideImages.map((fadeImage, index) => (
             <div key={index}>

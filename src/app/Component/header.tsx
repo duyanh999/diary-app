@@ -7,7 +7,11 @@ const Header = () => {
   const { checked, handleChange } = useSwitch();
 
   return (
-    <div className="text-white rounded-b-full w-[428px] h-10 top-0 fixed items-center justify-around flex z-50 bg-red-700">
+    <div
+      className={`text-white rounded-b-full w-[428px] h-10 top-0 fixed items-center justify-around flex z-50 ${
+        checked ? "bg-red-700" : "bg-[#0E4F88]"
+      } `}
+    >
       <div className="ml-[33%]"> HADIARY </div>
       <div className="flex justify-start">
         <div>

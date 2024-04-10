@@ -318,6 +318,7 @@ export default function Home() {
       {selectedGroup && (
         <AwesomeButton
           className="bottom-24 absolute w-full"
+          type={`${checked ? "danger" : "link"}`}
           onPress={() => {
             setRunScreen((prevRunScreen) => !prevRunScreen);
           }}
@@ -329,7 +330,7 @@ export default function Home() {
       )}
 
       <Link className="w-[full] bottom-16 absolute" href="/gacha">
-        <AwesomeButton type="link" className="">
+        <AwesomeButton type={`${checked ? "danger" : "link"}`}>
           <span className="bg-left-bottom text-base font-bold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
             Hôm nay em ăn gì
           </span>

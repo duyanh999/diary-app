@@ -191,7 +191,7 @@ export default function Page() {
         <AwesomeButton
           type={`${checked ? "danger" : "link"}`}
           disabled={running || showBox}
-          onClick={toggleRunning}
+          onPress={toggleRunning}
         >
           Chọn món
         </AwesomeButton>

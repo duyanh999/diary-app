@@ -152,6 +152,32 @@ const groupedData = {
       title: "",
     },
   ],
+
+  Work: [
+    {
+      id: "1",
+
+      image: "work1.jpg",
+      title: "",
+    },
+    {
+      id: "2",
+
+      image: "work2.jpg",
+      title: "",
+    },
+    {
+      id: "3",
+
+      image: "work3.jpg",
+      title: "",
+    },
+    {
+      id: "4",
+
+      image: "work4.jpg",
+    },
+  ],
 };
 
 export default function Home() {

@@ -1,10 +1,31 @@
 "use client";
-import { useState } from "react";
+import AnimatedNumbers from "react-animated-numbers";
+import { useEffect, useState } from "react";
 import ReactSwitch from "react-switch";
-import { FaSun, FaMoon } from "react-icons/fa"; // Import icon từ thư viện react-icons
+import { FaSun, FaMoon, FaHeart } from "react-icons/fa"; // Import icon từ thư viện react-icons
 import { useSwitch } from "../SwitchContext";
+import { useHearthCount } from "../HearthCountContext";
 const Header = () => {
   const { checked, handleChange } = useSwitch();
+  const { countContext, handleCount } = useHearthCount();
+
+  console.log("count", countContext);
+
+  const [totalHeartCount, setTotalHeartCount] = useState(0);
+
+  useEffect(() => {
+    let totalCount = 0;
+    for (let key in localStorage) {
+      if (key.startsWith("heartCount_")) {
+        const count = parseInt(localStorage.getItem(key) as any);
+        totalCount += count;
+      }
+    }
+    setTotalHeartCount(totalCount);
+    handleCount(false);
+  }, [countContext, handleCount]);
+
+  console.log(totalHeartCount, "total");
 
   return (
     <div
@@ -12,7 +33,40 @@ const Header = () => {
         checked ? "bg-red-700" : "bg-[#0E4F88]"
       } `}
     >
-      <div className="ml-[33%]"> HADIARY </div>
+      <span
+        className={`w-[50px] h-[27px] rounded-xl ${
+          checked ? "bg-[#F66602]" : "bg-[#334155]"
+        }  flex items-center justify-around`}
+      >
+        <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center w-full h-full">
+            <AnimatedNumbers
+              includeComma
+              // className={styles.container}
+              transitions={(index) => ({
+                type: "spring",
+                duration: index + 0.3,
+              })}
+              animateToNumber={totalHeartCount}
+              fontStyle={{
+                fontSize: 16,
+                color: "white",
+              }}
+            />
+          </div>
+        </div>
+
+        <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center w-full h-full text-white text-lg">
+            <FaHeart />{" "}
+          </div>
+        </div>
+      </span>
+
+      <div className="ml-[5%]"> HADIARY </div>
+      {/* <div>
+        <button onClick={() => setTotalHeartCount((state) => state + 100)}>+</button>
+      </div> */}
       <div className="flex justify-start">
         <div>
           <ReactSwitch

@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import styles from "./styles.module.css";
 import { useEffect, useState } from "react";
 import Heart from "react-animated-heart";
+import { useHearthCount } from "../HearthCountContext";
 
 interface Props {
   name: string;
@@ -29,7 +30,8 @@ const OverlayFadeRenderItem = ({
   selectedGroupData,
   type,
 }: Props) => {
-  console.log(groupId);
+  const { handleCount } = useHearthCount();
+
   const [isClick, setClick] = useState<boolean>(() => {
     const storedState = localStorage.getItem(`heartState_${groupId}_${id}`);
     return storedState ? storedState === "true" : false;
@@ -81,6 +83,7 @@ const OverlayFadeRenderItem = ({
                 isClick={isClick}
                 onClick={() => {
                   setClick(true);
+                  handleCount(!isClick);
                   setCount((prevCount) =>
                     !isClick ? prevCount + 1 : prevCount
                   );

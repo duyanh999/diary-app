@@ -4,7 +4,8 @@ import "./globals.css";
 
 import { useState } from "react";
 import Header from "./Component/header";
-import { SwitchProvider, useSwitch } from "./SwitchContext";
+import { SwitchProvider } from "./SwitchContext";
+import { HearthCountProvider } from "./HearthCountContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,12 +22,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className=" w-full h-full flex justify-center">
-        <SwitchProvider>
-          <div className="w-[428px] justify-center flex ">
-            <Header />
-            {children}
-          </div>
-        </SwitchProvider>
+        <HearthCountProvider>
+          <SwitchProvider>
+            <div className="w-[428px] justify-center flex ">
+              <Header />
+              {children}
+            </div>
+          </SwitchProvider>
+        </HearthCountProvider>
       </body>
     </html>
   );

@@ -55,6 +55,15 @@ const OverlayFadeRenderItem = ({
     localStorage.setItem(`heartState_${groupId}_${id}`, isClick.toString());
   }, [isClick, groupId, id]);
 
+  useEffect(() => {
+    const currentDate = dayjs();
+    const tomorrowDate = dayjs().add(1, "day");
+    const isTomorrow = currentDate.isBefore(tomorrowDate, "day");
+    if (!isTomorrow) {
+      setClick(false);
+    }
+  }, []);
+
   return (
     <div
       className={`${styles.container} hover: hover:origin-center

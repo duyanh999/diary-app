@@ -43,16 +43,15 @@ export default function Page() {
   };
   useEffect(() => {
     const dayFoods = [
-      "./phobo.jpg",
+      "./kebab.jpg",
+      "./banhca.jpg",
+      "./sandwich.jpg",
+      "./banhmi.jpg",
+      "./banhbao.jpg",
       "./bunbo.jpg",
       "./bunrieu.jpg",
       "./bunmoc.jpg",
       "./bunbonambo.jpg",
-      "./kebab./jpg",
-      "./banhca./jpg",
-      "./sandwich./jpg",
-      "./banhmi./jpg",
-      "./banhbao./jpg",
     ];
 
     const nightFoods = [

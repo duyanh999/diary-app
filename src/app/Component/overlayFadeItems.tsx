@@ -73,14 +73,7 @@ const OverlayFadeRenderItem = ({
       <div className="  ">
         <img src={"/" + images} alt="Example" className="rounded-lg" />
       </div>
-      <div
-        className={`${styles.overlayRed} top-0 left-0 w-full h-full`}
-        onClick={() => {
-          if (!isClick) {
-            activeFirework();
-          }
-        }}
-      >
+      <div className={`${styles.overlayRed} top-0 left-0 w-full h-full`}>
         <div className={`${styles.text} grid grid-cols-1`}>
           <div className="flex justify-center w-[px] h-[100px]">
             <div>
@@ -91,6 +84,9 @@ const OverlayFadeRenderItem = ({
                   setCount((prevCount) =>
                     !isClick ? prevCount + 1 : prevCount
                   );
+                  if (!isClick) {
+                    activeFirework();
+                  }
                 }}
               />
             </div>

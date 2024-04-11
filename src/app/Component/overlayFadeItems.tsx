@@ -26,36 +26,34 @@ const OverlayFadeRenderItem = ({
   id,
   groupId,
   activeFirework,
+  selectedGroupData,
   type,
 }: Props) => {
   console.log(groupId);
   const [isClick, setClick] = useState<boolean>(() => {
-    const storedState = localStorage.getItem(`heartState_${groupId}_${id}`); // Sử dụng groupId trong khóa
+    const storedState = localStorage.getItem(`heartState_${groupId}_${id}`);
     return storedState ? storedState === "true" : false;
   });
   const [count, setCount] = useState<number>(() => {
-    const storedCount = localStorage.getItem(`heartCount_${groupId}_${id}`); // Sử dụng groupId trong khóa
+    const storedCount = localStorage.getItem(`heartCount_${groupId}_${id}`);
     return storedCount ? parseInt(storedCount) : 0;
   });
 
   useEffect(() => {
-    localStorage.setItem(`heartCount_${groupId}_${id}`, count.toString()); // Sử dụng groupId trong khóa
+    const storedState = localStorage.getItem(`heartState_${groupId}_${id}`);
+    setClick(storedState ? storedState === "true" : false);
+
+    const storedCount = localStorage.getItem(`heartCount_${groupId}_${id}`);
+    setCount(storedCount ? parseInt(storedCount) : 0);
+  }, [groupId, id]);
+
+  useEffect(() => {
+    localStorage.setItem(`heartCount_${groupId}_${id}`, count.toString());
   }, [count, groupId, id]);
 
   useEffect(() => {
-    localStorage.setItem(`heartState_${groupId}_${id}`, isClick.toString()); // Sử dụng groupId trong khóa
+    localStorage.setItem(`heartState_${groupId}_${id}`, isClick.toString());
   }, [isClick, groupId, id]);
-
-  // Lấy ngày hiện tại
-
-  useEffect(() => {
-    const currentDate = dayjs();
-    const tomorrowDate = dayjs().add(1, "day");
-    const isTomorrow = currentDate.isBefore(tomorrowDate, "day");
-    if (!isTomorrow) {
-      setClick(false);
-    }
-  }, []);
 
   return (
     <div
@@ -69,7 +67,6 @@ const OverlayFadeRenderItem = ({
       <div
         className={`${styles.overlayRed} top-0 left-0 w-full h-full`}
         onClick={() => {
-          setClick(true);
           if (!isClick) {
             activeFirework();
           }
@@ -81,9 +78,9 @@ const OverlayFadeRenderItem = ({
               <Heart
                 isClick={isClick}
                 onClick={() => {
-                  setClick(!isClick);
+                  setClick(true);
                   setCount((prevCount) =>
-                    isClick === false ? prevCount + 1 : prevCount
+                    !isClick ? prevCount + 1 : prevCount
                   );
                 }}
               />

@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-
+import dayjs from "dayjs";
 import styles from "./styles.module.css";
 import { useEffect, useState } from "react";
 import Heart from "react-animated-heart";
@@ -13,6 +13,7 @@ interface Props {
   index?: number;
   description?: string;
   genreIds?: number[];
+  groupId?: string;
   type?: string;
   title: string;
   voteAverage?: number;
@@ -21,26 +22,41 @@ interface Props {
 }
 
 const OverlayFadeRenderItem = ({
-  name,
-  genreIds,
-  voteAverage,
-  content,
   images,
-  title,
-  selectedGroupData,
   id,
-  time,
-  index,
-  description,
+  groupId,
   activeFirework,
   type,
 }: Props) => {
-  const [isClick, setClick] = useState(false);
+  console.log(groupId);
+  const [isClick, setClick] = useState<boolean>(() => {
+    const storedState = localStorage.getItem(`heartState_${groupId}_${id}`); // Sử dụng groupId trong khóa
+    return storedState ? storedState === "true" : false;
+  });
+  const [count, setCount] = useState<number>(() => {
+    const storedCount = localStorage.getItem(`heartCount_${groupId}_${id}`); // Sử dụng groupId trong khóa
+    return storedCount ? parseInt(storedCount) : 0;
+  });
+
   useEffect(() => {
-    if (selectedGroupData) {
-      setClick(false); // Reset isClick state when id changes
+    localStorage.setItem(`heartCount_${groupId}_${id}`, count.toString()); // Sử dụng groupId trong khóa
+  }, [count, groupId, id]);
+
+  useEffect(() => {
+    localStorage.setItem(`heartState_${groupId}_${id}`, isClick.toString()); // Sử dụng groupId trong khóa
+  }, [isClick, groupId, id]);
+
+  // Lấy ngày hiện tại
+
+  useEffect(() => {
+    const currentDate = dayjs();
+    const tomorrowDate = dayjs().add(1, "day");
+    const isTomorrow = currentDate.isBefore(tomorrowDate, "day");
+    if (!isTomorrow) {
+      setClick(false);
     }
-  }, [selectedGroupData]);
+  }, []);
+
   return (
     <div
       className={`${styles.container} hover: hover:origin-center
@@ -59,11 +75,27 @@ const OverlayFadeRenderItem = ({
           }
         }}
       >
-        <div className={`${styles.text} line-clamp-6 grid grid-cols-1`}>
-          <div className="flex justify-center">
-            <Heart isClick={isClick} onClick={() => setClick(!isClick)} />
+        <div className={`${styles.text} grid grid-cols-1`}>
+          <div className="flex justify-center w-[px] h-[100px]">
+            <div>
+              <Heart
+                isClick={isClick}
+                onClick={() => {
+                  setClick(!isClick);
+                  setCount((prevCount) =>
+                    isClick === false ? prevCount + 1 : prevCount
+                  );
+                }}
+              />
+            </div>
+            <div
+              className={`absolute text-lg mt-[63%] ${
+                isClick === false ? "text-slate-400" : "text-[#E5234C]"
+              } `}
+            >
+              {count}
+            </div>
           </div>
-          <div className="text-xs line-clamp-2 ">{title}</div>
           {/* <div className="text-xs">{formatDate}</div> */}
         </div>
         <div className="absolute top-[55%] left-[17%] w-[220px]">

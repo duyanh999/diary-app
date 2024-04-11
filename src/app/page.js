@@ -20,7 +20,7 @@ const groupedData = {
       voteAverage: "2",
     },
     {
-      id: "1",
+      id: "2",
       name: "duyhuong",
       image: "duyanhhuong.jpg",
       title: "Đẹp đôi 10 điểm",
@@ -28,7 +28,7 @@ const groupedData = {
       voteAverage: "2",
     },
     {
-      id: "1",
+      id: "3",
       name: "duyhuong",
       image: "huong2.jpg",
       title: "Người mẫu dễ thương nhất",
@@ -36,34 +36,50 @@ const groupedData = {
       voteAverage: "2",
     },
     {
+      id: "4",
+
       image: "huong3.jpg",
       title: "Người mẫu thần thái 10 điểm",
     },
     {
+      id: "5",
+
       image: "ocp1.jpg",
       title: "",
     },
     {
+      id: "6",
+
       image: "ocp2.jpg",
       title: "",
     },
     {
+      id: "7",
+
       image: "ocp3.jpg",
       title: "",
     },
     {
+      id: "8",
+
       image: "ocp4.jpg",
       title: "",
     },
     {
+      id: "9",
+
       image: "ocp5.jpg",
       title: "",
     },
     {
+      id: "10",
+
       image: "ocp6.jpg",
       title: "",
     },
     {
+      id: "11",
+
       image: "ocp7.jpg",
       title: "",
     },
@@ -79,7 +95,7 @@ const groupedData = {
       voteAverage: "2",
     },
     {
-      id: "1",
+      id: "2",
       name: "duyhuong",
       image: "aeon2.jpg",
       title: "Tổng tài xinh gái yêu anh",
@@ -87,7 +103,7 @@ const groupedData = {
       voteAverage: "2",
     },
     {
-      id: "1",
+      id: "3",
       name: "duyhuongdấdas",
       image: "aeon3.jpg",
       title: "Đẹp đôi dễ thương",
@@ -95,30 +111,43 @@ const groupedData = {
       voteAverage: "2",
     },
     {
+      id: "4",
+
       image: "aeon7.jpg",
       title: "đẹp trai xinh gái",
     },
     {
+      id: "5",
+
       image: "aeon8.jpg",
       title: "",
     },
     {
+      id: "6",
+
       image: "aeon9.jpg",
       title: "",
     },
     {
+      id: "7",
+
       image: "aeon10.jpg",
       title: "",
     },
     {
+      id: "8",
+
       image: "aeon4.jpg",
       title: "đẹp trai xinh gái",
     },
     {
+      id: "9",
+
       image: "aeon5.jpg",
       title: "",
     },
     {
+      id: "10",
       image: "aeon6.jpg",
       title: "",
     },
@@ -227,21 +256,23 @@ export default function Home() {
   const handleFireworkActivation = () => {
     setIsFireworkActive(true);
   };
-
-  const renderPosterMovies = (item) => {
+  const renderPosterMovies = (item, groupKey) => {
     return (
       <OverlayFadeRenderItem
-        id={item?.id}
-        title={item?.title}
-        name={item?.original_title}
-        images={item?.image}
-        genreIds={item?.genre_ids}
-        voteAverage={item?.vote_average}
+        key={item.id}
+        id={item.id}
+        groupId={groupKey}
+        title={item.title}
+        name={item.original_title}
+        images={item.image}
+        genreIds={item.genre_ids}
+        voteAverage={item.vote_average}
         activeFirework={handleFireworkActivation}
         selectedGroupData={selectedGroupData}
       />
     );
   };
+
   const suggestUserChoiceList = () => {
     return (
       <div className="">
@@ -275,7 +306,9 @@ export default function Home() {
                 }}
               />
             )}
-            {selectedGroupData.map(renderPosterMovies)}
+            {selectedGroupData.map((item) =>
+              renderPosterMovies(item, selectedGroup)
+            )}
           </div>
         </div>
       </div>

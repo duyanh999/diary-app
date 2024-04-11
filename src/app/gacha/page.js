@@ -52,6 +52,11 @@ export default function Page() {
       "./bunrieu.jpg",
       "./bunmoc.jpg",
       "./bunbonambo.jpg",
+      "./gatan.jpg",
+      "./myvanthan.jpg",
+      "./hutieu.jpg",
+      "./phocuon.jpg",
+      "./xoi.jpg",
     ];
 
     const nightFoods = [
@@ -156,6 +161,7 @@ export default function Page() {
           {...properties}
           onMouseEnter={undefined}
           onMouseLeave={undefined}
+          defaultIndex={0}
           pauseOnHover={false}
           prevArrow={false}
           className="hide-dots" // Thêm class CSS để tùy chỉnh các dot

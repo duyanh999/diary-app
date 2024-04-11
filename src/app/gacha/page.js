@@ -48,6 +48,11 @@ export default function Page() {
       "./bunrieu.jpg",
       "./bunmoc.jpg",
       "./bunbonambo.jpg",
+      "./kebab./jpg",
+      "./banhca./jpg",
+      "./sandwich./jpg",
+      "./banhmi./jpg",
+      "./banhbao./jpg",
     ];
 
     const nightFoods = [

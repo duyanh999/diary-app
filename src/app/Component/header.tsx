@@ -1,5 +1,5 @@
 "use client";
-import AnimatedNumbers from "react-animated-numbers";
+// import AnimatedNumbers from "react-animated-numbers";
 import { useEffect, useState } from "react";
 import ReactSwitch from "react-switch";
 import { FaSun, FaMoon, FaHeart } from "react-icons/fa"; // Import icon từ thư viện react-icons

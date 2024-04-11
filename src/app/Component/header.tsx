@@ -40,7 +40,7 @@ const Header = () => {
       >
         <div className="flex justify-center items-center">
           <div className="flex justify-center items-center w-full h-full">
-            <AnimatedNumbers
+            {/* <AnimatedNumbers
               includeComma
               // className={styles.container}
               transitions={(index) => ({
@@ -52,7 +52,8 @@ const Header = () => {
                 fontSize: 16,
                 color: "white",
               }}
-            />
+            /> */}
+            {totalHeartCount}
           </div>
         </div>
 

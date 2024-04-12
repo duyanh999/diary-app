@@ -32,15 +32,18 @@ const OverlayFadeRenderItem = ({
 }: Props) => {
   const { handleCount } = useHearthCount();
 
-  // const [isClick, setClick] = useState<boolean>(() => {
-  //   const storedState = localStorage.getItem(`heartState_${groupId}_${id}`);
-  //   return storedState ? storedState === "true" : false;
-  // });
-  const [isClick, setClick] = useState(false);
+  const [isClick, setClick] = useState<boolean>(() => {
+    const storedState = localStorage.getItem(`heartState_${groupId}_${id}`);
+    return storedState ? storedState === "true" : false;
+  });
   const [count, setCount] = useState<number>(() => {
     const storedCount = localStorage.getItem(`heartCount_${groupId}_${id}`);
     return storedCount ? parseInt(storedCount) : 0;
   });
+
+  // const currentDateStore = localStorage.setItem("currentDateStore", dayjs().toString());
+  // const isTomorrow = currentDate.isBefore(tomorrowDate, "day");
+  // console.log(currentDate);
 
   useEffect(() => {
     const storedState = localStorage.getItem(`heartState_${groupId}_${id}`);
@@ -54,18 +57,9 @@ const OverlayFadeRenderItem = ({
     localStorage.setItem(`heartCount_${groupId}_${id}`, count.toString());
   }, [count, groupId, id]);
 
-  // useEffect(() => {
-  //   localStorage.setItem(`heartState_${groupId}_${id}`, isClick.toString());
-  // }, [isClick, groupId, id]);
-
   useEffect(() => {
-    localStorage.setItem(`heartState_${groupId}_${id}`, false?.toString());
+    localStorage.setItem(`heartState_${groupId}_${id}`, isClick.toString());
   }, [isClick, groupId, id]);
-
-  const currentDate = dayjs();
-  const tomorrowDate = dayjs().add(1, "day");
-  const isTomorrow = currentDate.isBefore(tomorrowDate, "day");
-  console.log(currentDate);
 
   // useEffect(() => {
   //   if (!isTomorrow) {

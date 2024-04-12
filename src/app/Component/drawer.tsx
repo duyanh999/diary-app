@@ -109,14 +109,14 @@ const DrawerComp = ({ isOpen, setIsOpen }: any) => {
             </div>
           </div>
           <div className="flex justify-center w-full h-full">
-            <div className="text-black grid grid-cols-1 gap-3 w-[100%] px-3 h-[90%] overflow-auto">
+            <div className="text-black grid grid-cols-1 gap-3 w-[100%] px-7 h-[90%] overflow-auto">
               {data?.map((item, index) => (
                 <div
                   key={index}
                   className={`${
                     item?.hearth! - totalHeartCount > 0 &&
                     "inset-0 opacity-50 z-50"
-                  } bg-white shadow-md hover:shadow-xl w-[390px] h-[160px] hover:scale-105 flex justify-around rounded-2xl border`}
+                  } bg-white shadow-md hover:shadow-xl w-[360px] h-[160px] hover:scale-105 flex justify-around rounded-2xl border`}
                 >
                   <div className="w-[100px] mt-7 relative h-[100px] rounded-full bg-red-500">
                     <img

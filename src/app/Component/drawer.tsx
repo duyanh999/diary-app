@@ -86,7 +86,7 @@ const DrawerComp = ({ isOpen, setIsOpen }: any) => {
         }}
         direction="bottom"
         className="rounded-t-[40px] "
-        size={800}
+        size={400}
       >
         <div
           className={`w-full h-full rounded-t-[40px] ${

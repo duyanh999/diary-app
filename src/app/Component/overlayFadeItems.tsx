@@ -57,14 +57,15 @@ const OverlayFadeRenderItem = ({
     localStorage.setItem(`heartState_${groupId}_${id}`, isClick.toString());
   }, [isClick, groupId, id]);
 
+  const currentDate = dayjs();
+  const tomorrowDate = dayjs().add(1, "day");
+  const isTomorrow = currentDate.isBefore(tomorrowDate, "day");
+
   useEffect(() => {
-    const currentDate = dayjs();
-    const tomorrowDate = dayjs().add(1, "day");
-    const isTomorrow = currentDate.isBefore(tomorrowDate, "day");
     if (!isTomorrow) {
       setClick(false);
     }
-  }, []);
+  }, [isTomorrow]);
 
   return (
     <div

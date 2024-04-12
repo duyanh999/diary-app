@@ -70,7 +70,7 @@ const Header = () => {
         </div>
       </span>
 
-      <div className="ml-[5%]"> HADIARY </div>
+      <div className=""> HADIARY </div>
       {/* <div>
         <button onClick={() => setTotalHeartCount((state) => state + 100)}>+</button>
       </div> */}

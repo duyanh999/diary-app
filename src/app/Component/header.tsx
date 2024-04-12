@@ -40,12 +40,12 @@ const Header = () => {
       } `}
     >
       <span
-        className={`w-[50px] h-[27px] rounded-xl ${
+        className={`w-[80px] h-[27px] rounded-xl ${
           checked ? "bg-[#F66602]" : "bg-[#334155]"
         }  flex items-center justify-around`}
       >
         <div className="flex justify-center items-center">
-          <div className="flex justify-center items-center w-full h-full">
+          <div className="flex justify-center items-center w-full h-full absolute">
             <AnimatedNumbers
               includeComma
               // className={styles.container}
@@ -64,7 +64,7 @@ const Header = () => {
         </div>
 
         <div className="flex justify-center items-center">
-          <div className="flex justify-center items-center w-full h-full text-white text-lg">
+          <div className="flex justify-center items-center w-full h-full text-white text-lg absolute">
             <FaHeart />{" "}
           </div>
         </div>

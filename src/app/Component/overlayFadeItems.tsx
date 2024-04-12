@@ -36,7 +36,6 @@ const OverlayFadeRenderItem = ({
   //   const storedState = localStorage.getItem(`heartState_${groupId}_${id}`);
   //   return storedState ? storedState === "true" : false;
   // });
-
   const [isClick, setClick] = useState(false);
   const [count, setCount] = useState<number>(() => {
     const storedCount = localStorage.getItem(`heartCount_${groupId}_${id}`);
@@ -55,8 +54,12 @@ const OverlayFadeRenderItem = ({
     localStorage.setItem(`heartCount_${groupId}_${id}`, count.toString());
   }, [count, groupId, id]);
 
+  // useEffect(() => {
+  //   localStorage.setItem(`heartState_${groupId}_${id}`, isClick.toString());
+  // }, [isClick, groupId, id]);
+
   useEffect(() => {
-    localStorage.setItem(`heartState_${groupId}_${id}`, isClick.toString());
+    localStorage.setItem(`heartState_${groupId}_${id}`, false?.toString());
   }, [isClick, groupId, id]);
 
   const currentDate = dayjs();

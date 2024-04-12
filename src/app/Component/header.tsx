@@ -40,7 +40,7 @@ const Header = () => {
       } `}
     >
       <span
-        className={`w-[80px] h-[27px] rounded-xl ${
+        className={`w-[60px] h-[27px] rounded-full ${
           checked ? "bg-[#F66602]" : "bg-[#334155]"
         }  flex items-center justify-around`}
       >
@@ -51,7 +51,7 @@ const Header = () => {
               // className={styles.container}
               transitions={(index) => ({
                 type: "spring",
-                duration: index + 0.3,
+                duration: index + 1,
               })}
               animateToNumber={totalHeartCount}
               fontStyle={{

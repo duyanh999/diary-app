@@ -60,6 +60,7 @@ const OverlayFadeRenderItem = ({
   const currentDate = dayjs();
   const tomorrowDate = dayjs().add(1, "day");
   const isTomorrow = currentDate.isBefore(tomorrowDate, "day");
+  console.log(isTomorrow);
 
   useEffect(() => {
     if (!isTomorrow) {

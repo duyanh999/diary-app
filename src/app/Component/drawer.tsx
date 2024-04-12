@@ -50,10 +50,6 @@ const data = [
     level: "9",
     hearth: 900,
   },
-  {
-    level: "",
-    description: "",
-  },
 ];
 
 const DrawerComp = ({ isOpen, setIsOpen }: any) => {
@@ -86,14 +82,14 @@ const DrawerComp = ({ isOpen, setIsOpen }: any) => {
         }}
         direction="bottom"
         className="rounded-t-[40px] "
-        size={400}
+        size={550}
       >
         <div
           className={`w-full h-full rounded-t-[40px] ${
             checked ? "bg-red-700" : "bg-[#0E4F88]"
           }`}
         >
-          <div className="w-[40%] h-[20%] text-white relative left-[15%] top-[5%]">
+          <div className=" text-white ml-10 pt-10 mb-5">
             <div className="text-base font-bold mb-2">Tổng</div>
             <div className="text-5xl font-semibold">
               <AnimatedNumbers
@@ -113,7 +109,7 @@ const DrawerComp = ({ isOpen, setIsOpen }: any) => {
             </div>
           </div>
           <div className="flex justify-center w-full h-full">
-            <div className="text-black grid grid-cols-1 mt-5 gap-3 w-[100%] pl-[5%] h-[90%] overflow-auto">
+            <div className="text-black grid grid-cols-1 gap-3 w-[100%] px-3 h-[90%] overflow-auto">
               {data?.map((item, index) => (
                 <div
                   key={index}

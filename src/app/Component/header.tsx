@@ -1,9 +1,5 @@
 "use client";
-if (typeof self === "undefined") {
-  // Nếu chưa, giả lập self bằng cách gán global.self bằng global
-  global.self = global as any;
-}
-import AnimatedNumbers from "react-animated-numbers";
+
 import { useEffect, useState } from "react";
 import ReactSwitch from "react-switch";
 import { FaSun, FaMoon, FaHeart } from "react-icons/fa"; // Import icon từ thư viện react-icons
@@ -12,9 +8,9 @@ import { useHearthCount } from "../HearthCountContext";
 import dynamic from "next/dynamic";
 
 const Header = () => {
-  //   const AnimatedNumbers = dynamic(() => import("react-animated-numbers"), {
-  //     ssr: false,
-  //   }); // Sử dụng dynamic để loại bỏ SSR
+  const AnimatedNumbers = dynamic(() => import("react-animated-numbers"), {
+    ssr: false,
+  }); // Sử dụng dynamic để loại bỏ SSR
 
   const { checked, handleChange } = useSwitch();
   const { countContext, handleCount } = useHearthCount();

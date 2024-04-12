@@ -32,10 +32,12 @@ const OverlayFadeRenderItem = ({
 }: Props) => {
   const { handleCount } = useHearthCount();
 
-  const [isClick, setClick] = useState<boolean>(() => {
-    const storedState = localStorage.getItem(`heartState_${groupId}_${id}`);
-    return storedState ? storedState === "true" : false;
-  });
+  // const [isClick, setClick] = useState<boolean>(() => {
+  //   const storedState = localStorage.getItem(`heartState_${groupId}_${id}`);
+  //   return storedState ? storedState === "true" : false;
+  // });
+
+  const [isClick, setClick] = useState(false);
   const [count, setCount] = useState<number>(() => {
     const storedCount = localStorage.getItem(`heartCount_${groupId}_${id}`);
     return storedCount ? parseInt(storedCount) : 0;
@@ -60,13 +62,13 @@ const OverlayFadeRenderItem = ({
   const currentDate = dayjs();
   const tomorrowDate = dayjs().add(1, "day");
   const isTomorrow = currentDate.isBefore(tomorrowDate, "day");
-  console.log(isTomorrow);
+  console.log(currentDate);
 
-  useEffect(() => {
-    if (!isTomorrow) {
-      setClick(false);
-    }
-  }, [isTomorrow]);
+  // useEffect(() => {
+  //   if (!isTomorrow) {
+  //     setClick(false);
+  //   }
+  // }, [isTomorrow]);
 
   return (
     <div

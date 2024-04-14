@@ -1,16 +1,18 @@
 /* eslint-disable @next/next/no-img-element */
-// "use client";
+"use client";
 import React, { useState } from "react";
 
 // import component 👇
 import Drawer from "react-modern-drawer";
+import { FaTimes } from "react-icons/fa"; // Import icon từ thư viện react-icons
 
 //import styles 👇
 import "react-modern-drawer/dist/index.css";
 import { useHearthCount } from "../HearthCountContext";
 import dynamic from "next/dynamic";
 import { useSwitch } from "../SwitchContext";
-
+import PureModal from "react-pure-modal";
+import "react-pure-modal/dist/react-pure-modal.min.css";
 const data = [
   {
     level: "1",
@@ -53,6 +55,9 @@ const data = [
 ];
 
 const DrawerComp = ({ isOpen, setIsOpen }: any) => {
+  const [modal, setModal] = useState(false);
+  const [unbox, setUnbox] = useState(false);
+
   const AnimatedNumbers = dynamic(() => import("react-animated-numbers"), {
     ssr: false,
   });
@@ -61,8 +66,8 @@ const DrawerComp = ({ isOpen, setIsOpen }: any) => {
   const { checked } = useSwitch();
 
   const checkLevelUpText = (item: any) => {
-    if (item?.hearth! - totalHeartCount < 0) {
-      return <div className="text-green-400"> Đã đủ số tim để lên level </div>;
+    if (item?.hearth! - totalHeartCount <= 0) {
+      return <div className="text-green-400"> Đã đủ số tim để nhận quà</div>;
     } else {
       return (
         <>
@@ -117,13 +122,24 @@ const DrawerComp = ({ isOpen, setIsOpen }: any) => {
                     item?.hearth! - totalHeartCount > 0 &&
                     "inset-0 opacity-50 z-50"
                   } bg-white shadow-md hover:shadow-xl w-[360px] h-[160px] hover:scale-105 flex justify-around rounded-2xl border`}
+                  onClick={() => {
+                    item?.hearth! - totalHeartCount <= 0 && setModal(true);
+                  }}
                 >
                   <div className="w-[100px] mt-7 relative h-[100px] rounded-full bg-red-500">
-                    <img
-                      src="award.gif"
-                      alt=""
-                      className="w-full h-full rounded-full object-cover"
-                    />
+                    {item?.hearth! - totalHeartCount <= 0 ? (
+                      <img
+                        src="medal.gif"
+                        alt=""
+                        className="w-full h-full rounded-full object-cover"
+                      />
+                    ) : (
+                      <img
+                        src="award.gif"
+                        alt=""
+                        className="w-full h-full rounded-full object-cover"
+                      />
+                    )}
                   </div>
                   <div className="relative w-[60%] my-9">
                     <div className="text-2xl font-semibold">
@@ -139,6 +155,43 @@ const DrawerComp = ({ isOpen, setIsOpen }: any) => {
           </div>
         </div>
       </Drawer>
+      <PureModal
+        header={
+          <div className="flex justify-center">
+            {" "}
+            Chúc mừng bé iu đã nhận được{" "}
+          </div>
+        }
+        isOpen={modal}
+        closeButton={
+          <div className="flex justify-center mt-1">
+            <FaTimes className="" />
+          </div>
+        }
+        closeButtonPosition="bottom"
+        onClose={() => {
+          setModal(false);
+          setUnbox(false);
+          return true;
+        }}
+      >
+        {!unbox ? (
+          <img
+            src="gifbox.gif"
+            alt=""
+            className="w-full h-full rounded-full object-cover"
+            onClick={() => {
+              setUnbox(true);
+            }}
+          />
+        ) : (
+          <img
+            src="banhque.jpg"
+            alt=""
+            className="w-full h-full rounded-full object-cover"
+          />
+        )}
+      </PureModal>
     </>
   );
 };

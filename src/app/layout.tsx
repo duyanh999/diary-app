@@ -21,10 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className=" w-full h-full flex justify-center">
+      <body className=" w-full h-full flex justify-center overflow-hidden">
         <HearthCountProvider>
           <SwitchProvider>
-            <div className="w-[428px] justify-center flex ">
+            <div className="w-[428px] justify-center flex overflow-hidden">
               <Header />
               {children}
             </div>

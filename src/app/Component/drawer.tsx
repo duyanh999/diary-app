@@ -16,15 +16,15 @@ import "react-pure-modal/dist/react-pure-modal.min.css";
 const data = [
   {
     level: "1",
-    hearth: 5,
+    hearth: 24,
   },
   {
     level: "2",
-    hearth: 10,
+    hearth: 30,
   },
   {
     level: "3",
-    hearth: 15,
+    hearth: 35,
   },
 
   {

@@ -17,22 +17,24 @@ import { AwesomeButton } from "react-awesome-button";
 const data = [
   {
     level: "1",
-    hearth: 0,
+    hearth: 10,
+    reward: "humanpixel",
   },
   {
     level: "2",
-    hearth: 0,
+    hearth: 15,
     reward: "catpixel",
   },
   {
     level: "3",
-    hearth: 0,
+    hearth: 30,
     reward: "bunnypixel",
   },
 
   {
     level: "4",
-    hearth: 400,
+    hearth: 35,
+    reward: "robopixel",
   },
   {
     level: "5",
@@ -80,10 +82,6 @@ const DrawerComp = ({ isOpen, setIsOpen }: any) => {
         </>
       );
     }
-  };
-
-  const storeReward = () => {
-    localStorage?.setItem(`petState`, itemDetail?.reward);
   };
 
   return (
@@ -171,17 +169,6 @@ const DrawerComp = ({ isOpen, setIsOpen }: any) => {
           </div>
         }
         isOpen={modal}
-        footer={
-          <AwesomeButton
-            onPress={() => {
-              localStorage?.setItem(`petState`, itemDetail?.reward);
-            }}
-            className="w-full pl-4"
-          >
-            {" "}
-            Nhận{" "}
-          </AwesomeButton>
-        }
         closeButtonPosition="bottom"
         onClose={() => {
           setModal(false);
@@ -196,6 +183,7 @@ const DrawerComp = ({ isOpen, setIsOpen }: any) => {
             alt=""
             className="w-full h-full rounded-full object-cover"
             onClick={() => {
+              localStorage?.setItem(`petState`, itemDetail?.reward);
               setUnbox(true);
             }}
           />

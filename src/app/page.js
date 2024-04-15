@@ -309,31 +309,32 @@ export default function Home() {
     setIsFireworkActive(true);
   };
 
-  const renderPet = useCallback(
-    (item) => {
-      switch (item) {
-        case "catpixel":
-          return (
-            <img
-              src={"./catpixel.gif"}
-              alt="dsad"
-              className="absolute top-[20%]"
-            />
-          );
-        case "bunnypixel":
-          return (
-            <img
-              src={"./bunnypixel.gif"}
-              alt="dsad"
-              className="absolute top-[10%]"
-            />
-          );
-        default:
-        // code block
-      }
-    },
-    [isPet]
-  );
+  const renderPet = useCallback((item) => {
+    switch (item) {
+      case "catpixel":
+        return (
+          <img
+            src={"./catpixel.gif"}
+            alt="dsad"
+            className="absolute top-[20%]"
+          />
+        );
+      case "bunnypixel":
+        return (
+          <img
+            src={"./bunnypixel.gif"}
+            alt="dsad"
+            className="absolute top-[10%]"
+          />
+        );
+      case "humanpixel":
+        return <img src={"./humanpixel.gif"} className="absolute top-[35%]" />;
+      case "robopixel":
+        return <img src={"./robopixel.gif"} className="absolute top-[35%]" />;
+      default:
+      // code block
+    }
+  }, []);
 
   const renderPosterMovies = (item, groupKey) => {
     return (

@@ -100,9 +100,6 @@ const groupedData = {
       id: "2",
       name: "duyhuong",
       image: "aeon2.jpg",
-      title: "Tổng tài xinh gái yêu anh",
-      genreIds: "",
-      voteAverage: "2",
     },
     {
       id: "3",
@@ -193,12 +190,20 @@ export default function Home() {
   const [runScreen, setRunScreen] = useState(false);
   const [counter, setCounter] = useState(0);
   const [isFireworkActive, setIsFireworkActive] = useState(false);
-
+  const [isPet, setPet] = useState("");
   const handleGroupChange = (event) => {
     const selectedGroup = event.target.value;
     setSelectedGroup(selectedGroup);
     setSelectedGroupData(groupedData[selectedGroup] || []);
   };
+
+  useEffect(() => {
+    const storedState = localStorage?.getItem(`petState`);
+    setPet(storedState);
+  }, [setPet]);
+
+  console.log(isPet, "pet");
+
   useEffect(() => {
     const day = localStorage.getItem("day");
     if (isYesterday(day)) {
@@ -303,6 +308,33 @@ export default function Home() {
   const handleFireworkActivation = () => {
     setIsFireworkActive(true);
   };
+
+  const renderPet = useCallback(
+    (item) => {
+      switch (item) {
+        case "catpixel":
+          return (
+            <img
+              src={"./catpixel.gif"}
+              alt="dsad"
+              className="absolute top-[20%]"
+            />
+          );
+        case "bunnypixel":
+          return (
+            <img
+              src={"./bunnypixel.gif"}
+              alt="dsad"
+              className="absolute top-[10%]"
+            />
+          );
+        default:
+        // code block
+      }
+    },
+    [isPet]
+  );
+
   const renderPosterMovies = (item, groupKey) => {
     return (
       <OverlayFadeRenderItem
@@ -391,6 +423,7 @@ export default function Home() {
           className="w-3 absolute top-[70%] left-[80%]"
         />
       </div>
+      {!selectedGroup && renderPet(isPet)}
       {/* {isFireworkActive && (
         <div className="firework container z-[50] absolute top-0 bottom-0 left-1/2 transform -translate-x-1/2" />
       )} */}

@@ -13,18 +13,21 @@ import dynamic from "next/dynamic";
 import { useSwitch } from "../SwitchContext";
 import PureModal from "react-pure-modal";
 import "react-pure-modal/dist/react-pure-modal.min.css";
+import { AwesomeButton } from "react-awesome-button";
 const data = [
   {
     level: "1",
-    hearth: 24,
+    hearth: 0,
   },
   {
     level: "2",
-    hearth: 30,
+    hearth: 0,
+    reward: "catpixel",
   },
   {
     level: "3",
-    hearth: 35,
+    hearth: 0,
+    reward: "bunnypixel",
   },
 
   {
@@ -57,6 +60,7 @@ const data = [
 const DrawerComp = ({ isOpen, setIsOpen }: any) => {
   const [modal, setModal] = useState(false);
   const [unbox, setUnbox] = useState(false);
+  const [itemDetail, setItemDetail] = useState<any>();
 
   const AnimatedNumbers = dynamic(() => import("react-animated-numbers"), {
     ssr: false,
@@ -76,6 +80,10 @@ const DrawerComp = ({ isOpen, setIsOpen }: any) => {
         </>
       );
     }
+  };
+
+  const storeReward = () => {
+    localStorage?.setItem(`petState`, itemDetail?.reward);
   };
 
   return (
@@ -115,7 +123,7 @@ const DrawerComp = ({ isOpen, setIsOpen }: any) => {
           </div>
           <div className="flex justify-center w-full h-full">
             <div className="text-black grid grid-cols-1 gap-3 w-[100%] px-7 h-[90%] overflow-auto">
-              {data?.map((item, index) => (
+              {data?.map((item: any, index) => (
                 <div
                   key={index}
                   className={`${
@@ -124,6 +132,7 @@ const DrawerComp = ({ isOpen, setIsOpen }: any) => {
                   } bg-white shadow-md hover:shadow-xl w-[360px] h-[160px] hover:scale-105 flex justify-around rounded-2xl border`}
                   onClick={() => {
                     item?.hearth! - totalHeartCount <= 0 && setModal(true);
+                    setItemDetail(item);
                   }}
                 >
                   <div className="w-[100px] mt-7 relative h-[100px] rounded-full bg-red-500">
@@ -158,20 +167,26 @@ const DrawerComp = ({ isOpen, setIsOpen }: any) => {
       <PureModal
         header={
           <div className="flex justify-center">
-            {" "}
-            Chúc mừng bé iu đã nhận được{" "}
+            Chúc mừng bé iu đã nhận được
           </div>
         }
         isOpen={modal}
-        closeButton={
-          <div className="flex justify-center mt-1">
-            <FaTimes className="" />
-          </div>
+        footer={
+          <AwesomeButton
+            onPress={() => {
+              localStorage?.setItem(`petState`, itemDetail?.reward);
+            }}
+            className="w-full pl-4"
+          >
+            {" "}
+            Nhận{" "}
+          </AwesomeButton>
         }
         closeButtonPosition="bottom"
         onClose={() => {
           setModal(false);
           setUnbox(false);
+
           return true;
         }}
       >
@@ -185,11 +200,9 @@ const DrawerComp = ({ isOpen, setIsOpen }: any) => {
             }}
           />
         ) : (
-          <img
-            src="banhque.jpg"
-            alt=""
-            className="w-full h-full rounded-full object-cover"
-          />
+          <div>
+            <img src={itemDetail?.reward + ".gif"} alt="" />
+          </div>
         )}
       </PureModal>
     </>

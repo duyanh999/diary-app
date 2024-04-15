@@ -9,6 +9,8 @@ import { AwesomeButton } from "react-awesome-button";
 import "react-awesome-button/dist/styles.css";
 import Confetti from "react-confetti";
 import { useSwitch } from "./SwitchContext";
+import { isYesterday } from "date-fns/isYesterday";
+import dayjs from "dayjs";
 const groupedData = {
   Oceanpark: [
     {
@@ -197,6 +199,25 @@ export default function Home() {
     setSelectedGroup(selectedGroup);
     setSelectedGroupData(groupedData[selectedGroup] || []);
   };
+  useEffect(() => {
+    const day = localStorage.getItem("day");
+    if (isYesterday(day)) {
+      for (let i = 0; i < localStorage.length; i++) {
+        // Get the key
+        const key = localStorage.key(i);
+        // Check if the key is related to Hearth State
+        if (key && key.startsWith("heartState_")) {
+          // Set the value of the key to false
+          localStorage.setItem(key, "false");
+        }
+      }
+      localStorage.setItem("day", dayjs()?.toString());
+    } else {
+      console.log("Chưa đến ngày nhận");
+      localStorage.setItem("day", dayjs()?.toString());
+    }
+  }, []);
+
   useEffect(() => {
     if (scrollRef.current) {
       const { scrollHeight } = scrollRef.current;

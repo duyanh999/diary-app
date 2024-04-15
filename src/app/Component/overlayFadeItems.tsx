@@ -31,12 +31,9 @@ const OverlayFadeRenderItem = ({
   type,
 }: Props) => {
   const { handleCount } = useHearthCount();
-  const currentTime = dayjs();
 
   // Lấy giờ, phút và giây từ thời điểm hiện tại
-  const currentHour = currentTime.get("hour");
-  const currentMinute = currentTime.get("minute");
-  const currentSecond = currentTime.get("second");
+
   const [isClick, setClick] = useState<boolean>(() => {
     const storedState = localStorage.getItem(`heartState_${groupId}_${id}`);
     return storedState ? storedState === "true" : false;
@@ -49,11 +46,6 @@ const OverlayFadeRenderItem = ({
   // const currentDateStore = localStorage.setItem("currentDateStore", dayjs().toString());
   // const isTomorrow = currentDate.isBefore(tomorrowDate, "day");
   // console.log(currentDate);
-  useEffect(() => {
-    if (currentHour === 6 && currentMinute === 0 && currentSecond === 0) {
-      setClick(false);
-    }
-  }, [currentHour, currentMinute, currentSecond]);
 
   useEffect(() => {
     const storedState = localStorage.getItem(`heartState_${groupId}_${id}`);
@@ -70,12 +62,6 @@ const OverlayFadeRenderItem = ({
   useEffect(() => {
     localStorage.setItem(`heartState_${groupId}_${id}`, isClick.toString());
   }, [isClick, groupId, id]);
-
-  // useEffect(() => {
-  //   if (!isTomorrow) {
-  //     setClick(false);
-  //   }
-  // }, [isTomorrow]);
 
   return (
     <div

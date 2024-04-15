@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@fireworks-js/react": "^2.10.7",
+    "date-fns": "^3.6.0",
     "dayjs": "^1.11.10",
     "next": "^14.1.4",
     "random-int": "^3.0.0",

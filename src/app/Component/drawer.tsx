@@ -37,7 +37,8 @@ const data = [
   },
   {
     level: "5",
-    hearth: 500,
+    hearth: 40,
+    reward: "bimbimjpg",
   },
 
   {
@@ -80,6 +81,14 @@ const DrawerComp = ({ isOpen, setIsOpen }: any) => {
           theo
         </>
       );
+    }
+  };
+
+  const checkImage = (item: any) => {
+    if (item?.includes("jpg")) {
+      return <img src={item + ".jpg"} alt="" />;
+    } else {
+      return <img src={item + ".gif"} alt="" />;
     }
   };
 
@@ -187,9 +196,7 @@ const DrawerComp = ({ isOpen, setIsOpen }: any) => {
             }}
           />
         ) : (
-          <div>
-            <img src={itemDetail?.reward + ".gif"} alt="" />
-          </div>
+          <div>{checkImage(itemDetail?.reward) as any}</div>
         )}
       </PureModal>
     </>

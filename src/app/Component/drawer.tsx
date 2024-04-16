@@ -13,7 +13,6 @@ import dynamic from "next/dynamic";
 import { useSwitch } from "../SwitchContext";
 import PureModal from "react-pure-modal";
 import "react-pure-modal/dist/react-pure-modal.min.css";
-import { AwesomeButton } from "react-awesome-button";
 const data = [
   {
     level: "1",

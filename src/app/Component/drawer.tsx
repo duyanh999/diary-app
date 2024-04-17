@@ -13,51 +13,7 @@ import dynamic from "next/dynamic";
 import { useSwitch } from "../SwitchContext";
 import PureModal from "react-pure-modal";
 import "react-pure-modal/dist/react-pure-modal.min.css";
-const data = [
-  {
-    level: "1",
-    hearth: 10,
-    reward: "humanpixel",
-  },
-  {
-    level: "2",
-    hearth: 15,
-    reward: "catpixel",
-  },
-  {
-    level: "3",
-    hearth: 30,
-    reward: "bunnypixel",
-  },
-
-  {
-    level: "4",
-    hearth: 35,
-    reward: "robopixel",
-  },
-  {
-    level: "5",
-    hearth: 40,
-    reward: "bimbimjpg",
-  },
-
-  {
-    level: "6",
-    hearth: 600,
-  },
-  {
-    level: "7",
-    hearth: 700,
-  },
-  {
-    level: "8",
-    hearth: 800,
-  },
-  {
-    level: "9",
-    hearth: 900,
-  },
-];
+import {dataReward} from "../Data/dataReward"
 
 const DrawerComp = ({ isOpen, setIsOpen }: any) => {
   const [modal, setModal] = useState(false);
@@ -129,7 +85,7 @@ const DrawerComp = ({ isOpen, setIsOpen }: any) => {
           </div>
           <div className="flex justify-center w-full h-full">
             <div className="text-black grid grid-cols-1 gap-3 w-[100%] px-7 h-[90%] overflow-auto">
-              {data?.map((item: any, index) => (
+              {dataReward?.map((item: any, index) => (
                 <div
                   key={index}
                   className={`${

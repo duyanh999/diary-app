@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import OverlayFadeRenderItem from "./Component/overlayFadeItems";
 import { Fireworks } from "fireworks-js";
 import Link from "next/link";
@@ -12,19 +12,28 @@ import { useSwitch } from "./SwitchContext";
 import { isYesterday } from "date-fns/isYesterday";
 import dayjs from "dayjs";
 import { groupedData } from "./Data/dataMain";
+import ProgressBar from "@ramonak/react-progress-bar";
+import { dataReward } from "./Data/dataReward";
+import { useHearthCount } from "./HearthCountContext";
+import { FaHeart } from "react-icons/fa";
 
 export default function Home() {
   // const { width, height } = useWindowSize();
   const { checked } = useSwitch();
 
   const [scrollHeight, setScrollHeight] = useState(0);
-
   const [selectedGroup, setSelectedGroup] = useState("");
   const [selectedGroupData, setSelectedGroupData] = useState([]);
   const [runScreen, setRunScreen] = useState(false);
   const [counter, setCounter] = useState(0);
   const [isFireworkActive, setIsFireworkActive] = useState(false);
+  const { totalHeartCount } = useHearthCount();
   const [isPet, setPet] = useState("");
+  const [closestObject, setClosestObject] = useState(null);
+  const [minDifference, setMinDifference] = useState(Infinity);
+
+  const levelEXP = closestObject?.level - 1;
+
   const handleGroupChange = (event) => {
     const selectedGroup = event.target.value;
     setSelectedGroup(selectedGroup);
@@ -36,7 +45,19 @@ export default function Home() {
     setPet(storedState);
   }, [setPet]);
 
-  console.log(isPet, "pet");
+  useEffect(() => {
+    dataReward.forEach((item) => {
+      // Đảm bảo 'hearth' lớn hơn targetHearth
+      if (item.hearth > totalHeartCount) {
+        const difference = item.hearth - totalHeartCount;
+        // So sánh sự khác biệt
+        if (difference < minDifference) {
+          setMinDifference(difference);
+          setClosestObject(item);
+        }
+      }
+    });
+  }, [minDifference, totalHeartCount]);
 
   useEffect(() => {
     const day = localStorage.getItem("day");
@@ -230,11 +251,14 @@ export default function Home() {
   };
   return (
     <main
-      className="flex min-h-screen flex-col items-center justify-between p-5 relative"
+      className="flex min-h-screen flex-col items-center justify-between bg-no-repeat	h-full p-5 relative"
       style={
         checked
           ? { backgroundImage: `url(sunlight.jpg)`, backgroundSize: "cover" }
-          : { backgroundImage: `url(nightday.jpg)`, backgroundSize: "cover" }
+          : {
+              backgroundImage: `url(nightmountain.gif)`,
+              backgroundSize: "cover",
+            }
       }
     >
       {/* <div className="text-white text-3xl mb-5">Yêu Hương</div> */}
@@ -258,6 +282,31 @@ export default function Home() {
           className="w-3 absolute top-[70%] left-[80%]"
         />
       </div>
+      {!selectedGroup && (
+        <div className="flex w-full justify-center">
+          <ProgressBar
+            completed={totalHeartCount}
+            customLabel={
+              <>
+                <FaHeart />{" "}
+              </>
+            }
+            className=" mt-[5%] w-[60%]"
+          />
+          <div
+            className="flex items-center ml-[1%] mt-2 bg-no-repeat justify-center rounded-full p-6"
+            style={{
+              backgroundImage: `url(circle.gif)`,
+              backgroundSize: "contain",
+            }}
+          >
+            <span className="absolute text-white font-semibold">
+              lv{levelEXP}
+            </span>
+          </div>
+        </div>
+      )}
+
       {!selectedGroup && renderPet(isPet)}
       {/* {isFireworkActive && (
         <div className="firework container z-[50] absolute top-0 bottom-0 left-1/2 transform -translate-x-1/2" />

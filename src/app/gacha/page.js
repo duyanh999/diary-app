@@ -152,7 +152,10 @@ export default function Page() {
       style={
         checked
           ? { backgroundImage: `url(sunlight.jpg)`, backgroundSize: "cover" }
-          : { backgroundImage: `url(nightday.jpg)`, backgroundSize: "cover" }
+          : {
+              backgroundImage: `url(nightmountain.gif)`,
+              backgroundSize: "cover",
+            }
       }
     >
       <div className="absolute top-11">{checked ? <Sun /> : <Moon />}</div>

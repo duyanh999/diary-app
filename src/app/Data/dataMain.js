@@ -191,4 +191,24 @@ export const groupedData = {
       image: "work6.jpg",
     },
   ],
+  CircleK: [
+    {
+      id: "3",
+
+      image: "ck3.jpg",
+      title: "",
+    },
+    {
+      id: "4",
+      image: "ck4.jpg",
+    },
+    {
+      id: "5",
+      image: "ck5.jpg",
+    },
+    {
+      id: "6",
+      image: "ck6.jpg",
+    },
+  ],
 };

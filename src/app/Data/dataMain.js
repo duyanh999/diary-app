@@ -201,4 +201,24 @@ export const groupedData = {
       url: "https://youtube.com/shorts/WfECiV0WfvY?feature=share",
     },
   ],
+  CircleK: [
+    {
+      id: "3",
+
+      image: "ck3.jpg",
+      title: "",
+    },
+    {
+      id: "4",
+      image: "ck4.jpg",
+    },
+    {
+      id: "5",
+      image: "ck5.jpg",
+    },
+    {
+      id: "6",
+      image: "ck6.jpg",
+    },
+  ],
 };

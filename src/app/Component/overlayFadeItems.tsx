@@ -81,38 +81,40 @@ const OverlayFadeRenderItem = ({
           <ReactPlayer url={url} width={400} height={420} playing={playVideo} />
         )}
       </div>
-      <div className={`${styles.overlayRed} top-0 left-0 w-full h-full`}>
-        <div className={`${styles.text} grid grid-cols-1`}>
-          <div className="flex justify-center w-[px] h-[100px]">
-            <div>
-              <Heart
-                isClick={isClick}
-                onClick={() => {
-                  setClick(true);
-                  handleCount(!isClick);
-                  setCount((prevCount) =>
-                    !isClick ? prevCount + 1 : prevCount
-                  );
-                  if (!isClick) {
-                    activeFirework();
-                  }
-                }}
-              />
+      {images && (
+        <div className={`${styles.overlayRed} top-0 left-0 w-full h-full`}>
+          <div className={`${styles.text} grid grid-cols-1`}>
+            <div className="flex justify-center w-[px] h-[100px]">
+              <div>
+                <Heart
+                  isClick={isClick}
+                  onClick={() => {
+                    setClick(true);
+                    handleCount(!isClick);
+                    setCount((prevCount) =>
+                      !isClick ? prevCount + 1 : prevCount
+                    );
+                    if (!isClick) {
+                      activeFirework();
+                    }
+                  }}
+                />
+              </div>
+              <div
+                className={`absolute text-lg mt-[63%] ${
+                  isClick === false ? "text-slate-400" : "text-[#E5234C]"
+                } `}
+              >
+                {count}
+              </div>
             </div>
-            <div
-              className={`absolute text-lg mt-[63%] ${
-                isClick === false ? "text-slate-400" : "text-[#E5234C]"
-              } `}
-            >
-              {count}
-            </div>
+            {/* <div className="text-xs">{formatDate}</div> */}
           </div>
-          {/* <div className="text-xs">{formatDate}</div> */}
+          <div className="absolute top-[55%] left-[17%] w-[220px]">
+            {/* <GenresMovies genreIds={genreIds} /> */}
+          </div>
         </div>
-        <div className="absolute top-[55%] left-[17%] w-[220px]">
-          {/* <GenresMovies genreIds={genreIds} /> */}
-        </div>
-      </div>
+      )}
     </div>
   );
 };

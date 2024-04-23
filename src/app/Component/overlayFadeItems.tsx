@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import ReactPlayer from "react-player";
 import dayjs from "dayjs";
 import styles from "./styles.module.css";
 import { useEffect, useState } from "react";
@@ -6,19 +7,15 @@ import Heart from "react-animated-heart";
 import { useHearthCount } from "../HearthCountContext";
 
 interface Props {
-  name: string;
   id: number;
   images?: any;
-  time?: string;
-  content?: string;
   index?: number;
   description?: string;
-  genreIds?: number[];
   groupId?: string;
   type?: string;
   title: string;
-  voteAverage?: number;
   selectedGroupData: any;
+  url?: string;
   activeFirework: () => any;
 }
 
@@ -27,13 +24,14 @@ const OverlayFadeRenderItem = ({
   id,
   groupId,
   activeFirework,
+  url,
   selectedGroupData,
   type,
 }: Props) => {
   const { handleCount } = useHearthCount();
 
   // Lấy giờ, phút và giây từ thời điểm hiện tại
-
+  const [playVideo, setPlayVideo] = useState<boolean>(false);
   const [isClick, setClick] = useState<boolean>(() => {
     const storedState = localStorage.getItem(`heartState_${groupId}_${id}`);
     return storedState ? storedState === "true" : false;
@@ -65,12 +63,23 @@ const OverlayFadeRenderItem = ({
 
   return (
     <div
-      className={`${styles.container} hover: hover:origin-center
+      className={
+        images
+          ? `hover: hover:origin-center
 
-      duration-500	delay-100 py-3  rounded-2xl `}
+      duration-500	delay-100 py-3  rounded-2xl ${styles.container}`
+          : ""
+      }
+      onClick={() => {
+        url && setPlayVideo((prevState) => !prevState);
+      }}
     >
       <div className="  ">
-        <img src={"/" + images} alt="Example" className="rounded-lg" />
+        {images ? (
+          <img src={"/" + images} alt="Example" className="rounded-lg" />
+        ) : (
+          <ReactPlayer url={url} width={400} height={420} playing={playVideo} />
+        )}
       </div>
       <div className={`${styles.overlayRed} top-0 left-0 w-full h-full`}>
         <div className={`${styles.text} grid grid-cols-1`}>

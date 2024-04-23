@@ -1,27 +1,37 @@
 export const dataReward = [
   {
     level: "1",
-    hearth: 10,
+    hearth: 5,
     reward: "humanpixel",
   },
   {
     level: "2",
+    hearth: 5,
+    reward: "catpixel",
+  },
+  {
+    level: "3",
+    hearth: 5,
+    reward: "bunnypixel",
+  },
+  {
+    level: "3",
     hearth: 15,
     reward: "catpixel",
   },
   {
     level: "3",
-    hearth: 30,
+    hearth: 15,
     reward: "bunnypixel",
   },
   {
     level: "4",
-    hearth: 35,
+    hearth: 40,
     reward: "robopixel",
   },
   {
     level: "5",
-    hearth: 40,
+    hearth: 50,
     reward: "bimbimjpg",
   },
 

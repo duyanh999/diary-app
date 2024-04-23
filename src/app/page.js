@@ -33,7 +33,7 @@ export default function Home() {
   const [minDifference, setMinDifference] = useState(Infinity);
 
   const levelEXP = closestObject?.level - 1;
-
+  const heartEXP = closestObject?.hearth;
   const handleGroupChange = (event) => {
     const selectedGroup = event.target.value;
     setSelectedGroup(selectedGroup);
@@ -73,7 +73,6 @@ export default function Home() {
       }
       localStorage.setItem("day", dayjs()?.toString());
     } else {
-      console.log("Chưa đến ngày nhận");
       localStorage.setItem("day", dayjs()?.toString());
     }
   }, []);
@@ -198,10 +197,8 @@ export default function Home() {
         id={item.id}
         groupId={groupKey}
         title={item.title}
-        name={item.original_title}
         images={item.image}
-        genreIds={item.genre_ids}
-        voteAverage={item.vote_average}
+        url={item?.url}
         activeFirework={handleFireworkActivation}
         selectedGroupData={selectedGroupData}
       />
@@ -283,14 +280,10 @@ export default function Home() {
         />
       </div>
       {!selectedGroup && (
-        <div className="flex w-full justify-center">
+        <div className="flex w-full justify-center ">
           <ProgressBar
             completed={totalHeartCount}
-            customLabel={
-              <>
-                <FaHeart />{" "}
-              </>
-            }
+            maxCompleted={heartEXP}
             className=" mt-[5%] w-[60%]"
           />
           <div

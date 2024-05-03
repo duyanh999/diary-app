@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import React, { useState } from "react";
@@ -13,12 +14,17 @@ import dynamic from "next/dynamic";
 import { useSwitch } from "../SwitchContext";
 import PureModal from "react-pure-modal";
 import "react-pure-modal/dist/react-pure-modal.min.css";
-import {dataReward} from "../Data/dataReward"
+import { dataReward } from "../Data/dataReward";
+import { Fade } from "react-slideshow-image";
+import "react-slideshow-image/dist/styles.css";
+
+import randomInteger from "random-int";
 
 const DrawerComp = ({ isOpen, setIsOpen }: any) => {
   const [modal, setModal] = useState(false);
   const [unbox, setUnbox] = useState(false);
   const [itemDetail, setItemDetail] = useState<any>();
+  const [running, setRunning] = useState(false);
 
   const AnimatedNumbers = dynamic(() => import("react-animated-numbers"), {
     ssr: false,
@@ -27,6 +33,16 @@ const DrawerComp = ({ isOpen, setIsOpen }: any) => {
   const { totalHeartCount } = useHearthCount();
   const { checked } = useSwitch();
 
+  const properties = {
+    duration: 50, // Khoảng thời gian giữa các slide (đơn vị: ms)
+    transitionDuration: 50,
+    autoplay: running, // Kích hoạt chế độ tự động chạy
+    infinite: running,
+    indicators: false,
+    arrows: false,
+  };
+
+  const dataMoney = ["./200k.jpg", "./500k.jpg"];
   const checkLevelUpText = (item: any) => {
     if (item?.hearth! - totalHeartCount <= 0) {
       return <div className="text-green-400"> Đã đủ số tim để nhận quà</div>;
@@ -41,6 +57,25 @@ const DrawerComp = ({ isOpen, setIsOpen }: any) => {
   };
 
   const checkImage = (item: any) => {
+    if (item?.includes("money")) {
+      return (
+        <Fade
+          {...properties}
+          defaultIndex={0}
+          pauseOnHover={false}
+          prevArrow={false as any}
+        >
+          {dataMoney?.map((fadeImage, index) => (
+            <div key={index}>
+              <img
+                src={fadeImage}
+                className="object-fill h-60 w-96 rounded-2xl"
+              />
+            </div>
+          ))}
+        </Fade>
+      );
+    }
     if (item?.includes("jpg")) {
       return <img src={item + ".jpg"} alt="" />;
     } else {
@@ -149,6 +184,13 @@ const DrawerComp = ({ isOpen, setIsOpen }: any) => {
             onClick={() => {
               localStorage?.setItem(`petState`, itemDetail?.reward);
               setUnbox(true);
+              setRunning(!running);
+              if (!running) {
+                setTimeout(() => {
+                  setRunning(false);
+                  // setShowBox(true);
+                }, randomInteger(3000, 10000));
+              }
             }}
           />
         ) : (

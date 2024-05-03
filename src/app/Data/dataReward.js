@@ -37,11 +37,13 @@ export const dataReward = [
 
   {
     level: "6",
-    hearth: 80,
+    hearth: 51,
+    reward: "money",
   },
   {
     level: "7",
-    hearth: 120,
+    hearth: 52,
+    reward: "money",
   },
   {
     level: "8",

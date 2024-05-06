@@ -91,6 +91,16 @@ export const groupedData = {
 
   AeonMall: [
     {
+      id: "12",
+      image: "aeon12.jpg",
+      title: "",
+    },
+    {
+      id: "13",
+      image: "aeon13.jpg",
+      title: "",
+    },
+    {
       id: "1",
       name: "duyhuong",
       image: "aeon1.jpg",
@@ -210,6 +220,26 @@ export const groupedData = {
     {
       id: "6",
       image: "ck6.jpg",
+    },
+  ],
+  ĐiĂn: [
+    {
+      id: "1",
+      image: "eat1.jpg",
+    },
+    {
+      id: "2",
+      image: "eat2.jpg",
+    },
+  ],
+  TócĐỏ: [
+    {
+      id: "1",
+      image: "redhead1.jpg",
+    },
+    {
+      id: "2",
+      image: "redhead2.jpg",
     },
   ],
   ĐónEmVề: [

@@ -57,6 +57,10 @@ export default function Page() {
       "./hutieu.jpg",
       "./phocuon.jpg",
       "./xoi.jpg",
+      "./bunca.jpg",
+      "./mytron.jpg",
+      "./kimbap.jpg",
+      "./photron.jpg",
     ];
 
     const nightFoods = [
@@ -74,6 +78,11 @@ export default function Page() {
       "./bunrieu.jpg",
       "./bunmoc.jpg",
       "./bunbonambo.jpg",
+      "./bunca.jpg",
+      "./mytron.jpg",
+      "./comtho.jpg",
+      "./kimbap.jpg",
+      "./photron.jpg",
     ];
 
     const selectedFoods = checked ? dayFoods : nightFoods;

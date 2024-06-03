@@ -288,10 +288,10 @@ export default function Home() {
     getDoc();
   };
 
-  const renderItemImage = (item, groupKey) => {
+  const renderItemImage = (item, groupKey, index) => {
     return (
       <ImageItem
-        key={item.id}
+        index={index}
         id={item.id}
         groupId={groupKey}
         title={item.title}
@@ -335,11 +335,9 @@ export default function Home() {
                 }}
               />
             )}
-            {data?.map((item) =>
-              item?.urls?.map((item) => renderItemImage(item))
-            )}
+            {data?.map((item) => item?.urls?.map(renderItemImage))}
             {loading && (
-              <div className="absolute">
+              <div className="absolute z-99">
                 loading..loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading....
               </div>
             )}

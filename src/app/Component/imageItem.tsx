@@ -10,7 +10,7 @@ import { useGetDocuments } from "../firebase/firestore/getData";
 interface Props {
   id: number;
   images?: any;
-  index?: number;
+  index?: any;
   description?: string;
   groupId?: string;
   type?: string;
@@ -23,6 +23,7 @@ interface Props {
 const ImageItem = ({
   images,
   id,
+  index,
   groupId,
   activeFirework,
   url,
@@ -86,6 +87,7 @@ const ImageItem = ({
 
   return (
     <div
+      key={index}
       className={`hover: hover:origin-center
 
       duration-500	delay-100 py-3  rounded-2xl ${styles.container}`}

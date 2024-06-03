@@ -52,10 +52,12 @@ export default function Home() {
   const [image, setImage] = useState(null);
   const [base64, setBase64] = useState("");
 
-  const { getDoc, data } = useGetDocuments("album");
+  const { getDoc, data, loading } = useGetDocuments("album");
 
   const levelEXP = closestObject?.level - 1;
   const heartEXP = closestObject?.hearth;
+
+  const dataUrls = data?.map((item) => item?.urls);
   // const handleGroupChange = (event) => {
   //   const selectedGroup = event.target.value;
   //   setSelectedGroup(selectedGroup);
@@ -143,8 +145,7 @@ export default function Home() {
       event.preventDefault(); // Ngăn chặn cuộn mặc định
 
       const deltaY = event.touches[0].clientY - startY;
-      const itemHeight =
-        scrollRef.current.scrollHeight / selectedGroupData.length;
+      const itemHeight = scrollRef.current.scrollHeight / dataUrls[0]?.length;
 
       if (deltaY > 0) {
         // Lăn lên
@@ -168,12 +169,12 @@ export default function Home() {
 
     return () => {
       if (scrollRef.current) {
-        scrollRef.current.removeEventListener("touchstart", handleTouchStart);
-        scrollRef.current.removeEventListener("touchmove", handleTouchMove);
+        scrollRef?.current.removeEventListener("touchstart", handleTouchStart);
+        scrollRef?.current.removeEventListener("touchmove", handleTouchMove);
       }
     };
-  }, [selectedGroupData]);
-
+  }, [dataUrls]);
+  console.log("lenght", dataUrls[0]?.length);
   useEffect(() => {
     if (isFireworkActive) {
       const stopFireworks = setTimeout(() => {
@@ -337,6 +338,11 @@ export default function Home() {
             {data?.map((item) =>
               item?.urls?.map((item) => renderItemImage(item))
             )}
+            {loading && (
+              <div className="absolute">
+                loading..loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading....
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -378,8 +384,11 @@ export default function Home() {
       {/* <button onClick={handleLogout}>Logout</button> */}
       {/* <button onClick={fetchData}>data</button> */}
       <div className="flex mt-10">
-        <input type="file" onChange={handleImageChange} />
-        <button onClick={handleForm}>submit</button>
+        <AwesomeButton>
+          {" "}
+          <input type="file" onChange={handleImageChange} />{" "}
+        </AwesomeButton>
+        <AwesomeButton onPress={handleForm}>UP</AwesomeButton>
       </div>
 
       {!selectedGroup && (

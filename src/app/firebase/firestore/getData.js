@@ -5,10 +5,12 @@ import { useCallback, useEffect, useState } from "react";
 
 export const useGetDocuments = (dataName) => {
   const [data, setData] = useState([]);
+  const [loading, setloading] = useState(false);
 
   const db = getFirestore(firebase_app);
 
   const getDoc = useCallback(async () => {
+    setloading(true);
     const collectionRef = collection(db, dataName);
     const querySnapshot = await getDocs(collectionRef);
     const data = querySnapshot.docs.map((doc) => ({
@@ -16,10 +18,11 @@ export const useGetDocuments = (dataName) => {
       id: doc.id,
     }));
     setData(data);
+    setloading(false);
   }, [dataName, db]);
   useEffect(() => {
     getDoc();
   }, [getDoc]);
 
-  return { getDoc, data };
+  return { getDoc, data, loading };
 };

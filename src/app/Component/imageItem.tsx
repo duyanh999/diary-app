@@ -35,7 +35,7 @@ const ImageItem = ({
   console.log("id", id);
 
   // Lấy giờ, phút và giây từ thời điểm hiện tại
-  const [playVideo, setPlayVideo] = useState<boolean>(false);
+  // const [playVideo, setPlayVideo] = useState<boolean>(false);
   const [isClick, setClick] = useState<boolean>(() => {
     const storedState = localStorage.getItem(`heartState_${groupId}_${id}`);
     return storedState ? storedState === "true" : false;
@@ -86,56 +86,48 @@ const ImageItem = ({
 
   return (
     <div
-      className={
-        images
-          ? `hover: hover:origin-center
+      className={`hover: hover:origin-center
 
-      duration-500	delay-100 py-3  rounded-2xl ${styles.container}`
-          : ""
-      }
-      onClick={() => {
-        url && setPlayVideo((prevState) => !prevState);
-      }}
+      duration-500	delay-100 py-3  rounded-2xl ${styles.container}`}
+      // onClick={() => {
+      //   url && setPlayVideo((prevState) => !prevState);
+      // }}
     >
-      <div className="  ">
-        {images && <img src={images} alt="Example" className="rounded-lg" />}
-      </div>
-      {images && (
-        <div className={`${styles.overlayRed} top-0 left-0 w-full h-full`}>
-          <div className={`${styles.text} grid grid-cols-1`}>
-            <div className="flex justify-center w-[px] h-[100px]">
-              <div>
-                <Heart
-                  isClick={isClick}
-                  onClick={() => {
-                    setClick(true);
-                    handleCount(!isClick);
-                    getDoc();
-                    handleAddData();
-                    setCount((prevCount) =>
-                      !isClick ? prevCount + 1 : prevCount
-                    );
-                    if (!isClick) {
-                      activeFirework();
-                    }
-                  }}
-                />
-              </div>
-              <div
-                className={`absolute text-lg mt-[63%] ${
-                  isClick === false ? "text-slate-400" : "text-[#E5234C]"
-                } `}
-              >
-                {count}
-              </div>
+      <img src={images} alt="Example" className="rounded-lg" />
+      <div className={`${styles.overlayRed} top-0 left-0 w-full h-full`}>
+        <div className={`${styles.text} grid grid-cols-1`}>
+          <div className="flex justify-center w-[px] h-[100px]">
+            <div>
+              <Heart
+                isClick={isClick}
+                onClick={() => {
+                  setClick(true);
+                  handleCount(!isClick);
+                  getDoc();
+                  handleAddData();
+                  setCount((prevCount) =>
+                    !isClick ? prevCount + 1 : prevCount
+                  );
+                  if (!isClick) {
+                    activeFirework();
+                  }
+                }}
+              />
             </div>
-            {/* <div className="text-xs">{formatDate}</div> */}
+            <div
+              className={`absolute text-lg mt-[63%] ${
+                isClick === false ? "text-slate-400" : "text-[#E5234C]"
+              } `}
+            >
+              {count}
+            </div>
           </div>
-          <div className="absolute top-[55%] left-[17%] w-[220px]">
-            {/* <GenresMovies genreIds={genreIds} /> */}
-          </div>
+          {/* <div className="text-xs">{formatDate}</div> */}
         </div>
-      )}
+        <div className="absolute top-[55%] left-[17%] w-[220px]">
+          {/* <GenresMovies genreIds={genreIds} /> */}
+        </div>
+      </div>
     </div>
   );
 };

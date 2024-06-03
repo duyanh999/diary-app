@@ -263,6 +263,7 @@ export default function Home() {
         } else {
           console.log(result);
           fetchData();
+          clearFileInput();
         }
       } catch (error) {
         console.error("Upload failed", error);
@@ -287,7 +288,13 @@ export default function Home() {
   const fetchData = async () => {
     getDoc();
   };
-
+  const clearFileInput = () => {
+    const fileInput = document.getElementById("fileInput");
+    if (fileInput) {
+      fileInput.value = "";
+    }
+    setImage(null);
+  };
   const renderItemImage = (item, groupKey, index) => {
     return (
       <ImageItem
@@ -346,6 +353,7 @@ export default function Home() {
       </div>
     );
   };
+
   return (
     <main
       className="flex min-h-screen flex-col items-center justify-between bg-no-repeat	h-full p-5 relative"
@@ -410,11 +418,12 @@ export default function Home() {
         {suggestUserChoiceList()}{" "}
         <div className="flex mt-4 justify-center">
           <AwesomeButton type={`${checked ? "danger" : "link"}`}>
-            <input type="file" onChange={handleImageChange} />
+            <input type="file" id="fileInput" onChange={handleImageChange} />
           </AwesomeButton>
           <AwesomeButton
             type={`${checked ? "danger" : "link"}`}
             onPress={handleForm}
+            disabled={!image}
           >
             UP
           </AwesomeButton>

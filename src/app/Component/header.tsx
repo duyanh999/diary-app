@@ -3,10 +3,11 @@
 import { useEffect, useState } from "react";
 import ReactSwitch from "react-switch";
 import { FaSun, FaMoon, FaHeart } from "react-icons/fa"; // Import icon từ thư viện react-icons
-import { useSwitch } from "../SwitchContext";
-import { useHearthCount } from "../HearthCountContext";
+import { useSwitch } from "../context/SwitchContext";
+import { useHearthCount } from "../context/HearthCountContext";
 import dynamic from "next/dynamic";
 import DrawerComp from "./drawer";
+import { useGetDocuments } from "../firebase/firestore/getData";
 
 const Header = () => {
   const AnimatedNumbers = dynamic(() => import("react-animated-numbers"), {
@@ -16,6 +17,9 @@ const Header = () => {
   const { checked, handleChange } = useSwitch();
   const { totalHeartCount } = useHearthCount();
   const [isOpen, setIsOpen] = useState(false);
+  const { getDoc, data } = useGetDocuments("hearth");
+
+  const hearth = data?.map((item: any) => item?.totalHearthCount);
 
   return (
     <>
@@ -45,7 +49,7 @@ const Header = () => {
                   type: "spring",
                   duration: index + 1,
                 })}
-                animateToNumber={totalHeartCount}
+                animateToNumber={totalHeartCount || (hearth as any)}
                 fontStyle={{
                   fontSize: 16,
                   color: "white",

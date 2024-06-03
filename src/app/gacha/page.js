@@ -13,7 +13,9 @@ import Moon from "../Component/moon";
 import { AwesomeButton, AwesomeButtonProgress } from "react-awesome-button";
 import ReactSwitch from "react-switch";
 import { FaSun, FaMoon } from "react-icons/fa"; // Import icon từ thư viện react-icons
-import { useSwitch } from "../SwitchContext";
+import { useSwitch } from "../context/SwitchContext";
+import { useRouter } from "next/navigation";
+import { useAuthContext } from "../context/AuthContext";
 
 export default function Page() {
   const [running, setRunning] = useState(false);
@@ -89,6 +91,9 @@ export default function Page() {
     setFoodData(selectedFoods);
   }, [checked]);
 
+  const { user } = useAuthContext();
+  const router = useRouter();
+
   useEffect(() => {
     if (isFireworkActive) {
       const container = document?.querySelector(".container");
@@ -154,6 +159,9 @@ export default function Page() {
       return () => clearTimeout(stopFireworks);
     }
   }, [isFireworkActive]);
+  useEffect(() => {
+    if (user == null) router.push("/admin");
+  }, [router, user]);
 
   return (
     <div

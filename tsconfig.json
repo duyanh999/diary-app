@@ -28,6 +28,6 @@
     ".next/types/**/*.ts",
     "src/app/Component/sunmoon.js",
     "src/app/gacha/page.js"
-  ],
+, "src/app/Component/overlayFadeItems.js"  ],
   "exclude": ["node_modules"]
 }

@@ -1,13 +1,10 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 
-import { useState } from "react";
 import Header from "./Component/header";
-import { SwitchProvider } from "./SwitchContext";
-import { HearthCountProvider } from "./HearthCountContext";
-
-const inter = Inter({ subsets: ["latin"] });
+import { SwitchProvider } from "./context/SwitchContext";
+import { HearthCountProvider } from "./context/HearthCountContext";
+import { AuthContextProvider } from "./context/AuthContext";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -24,10 +21,12 @@ export default function RootLayout({
       <body className=" w-full h-full flex justify-center overflow-hidden">
         <HearthCountProvider>
           <SwitchProvider>
-            <div className="w-[428px] justify-center flex overflow-hidden">
-              <Header />
-              {children}
-            </div>
+            <AuthContextProvider>
+              <div className="w-[428px] justify-center flex overflow-hidden">
+                <Header />
+                {children}
+              </div>
+            </AuthContextProvider>
           </SwitchProvider>
         </HearthCountProvider>
       </body>

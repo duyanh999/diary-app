@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-import ReactPlayer from "react-player";
 import dayjs from "dayjs";
 import styles from "./styles.module.css";
 import { useEffect, useState } from "react";
@@ -21,7 +20,7 @@ interface Props {
   activeFirework: () => any;
 }
 
-const OverlayFadeRenderItem = ({
+const ImageItem = ({
   images,
   id,
   groupId,
@@ -99,11 +98,7 @@ const OverlayFadeRenderItem = ({
       }}
     >
       <div className="  ">
-        {images ? (
-          <img src={"/" + images} alt="Example" className="rounded-lg" />
-        ) : (
-          <ReactPlayer url={url} width={400} height={420} playing={playVideo} />
-        )}
+        {images && <img src={images} alt="Example" className="rounded-lg" />}
       </div>
       {images && (
         <div className={`${styles.overlayRed} top-0 left-0 w-full h-full`}>
@@ -144,4 +139,4 @@ const OverlayFadeRenderItem = ({
     </div>
   );
 };
-export default OverlayFadeRenderItem;
+export default ImageItem;

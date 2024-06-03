@@ -9,9 +9,9 @@ import { FaTimes } from "react-icons/fa"; // Import icon từ thư viện react-
 
 //import styles 👇
 import "react-modern-drawer/dist/index.css";
-import { useHearthCount } from "../HearthCountContext";
+import { useHearthCount } from "../context/HearthCountContext";
 import dynamic from "next/dynamic";
-import { useSwitch } from "../SwitchContext";
+import { useSwitch } from "../context/SwitchContext";
 import PureModal from "react-pure-modal";
 import "react-pure-modal/dist/react-pure-modal.min.css";
 import { dataReward } from "../Data/dataReward";

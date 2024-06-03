@@ -8,18 +8,36 @@ import Link from "next/link";
 import { AwesomeButton } from "react-awesome-button";
 import "react-awesome-button/dist/styles.css";
 import Confetti from "react-confetti";
-import { useSwitch } from "./SwitchContext";
+import { useSwitch } from "./context/SwitchContext";
 import { isYesterday } from "date-fns/isYesterday";
 import dayjs from "dayjs";
 import { groupedData } from "./Data/dataMain";
 import ProgressBar from "@ramonak/react-progress-bar";
 import { dataReward } from "./Data/dataReward";
-import { useHearthCount } from "./HearthCountContext";
+import { useHearthCount } from "./context/HearthCountContext";
 import { FaHeart } from "react-icons/fa";
+import { useAuthContext } from "./context/AuthContext";
+import { useRouter } from "next/navigation";
+import { auth, firebase_app, storage } from "./firebase/config";
+import { signOut } from "firebase/auth";
+import addData from "./firebase/firestore/addData";
+import getData, { useGetDocuments } from "./firebase/firestore/getData";
+import { ref, uploadString, getDownloadURL } from "firebase/storage";
+import {
+  doc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+  getFirestore,
+} from "firebase/firestore";
+import ImageItem from "./Component/imageItem";
 
 export default function Home() {
   // const { width, height } = useWindowSize();
   const { checked } = useSwitch();
+  const { user } = useAuthContext();
+  const router = useRouter();
+  const db = getFirestore(firebase_app);
 
   const [scrollHeight, setScrollHeight] = useState(0);
   const [selectedGroup, setSelectedGroup] = useState("");
@@ -31,14 +49,22 @@ export default function Home() {
   const [isPet, setPet] = useState("");
   const [closestObject, setClosestObject] = useState(null);
   const [minDifference, setMinDifference] = useState(Infinity);
+  const [image, setImage] = useState(null);
+  const [base64, setBase64] = useState("");
+
+  const { getDoc, data } = useGetDocuments("album");
 
   const levelEXP = closestObject?.level - 1;
   const heartEXP = closestObject?.hearth;
-  const handleGroupChange = (event) => {
-    const selectedGroup = event.target.value;
-    setSelectedGroup(selectedGroup);
-    setSelectedGroupData(groupedData[selectedGroup] || []);
-  };
+  // const handleGroupChange = (event) => {
+  //   const selectedGroup = event.target.value;
+  //   setSelectedGroup(selectedGroup);
+  //   setSelectedGroupData(groupedData[selectedGroup] || []);
+  // };
+
+  useEffect(() => {
+    if (user == null) router.push("/admin");
+  }, [router, user]);
 
   useEffect(() => {
     const storedState = localStorage?.getItem(`petState`);
@@ -163,6 +189,27 @@ export default function Home() {
     setIsFireworkActive(true);
   };
 
+  // const handleLogout = async () => {
+  //   try {
+  //     await signOut(auth);
+  //     router.push("/login"); // Điều hướng về trang login sau khi đăng xuất
+  //   } catch (error) {
+  //     console.error("Error logging out: ", error);
+  //   }
+  // };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setBase64(reader.result);
+      };
+      reader.readAsDataURL(file);
+      setImage(file);
+    }
+  };
+
   const renderPet = useCallback((item) => {
     switch (item) {
       case "catpixel":
@@ -190,17 +237,66 @@ export default function Home() {
     }
   }, []);
 
-  const renderPosterMovies = (item, groupKey) => {
+  const handleForm = async () => {
+    const data = { totalHearthCount: 100 };
+    if (image) {
+      const storageRef = ref(storage, `images/${image.name}`);
+      try {
+        await uploadString(storageRef, base64, "data_url");
+        const url = await getDownloadURL(storageRef);
+
+        // Store the image URL in Firestore
+        const { result, error } = await addData(
+          "album",
+          "kVP5JboDGkTnorvOi3Yi",
+          { url }
+        );
+
+        const ref = doc(db, "album", "kVP5JboDGkTnorvOi3Yi");
+        await updateDoc(ref, {
+          urls: arrayUnion({ url }),
+        });
+
+        if (error) {
+          console.error("Error writing document: ", error);
+        } else {
+          console.log(result);
+          fetchData();
+        }
+      } catch (error) {
+        console.error("Upload failed", error);
+      }
+    }
+    // console.log("bs64", uploadTask);
+
+    // const { result, error } = await addData(
+    //   "album",
+    //   "kVP5JboDGkTnorvOi3Yi",
+    //   data
+    // );
+
+    // if (error) {
+    //   return console.log(error);
+    // }
+    // if (result) {
+    //   return console.log(result);
+    // }
+  };
+
+  const fetchData = async () => {
+    getDoc();
+  };
+
+  const renderItemImage = (item, groupKey) => {
     return (
-      <OverlayFadeRenderItem
+      <ImageItem
         key={item.id}
         id={item.id}
         groupId={groupKey}
         title={item.title}
-        images={item.image}
+        images={item.url}
         url={item?.url}
         activeFirework={handleFireworkActivation}
-        selectedGroupData={selectedGroupData}
       />
     );
   };
@@ -238,8 +334,8 @@ export default function Home() {
                 }}
               />
             )}
-            {selectedGroupData.map((item) =>
-              renderPosterMovies(item, selectedGroup)
+            {data?.map((item) =>
+              item?.urls?.map((item) => renderItemImage(item))
             )}
           </div>
         </div>
@@ -259,7 +355,7 @@ export default function Home() {
       }
     >
       {/* <div className="text-white text-3xl mb-5">Yêu Hương</div> */}
-      <div className="relative">
+      {/* <div className="relative">
         <select
           id="groupSelect"
           value={selectedGroup}
@@ -278,7 +374,14 @@ export default function Home() {
           alt="dsad"
           className="w-3 absolute top-[70%] left-[80%]"
         />
+      </div> */}
+      {/* <button onClick={handleLogout}>Logout</button> */}
+      {/* <button onClick={fetchData}>data</button> */}
+      <div className="flex mt-10">
+        <input type="file" onChange={handleImageChange} />
+        <button onClick={handleForm}>submit</button>
       </div>
+
       {!selectedGroup && (
         <div className="flex w-full justify-center ">
           <ProgressBar
@@ -299,7 +402,6 @@ export default function Home() {
           </div>
         </div>
       )}
-
       {!selectedGroup && renderPet(isPet)}
       {/* {isFireworkActive && (
         <div className="firework container z-[50] absolute top-0 bottom-0 left-1/2 transform -translate-x-1/2" />
@@ -318,7 +420,6 @@ export default function Home() {
           </span>
         </AwesomeButton>
       )}
-
       <Link className="w-[full] bottom-20 absolute" href="/gacha">
         <span className="bg-left-bottom text-white text-base font-semibold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
           Hôm nay em ăn gì?

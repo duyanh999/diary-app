@@ -385,7 +385,7 @@ export default function Home() {
       {/* <button onClick={fetchData}>data</button> */}
 
       {!selectedGroup && (
-        <div className="flex w-full justify-center mt-8">
+        <div className="flex w-full justify-center mt-3">
           <ProgressBar
             completed={totalHeartCount}
             maxCompleted={heartEXP}
@@ -435,11 +435,11 @@ export default function Home() {
           </span>
         </AwesomeButton>
       )}
-      <Link className="w-[full] bottom-20 absolute" href="/gacha">
+      {/* <Link className="w-[full] bottom-20 absolute" href="/gacha">
         <span className="bg-left-bottom text-white text-base font-semibold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
           Hôm nay em ăn gì?
         </span>
-      </Link>
+      </Link> */}
     </main>
   );
 }

@@ -17,9 +17,6 @@ const Header = () => {
   const { checked, handleChange } = useSwitch();
   const { totalHeartCount } = useHearthCount();
   const [isOpen, setIsOpen] = useState(false);
-  const { getDoc, data } = useGetDocuments("hearth");
-
-  const hearth = data?.map((item: any) => item?.totalHearthCount);
 
   return (
     <>
@@ -49,7 +46,7 @@ const Header = () => {
                   type: "spring",
                   duration: index + 1,
                 })}
-                animateToNumber={totalHeartCount || (hearth as any)}
+                animateToNumber={totalHeartCount}
                 fontStyle={{
                   fontSize: 16,
                   color: "white",

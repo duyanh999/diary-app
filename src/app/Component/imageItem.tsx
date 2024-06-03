@@ -32,9 +32,6 @@ const ImageItem = ({
 }: Props) => {
   const { handleCount } = useHearthCount();
 
-  console.log("gr", groupId);
-  console.log("id", id);
-
   // Lấy giờ, phút và giây từ thời điểm hiện tại
   // const [playVideo, setPlayVideo] = useState<boolean>(false);
   const [isClick, setClick] = useState<boolean>(() => {
@@ -45,12 +42,12 @@ const ImageItem = ({
     const storedCount = localStorage.getItem(`heartCount_${groupId}_${id}`);
     return storedCount ? parseInt(storedCount) : 0;
   });
-  const { getDoc, data } = useGetDocuments("hearth");
-  const { totalHeartCount } = useHearthCount();
+  // const { getDoc, data } = useGetDocuments("hearth");
+  // const { totalHeartCount } = useHearthCount();
 
-  console.log("sto", totalHeartCount);
-  const hearth = data?.map((item: any) => item?.totalHearthCount);
-  console.log("hearth", hearth);
+  // console.log("sto", totalHeartCount);
+  // const hearth = data?.map((item: any) => item?.totalHearthCount);
+  // console.log("hearth", hearth);
 
   useEffect(() => {
     const storedState = localStorage.getItem(`heartState_${groupId}_${id}`);
@@ -105,7 +102,7 @@ const ImageItem = ({
                 onClick={() => {
                   setClick(true);
                   handleCount(!isClick);
-                  getDoc();
+                  // getDoc();
                   handleAddData();
                   setCount((prevCount) =>
                     !isClick ? prevCount + 1 : prevCount

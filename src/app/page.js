@@ -126,15 +126,6 @@ export default function Home() {
   }, [counter, runScreen, scrollHeight]); // Tham số thứ hai của
 
   useEffect(() => {
-    if (data) {
-      scrollRef.current.scrollTo({
-        top: dataUrls[0]?.length * 424,
-        behavior: "smooth",
-      });
-    }
-  }, [data, dataUrls]);
-
-  useEffect(() => {
     let startY = 0;
 
     const handleTouchStart = (event) => {
@@ -264,6 +255,10 @@ export default function Home() {
         } else {
           console.log(result);
           fetchData();
+          scrollRef.current.scrollTo({
+            top: (dataUrls[0]?.length + 1) * 424,
+            behavior: "smooth",
+          });
         }
       } catch (error) {
         console.error("Upload failed", error);

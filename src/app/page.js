@@ -383,16 +383,9 @@ export default function Home() {
       </div> */}
       {/* <button onClick={handleLogout}>Logout</button> */}
       {/* <button onClick={fetchData}>data</button> */}
-      <div className="flex mt-10">
-        <AwesomeButton>
-          {" "}
-          <input type="file" onChange={handleImageChange} />{" "}
-        </AwesomeButton>
-        <AwesomeButton onPress={handleForm}>UP</AwesomeButton>
-      </div>
 
       {!selectedGroup && (
-        <div className="flex w-full justify-center ">
+        <div className="flex w-full justify-center mt-8">
           <ProgressBar
             completed={totalHeartCount}
             maxCompleted={heartEXP}
@@ -415,7 +408,20 @@ export default function Home() {
       {/* {isFireworkActive && (
         <div className="firework container z-[50] absolute top-0 bottom-0 left-1/2 transform -translate-x-1/2" />
       )} */}
-      <div className="relative flex-1 ">{suggestUserChoiceList()} </div>
+      <div className="relative flex-1 ">
+        {suggestUserChoiceList()}{" "}
+        <div className="flex mt-4 justify-center">
+          <AwesomeButton type={`${checked ? "danger" : "link"}`}>
+            <input type="file" onChange={handleImageChange} />
+          </AwesomeButton>
+          <AwesomeButton
+            type={`${checked ? "danger" : "link"}`}
+            onPress={handleForm}
+          >
+            UP
+          </AwesomeButton>
+        </div>
+      </div>
       {selectedGroup && (
         <AwesomeButton
           className="bottom-24 absolute w-full"

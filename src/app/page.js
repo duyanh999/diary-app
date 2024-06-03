@@ -126,13 +126,13 @@ export default function Home() {
   }, [counter, runScreen, scrollHeight]); // Tham số thứ hai của
 
   useEffect(() => {
-    if (runScreen && counter < scrollHeight + 424) {
-      scrollRef.current.scrollTo({ top: counter, behavior: "smooth" });
-    } else {
-      setCounter(0);
-      scrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
+    if (data) {
+      scrollRef.current.scrollTo({
+        top: dataUrls[0]?.length * 424,
+        behavior: "smooth",
+      });
     }
-  }, [counter, runScreen, scrollHeight]);
+  }, [data, dataUrls]);
 
   useEffect(() => {
     let startY = 0;

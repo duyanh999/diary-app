@@ -242,6 +242,7 @@ export default function Home() {
     const data = { totalHearthCount: 100 };
     if (image) {
       const storageRef = ref(storage, `images/${image.name}`);
+      clearFileInput();
       try {
         await uploadString(storageRef, base64, "data_url");
         const url = await getDownloadURL(storageRef);
@@ -263,7 +264,6 @@ export default function Home() {
         } else {
           console.log(result);
           fetchData();
-          clearFileInput();
         }
       } catch (error) {
         console.error("Upload failed", error);

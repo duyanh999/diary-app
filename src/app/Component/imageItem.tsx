@@ -10,13 +10,11 @@ import { useGetDocuments } from "../firebase/firestore/getData";
 interface Props {
   id: number;
   images?: any;
-  index?: any;
+  index?: number;
   description?: string;
-  groupId?: string;
   type?: string;
-  title: string;
+  title?: string;
   selectedGroupData: any;
-  url?: string;
   activeFirework: () => any;
 }
 
@@ -24,9 +22,8 @@ const ImageItem = ({
   images,
   id,
   index,
-  groupId,
   activeFirework,
-  url,
+  title,
   selectedGroupData,
   type,
 }: Props) => {
@@ -34,36 +31,14 @@ const ImageItem = ({
 
   // Lấy giờ, phút và giây từ thời điểm hiện tại
   // const [playVideo, setPlayVideo] = useState<boolean>(false);
-  const [isClick, setClick] = useState<boolean>(() => {
-    const storedState = localStorage.getItem(`heartState_${groupId}_${id}`);
-    return storedState ? storedState === "true" : false;
-  });
-  const [count, setCount] = useState<number>(() => {
-    const storedCount = localStorage.getItem(`heartCount_${groupId}_${id}`);
-    return storedCount ? parseInt(storedCount) : 0;
-  });
+  const [isClick, setClick] = useState<boolean>(false);
+  const [count, setCount] = useState<number>(0);
   // const { getDoc, data } = useGetDocuments("hearth");
   // const { totalHeartCount } = useHearthCount();
 
   // console.log("sto", totalHeartCount);
   // const hearth = data?.map((item: any) => item?.totalHearthCount);
   // console.log("hearth", hearth);
-
-  useEffect(() => {
-    const storedState = localStorage.getItem(`heartState_${groupId}_${id}`);
-    setClick(storedState ? storedState === "true" : false);
-
-    const storedCount = localStorage.getItem(`heartCount_${groupId}_${id}`);
-    setCount(storedCount ? parseInt(storedCount) : 0);
-  }, [groupId, id]);
-
-  useEffect(() => {
-    localStorage.setItem(`heartCount_${groupId}_${id}`, count.toString());
-  }, [count, groupId, id]);
-
-  useEffect(() => {
-    localStorage.setItem(`heartState_${groupId}_${id}`, isClick.toString());
-  }, [isClick, groupId, id]);
 
   const handleAddData = async () => {
     const data = { totalHearthCount: count };
@@ -84,7 +59,6 @@ const ImageItem = ({
 
   return (
     <div
-      key={index}
       className={`hover: hover:origin-center
 
       duration-500	delay-100 py-3  rounded-2xl ${styles.container}`}

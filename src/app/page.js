@@ -165,7 +165,6 @@ export default function Home() {
       }
     };
   }, [dataUrls]);
-  console.log("lenght", dataUrls[0]?.length);
   useEffect(() => {
     if (isFireworkActive) {
       const stopFireworks = setTimeout(() => {
@@ -189,18 +188,6 @@ export default function Home() {
   //     console.error("Error logging out: ", error);
   //   }
   // };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setBase64(reader.result);
-      };
-      reader.readAsDataURL(file);
-      setImage(file);
-    }
-  };
 
   const renderPet = useCallback((item) => {
     switch (item) {
@@ -228,58 +215,68 @@ export default function Home() {
       // code block
     }
   }, []);
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const uniqueFileName = generateUniqueFileName(image.name);
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setBase64(reader.result) + uniqueFileName;
+      };
+      reader.readAsDataURL(file);
+      setImage(file);
+    }
+  };
+  const generateUniqueFileName = (originalName) => {
+    const timestamp = Date.now();
+    const extension = originalName.split(".").pop();
+    const uniqueName = `image_${timestamp}.${extension}`;
+    return uniqueName;
+  };
 
   const handleForm = async () => {
-    const data = { totalHearthCount: 100 };
     if (image) {
-      const storageRef = ref(storage, `images/${image.name}`);
-      clearFileInput();
+      const uniqueFileName = generateUniqueFileName(image.name);
+      const storageRef = ref(storage, `images$/${uniqueFileName}`);
+
       try {
+        // Clear the file input after setting image
+        clearFileInput();
+
         await uploadString(storageRef, base64, "data_url");
         const url = await getDownloadURL(storageRef);
 
-        // Store the image URL in Firestore
-        const { result, error } = await addData(
-          "album",
-          "kVP5JboDGkTnorvOi3Yi",
-          { url }
-        );
-
+        // Retrieve current document data to check for duplicates
         const ref = doc(db, "album", "kVP5JboDGkTnorvOi3Yi");
-        await updateDoc(ref, {
-          urls: arrayUnion({ url }),
-        });
+        const docSnap = await getDoc(ref);
 
-        if (error) {
-          console.error("Error writing document: ", error);
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          const currentUrls = data.urls.map((item) => item.url);
+
+          // Check if the URL already exists
+          if (!currentUrls.includes(url)) {
+            await updateDoc(ref, {
+              urls: arrayUnion({ url }),
+            });
+
+            fetchData();
+            scrollRef.current.scrollTo({
+              top: (dataUrls[0]?.length + 1) * 424,
+              behavior: "smooth",
+            });
+          } else {
+            console.log("URL already exists, not adding to Firestore.");
+          }
         } else {
-          console.log(result);
-          fetchData();
-          scrollRef.current.scrollTo({
-            top: (dataUrls[0]?.length + 1) * 424,
-            behavior: "smooth",
-          });
+          console.error("Document does not exist!");
         }
       } catch (error) {
         console.error("Upload failed", error);
       }
     }
-    // console.log("bs64", uploadTask);
-
-    // const { result, error } = await addData(
-    //   "album",
-    //   "kVP5JboDGkTnorvOi3Yi",
-    //   data
-    // );
-
-    // if (error) {
-    //   return console.log(error);
-    // }
-    // if (result) {
-    //   return console.log(result);
-    // }
   };
-
   const fetchData = async () => {
     getDoc();
   };
@@ -290,15 +287,13 @@ export default function Home() {
     }
     setImage(null);
   };
-  const renderItemImage = (item, groupKey, index) => {
+  const renderItemImage = (item, index) => {
     return (
       <ImageItem
         index={index}
         id={item.id}
-        groupId={groupKey}
-        title={item.title}
+        title={item?.title}
         images={item.url}
-        url={item?.url}
         activeFirework={handleFireworkActivation}
       />
     );
@@ -337,7 +332,9 @@ export default function Home() {
                 }}
               />
             )}
-            {data?.map((item) => item?.urls?.map(renderItemImage))}
+            {data?.flatMap((group) =>
+              group?.urls?.map((item, index) => renderItemImage(item, index))
+            )}
             {loading && (
               <div className="absolute z-99">
                 loading..loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading....

@@ -177,6 +177,13 @@ export default function Home() {
     }
   }, [isFireworkActive]);
 
+  useEffect(() => {
+    scrollRef.current.scrollTo({
+      top: (dataUrls[0]?.length + 1) * 424,
+      behavior: "smooth",
+    });
+  }, [dataUrls[0]]);
+
   const handleFireworkActivation = () => {
     setIsFireworkActive(true);
   };
@@ -254,10 +261,6 @@ export default function Home() {
           urls: arrayUnion({ url }),
         });
         fetchData();
-        scrollRef.current.scrollTo({
-          top: (dataUrls[0]?.length + 1) * 424,
-          behavior: "smooth",
-        });
 
         if (error) {
           console.error("Error writing document: ", error);

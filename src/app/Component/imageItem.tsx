@@ -40,23 +40,6 @@ const ImageItem = ({
   // const hearth = data?.map((item: any) => item?.totalHearthCount);
   // console.log("hearth", hearth);
 
-  const handleAddData = async () => {
-    const data = { totalHearthCount: count };
-
-    const { result, error } = await addData(
-      "hearth",
-      "5btMBFd2iMPLbuTJMOqs",
-      data
-    );
-
-    if (error) {
-      return console.log(error);
-    }
-    if (result) {
-      return console.log(result);
-    }
-  };
-
   return (
     <div
       className={`hover: hover:origin-center
@@ -77,7 +60,6 @@ const ImageItem = ({
                   setClick(true);
                   handleCount(!isClick);
                   // getDoc();
-                  handleAddData();
                   setCount((prevCount) =>
                     !isClick ? prevCount + 1 : prevCount
                   );

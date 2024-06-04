@@ -72,7 +72,7 @@ const ImageItem = ({
                 }}
               />
             </div>
-            <div className="absolute text-lg mt-[90%] whitespace-normal break-words w-[200px]">
+            <div className="text-white bg-[#2D2D2D] rounded-full p-2 absolute text-lg mt-[90%] whitespace-normal break-words w-[200px]">
               {title}
             </div>
 

@@ -165,6 +165,7 @@ export default function Home() {
       }
     };
   }, [dataUrls]);
+  console.log("lenght", dataUrls[0]?.length);
   useEffect(() => {
     if (isFireworkActive) {
       const stopFireworks = setTimeout(() => {
@@ -232,49 +233,57 @@ export default function Home() {
     const uniqueName = `image_${timestamp}.${extension}`;
     return uniqueName;
   };
-
   const handleForm = async () => {
     if (image) {
       const uniqueFileName = generateUniqueFileName(image?.name);
-      const storageRef = ref(storage, `images$/${uniqueFileName}`);
-
+      const storageRef = ref(storage, `images/${uniqueFileName}`);
+      clearFileInput();
       try {
-        // Clear the file input after setting image
-        clearFileInput();
-
         await uploadString(storageRef, base64, "data_url");
         const url = await getDownloadURL(storageRef);
 
-        // Retrieve current document data to check for duplicates
+        // Store the image URL in Firestore
+        // const { result, error } = await addData(
+        //   "album",
+        //   "kVP5JboDGkTnorvOi3Yi",
+        //   { url }
+        // );
+
         const ref = doc(db, "album", "kVP5JboDGkTnorvOi3Yi");
-        const docSnap = await getDoc(ref);
+        await updateDoc(ref, {
+          urls: arrayUnion({ url }),
+        });
+        fetchData();
+        scrollRef.current.scrollTo({
+          top: (dataUrls[0]?.length + 1) * 424,
+          behavior: "smooth",
+        });
 
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          const currentUrls = data.urls.map((item) => item.url);
-
-          // Check if the URL already exists
-          if (!currentUrls.includes(url)) {
-            await updateDoc(ref, {
-              urls: arrayUnion({ url }),
-            });
-
-            fetchData();
-            scrollRef.current.scrollTo({
-              top: (dataUrls[0]?.length + 1) * 424,
-              behavior: "smooth",
-            });
-          } else {
-            console.log("URL already exists, not adding to Firestore.");
-          }
+        if (error) {
+          console.error("Error writing document: ", error);
         } else {
-          console.error("Document does not exist!");
+          console.log(result);
         }
       } catch (error) {
         console.error("Upload failed", error);
       }
     }
+    // console.log("bs64", uploadTask);
+
+    // const { result, error } = await addData(
+    //   "album",
+    //   "kVP5JboDGkTnorvOi3Yi",
+    //   data
+    // );
+
+    // if (error) {
+    //   return console.log(error);
+    // }
+    // if (result) {
+    //   return console.log(result);
+    // }
   };
+
   const fetchData = async () => {
     getDoc();
   };
@@ -292,6 +301,7 @@ export default function Home() {
         id={item.id}
         title={item?.title}
         images={item.url}
+        url={item?.url}
         activeFirework={handleFireworkActivation}
       />
     );

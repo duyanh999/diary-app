@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import OverlayFadeRenderItem from "./Component/overlayFadeItems";
 import { Fireworks } from "fireworks-js";
 import Link from "next/link";
-import { AwesomeButton } from "react-awesome-button";
+import { AwesomeButton, AwesomeButtonProgress } from "react-awesome-button";
 import "react-awesome-button/dist/styles.css";
 import Confetti from "react-confetti";
 import { useSwitch } from "./context/SwitchContext";
@@ -15,7 +15,12 @@ import { groupedData } from "./Data/dataMain";
 import ProgressBar from "@ramonak/react-progress-bar";
 import { dataReward } from "./Data/dataReward";
 import { useHearthCount } from "./context/HearthCountContext";
-import { FaHeart } from "react-icons/fa";
+import {
+  FaArrowCircleDown,
+  FaArrowDown,
+  FaArrowUp,
+  FaHeart,
+} from "react-icons/fa";
 import { useAuthContext } from "./context/AuthContext";
 import { useRouter } from "next/navigation";
 import { auth, firebase_app, storage } from "./firebase/config";
@@ -23,6 +28,8 @@ import { signOut } from "firebase/auth";
 import addData from "./firebase/firestore/addData";
 import getData, { useGetDocuments } from "./firebase/firestore/getData";
 import { ref, uploadString, getDownloadURL } from "firebase/storage";
+import { FaArrowCircleUp } from "react-icons/fa"; // Import icon từ thư viện react-icons
+
 import {
   doc,
   updateDoc,
@@ -429,8 +436,35 @@ export default function Home() {
       <div className="relative flex-1 ">
         {suggestUserChoiceList()}{" "}
         <div className="flex mt-4 justify-center">
-          <AwesomeButton type={`${checked ? "danger" : "link"}`}>
+          <AwesomeButton
+            className="w-[270px]"
+            type={`${checked ? "danger" : "link"}`}
+          >
             <input type="file" id="fileInput" onChange={handleImageChange} />
+          </AwesomeButton>
+          <AwesomeButton
+            onPress={() => {
+              scrollRef.current.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              });
+            }}
+            className="w-[40px] items-center flex"
+            type={`${checked ? "danger" : "link"}`}
+          >
+            <FaArrowUp />
+          </AwesomeButton>
+          <AwesomeButton
+            className="w-[40px]"
+            type={`${checked ? "danger" : "link"}`}
+            onPress={() => {
+              scrollRef.current.scrollTo({
+                top: (dataUrls[0]?.length + 1) * 424,
+                behavior: "smooth",
+              });
+            }}
+          >
+            <FaArrowDown />
           </AwesomeButton>
         </div>
       </div>

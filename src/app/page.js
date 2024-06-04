@@ -362,11 +362,6 @@ export default function Home() {
             {data?.flatMap((group) =>
               group?.urls?.map((item, index) => renderItemImage(item, index))
             )}
-            {loading && (
-              <div className="absolute z-99">
-                loading..loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading...loading....
-              </div>
-            )}
           </div>
         </div>
       </div>

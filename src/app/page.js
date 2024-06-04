@@ -431,10 +431,7 @@ export default function Home() {
       <div className="relative flex-1 ">
         {suggestUserChoiceList()}{" "}
         <div className="flex mt-4 justify-center">
-          <AwesomeButton
-            className="w-[270px]"
-            type={`${checked ? "danger" : "link"}`}
-          >
+          <AwesomeButton className="" type={`${checked ? "danger" : "link"}`}>
             <input type="file" id="fileInput" onChange={handleImageChange} />
           </AwesomeButton>
           <AwesomeButton

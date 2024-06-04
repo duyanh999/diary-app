@@ -218,11 +218,9 @@ export default function Home() {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const uniqueFileName = generateUniqueFileName(image.name);
-
       const reader = new FileReader();
       reader.onloadend = () => {
-        setBase64(reader.result) + uniqueFileName;
+        setBase64(reader.result);
       };
       reader.readAsDataURL(file);
       setImage(file);

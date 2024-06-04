@@ -31,14 +31,15 @@ import {
   getFirestore,
 } from "firebase/firestore";
 import ImageItem from "./Component/imageItem";
-
+import PureModal from "react-pure-modal";
+import "react-pure-modal/dist/react-pure-modal.min.css";
 export default function Home() {
   // const { width, height } = useWindowSize();
   const { checked } = useSwitch();
   const { user } = useAuthContext();
   const router = useRouter();
   const db = getFirestore(firebase_app);
-
+  const time = dayjs().format("DD/MM/YYYY");
   const [scrollHeight, setScrollHeight] = useState(0);
   const [selectedGroup, setSelectedGroup] = useState("");
   const [selectedGroupData, setSelectedGroupData] = useState([]);
@@ -51,6 +52,8 @@ export default function Home() {
   const [minDifference, setMinDifference] = useState(Infinity);
   const [image, setImage] = useState(null);
   const [base64, setBase64] = useState("");
+  const [modal, setModal] = useState(false);
+  const [textValue, setTextValue] = useState("");
 
   const { getDoc, data, loading } = useGetDocuments("album");
 
@@ -225,7 +228,9 @@ export default function Home() {
   }, []);
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+
     if (file) {
+      setModal(true); // Open modal when a file is selected
       const reader = new FileReader();
       reader.onloadend = () => {
         setBase64(reader.result);
@@ -241,7 +246,7 @@ export default function Home() {
     return uniqueName;
   };
   const handleForm = async () => {
-    if (image) {
+    if (image && textValue.trim() !== "") {
       const uniqueFileName = generateUniqueFileName(image?.name);
       const storageRef = ref(storage, `images/${uniqueFileName}`);
       clearFileInput();
@@ -258,9 +263,10 @@ export default function Home() {
 
         const ref = doc(db, "album", "kVP5JboDGkTnorvOi3Yi");
         await updateDoc(ref, {
-          urls: arrayUnion({ url }),
+          urls: arrayUnion({ url, textValue, time }),
         });
         fetchData();
+        setTextValue("");
 
         if (error) {
           console.error("Error writing document: ", error);
@@ -302,9 +308,10 @@ export default function Home() {
       <ImageItem
         index={index}
         id={item.id}
-        title={item?.title}
+        title={item?.textValue}
         images={item.url}
         url={item?.url}
+        time={item?.time}
         activeFirework={handleFireworkActivation}
       />
     );
@@ -423,13 +430,6 @@ export default function Home() {
           <AwesomeButton type={`${checked ? "danger" : "link"}`}>
             <input type="file" id="fileInput" onChange={handleImageChange} />
           </AwesomeButton>
-          <AwesomeButton
-            type={`${checked ? "danger" : "link"}`}
-            onPress={handleForm}
-            disabled={!image}
-          >
-            UP
-          </AwesomeButton>
         </div>
       </div>
       {selectedGroup && (
@@ -450,6 +450,34 @@ export default function Home() {
           Hôm nay em ăn gì?
         </span>
       </Link> */}
+      <PureModal
+        isOpen={modal}
+        closeButtonPosition="bottom"
+        onClose={() => {
+          setModal(false);
+        }}
+      >
+        <div className="flex justify-center">
+          {" "}
+          <input
+            type="text"
+            value={textValue}
+            onChange={(e) => setTextValue(e.target.value)}
+            placeholder="Ghi chú"
+            className="mt-2 border border-gray-300 px-3 py-2 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+          />
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2"
+            onClick={() => {
+              handleForm();
+              setModal(false);
+            }}
+            disabled={loading || !image || textValue.trim() === ""}
+          >
+            UP
+          </button>
+        </div>
+      </PureModal>
     </main>
   );
 }

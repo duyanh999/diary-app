@@ -14,6 +14,7 @@ interface Props {
   description?: string;
   type?: string;
   title?: string;
+  time?: string;
   selectedGroupData: any;
   activeFirework: () => any;
 }
@@ -24,6 +25,7 @@ const ImageItem = ({
   index,
   activeFirework,
   title,
+  time,
   selectedGroupData,
   type,
 }: Props) => {
@@ -53,6 +55,7 @@ const ImageItem = ({
       <div className={`${styles.overlayRed} top-0 left-0 w-full h-full`}>
         <div className={`${styles.text} grid grid-cols-1`}>
           <div className="flex justify-center w-[px] h-[100px]">
+            <div className="absolute text-xs mt-[15%]">{time}</div>
             <div>
               <Heart
                 isClick={isClick}
@@ -69,6 +72,10 @@ const ImageItem = ({
                 }}
               />
             </div>
+            <div className="absolute text-lg mt-[90%] whitespace-normal break-words w-[200px]">
+              {title}
+            </div>
+
             <div
               className={`absolute text-lg mt-[63%] ${
                 isClick === false ? "text-slate-400" : "text-[#E5234C]"

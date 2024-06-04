@@ -235,7 +235,7 @@ export default function Home() {
 
   const handleForm = async () => {
     if (image) {
-      const uniqueFileName = generateUniqueFileName(image.name);
+      const uniqueFileName = generateUniqueFileName(image?.name);
       const storageRef = ref(storage, `images$/${uniqueFileName}`);
 
       try {

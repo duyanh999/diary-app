@@ -30,6 +30,7 @@ import {
   arrayRemove,
   getFirestore,
 } from "firebase/firestore";
+import { v4 as uuidv4 } from "uuid";
 import ImageItem from "./Component/imageItem";
 import PureModal from "react-pure-modal";
 import "react-pure-modal/dist/react-pure-modal.min.css";
@@ -253,6 +254,7 @@ export default function Home() {
       try {
         await uploadString(storageRef, base64, "data_url");
         const url = await getDownloadURL(storageRef);
+        const uniqueId = uuidv4();
 
         // Store the image URL in Firestore
         // const { result, error } = await addData(
@@ -263,7 +265,7 @@ export default function Home() {
 
         const ref = doc(db, "album", "kVP5JboDGkTnorvOi3Yi");
         await updateDoc(ref, {
-          urls: arrayUnion({ url, textValue, time }),
+          urls: arrayUnion({ id: uniqueId, url, textValue, time }),
         });
         fetchData();
         setTextValue("");

@@ -143,7 +143,7 @@ const ImageItem = ({
               {smile}
             </div>
           </div>
-          <div className="flex justify-center text-3xl cursor-pointer text-yellow-500 absolute top-[37.5%] left-[73%]">
+          <div className="flex justify-center text-3xl cursor-pointer text-pink-600 absolute top-[37.5%] left-[73%]">
             <div>
               <FaKissWinkHeart
                 onClick={() => {
@@ -155,7 +155,7 @@ const ImageItem = ({
 
             <div
               className={`absolute text-lg mt-[85%] ${
-                kiss === 0 ? "text-slate-400" : "text-yellow-500"
+                kiss === 0 ? "text-slate-400" : "text-pink-600"
               } `}
             >
               {kiss}

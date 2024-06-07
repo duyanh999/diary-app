@@ -192,12 +192,12 @@ export default function Home() {
     }
   }, [isFireworkActive]);
 
-  // useEffect(() => {
-  //   scrollRef.current.scrollTo({
-  //     top: (dataUrls[0]?.length + 1) * 424,
-  //     behavior: "smooth",
-  //   });
-  // }, [dataUrls[0]]);
+  useEffect(() => {
+    scrollRef.current.scrollTo({
+      top: (dataUrls[0]?.length + 1) * 424,
+      behavior: "smooth",
+    });
+  }, [dataUrls[0]]);
 
   const handleFireworkActivation = () => {
     setIsFireworkActive(true);
@@ -407,7 +407,7 @@ export default function Home() {
       {/* <button onClick={handleLogout}>Logout</button> */}
       {/* <button onClick={fetchData}>data</button> */}
 
-      <div className="flex w-full justify-center mt-3 overflow-hidden">
+      <div className="flex w-full justify-center mt-10 overflow-hidden">
         <ProgressBar
           completed={streak}
           customLabel="Chuỗi ảnh"

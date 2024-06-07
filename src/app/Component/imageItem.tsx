@@ -57,7 +57,6 @@ const ImageItem = ({
 
   return (
     <div
-      key={index}
       className={`hover: hover:origin-center duration-500 delay-100 py-3 rounded-2xl ${styles.container}`}
     >
       <img src={images} alt="Example" className="rounded-lg" />

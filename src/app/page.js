@@ -407,7 +407,7 @@ export default function Home() {
       {/* <button onClick={handleLogout}>Logout</button> */}
       {/* <button onClick={fetchData}>data</button> */}
 
-      <div className="flex w-full justify-center mt-3">
+      <div className="flex w-full justify-center mt-3 overflow-hidden">
         <ProgressBar
           completed={streak}
           customLabel="Chuỗi ảnh"
@@ -430,14 +430,14 @@ export default function Home() {
       {/* {isFireworkActive && (
         <div className="firework container z-[50] absolute top-0 bottom-0 left-1/2 transform -translate-x-1/2" />
       )} */}
-      <div className="relative flex-1 ">
+      <div className="relative flex-1 overflow-hidden">
         {suggestUserChoiceList()}
-        <div className="flex mt-4 justify-center">
+        <div className="flex mt-4 justify-center overflow-hidden">
           <AwesomeButton className="" type={`${checked ? "danger" : "link"}`}>
             <input type="file" id="fileInput" onChange={handleImageChange} />
           </AwesomeButton>
         </div>
-        <div className="flex justify-center">
+        <div className="flex justify-center overflow-hidden">
           {" "}
           <AwesomeButton
             onPress={() => {
@@ -488,7 +488,7 @@ export default function Home() {
           setModal(false);
         }}
       >
-        <div className="flex justify-center">
+        <div className="flex justify-center overflow-hidden">
           {" "}
           <input
             type="text"

@@ -1,72 +1,45 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import OverlayFadeRenderItem from "./Component/overlayFadeItems";
-import { Fireworks } from "fireworks-js";
-import Link from "next/link";
-import { AwesomeButton, AwesomeButtonProgress } from "react-awesome-button";
+import { useEffect, useRef, useState } from "react";
+
+import { AwesomeButton } from "react-awesome-button";
 import "react-awesome-button/dist/styles.css";
 import Confetti from "react-confetti";
 import { useSwitch } from "./context/SwitchContext";
 import { isYesterday } from "date-fns/isYesterday";
 import dayjs from "dayjs";
-import { groupedData } from "./Data/dataMain";
-import ProgressBar from "@ramonak/react-progress-bar";
+
 import { dataReward } from "./Data/dataReward";
 import { useHearthCount } from "./context/HearthCountContext";
-import {
-  FaArrowCircleDown,
-  FaArrowDown,
-  FaArrowUp,
-  FaHeart,
-} from "react-icons/fa";
+import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { useAuthContext } from "./context/AuthContext";
 import { useRouter } from "next/navigation";
-import { auth, firebase_app, storage } from "./firebase/config";
-import { signOut } from "firebase/auth";
-import addData from "./firebase/firestore/addData";
-import getData, { useGetDocuments } from "./firebase/firestore/getData";
+import { firebase_app, storage } from "./firebase/config";
+import { useGetDocuments } from "./firebase/firestore/getData";
 import { ref, uploadString, getDownloadURL } from "firebase/storage";
-import { FaArrowCircleUp } from "react-icons/fa"; // Import icon từ thư viện react-icons
 
-import {
-  doc,
-  updateDoc,
-  arrayUnion,
-  arrayRemove,
-  getFirestore,
-} from "firebase/firestore";
+import { doc, updateDoc, arrayUnion, getFirestore } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 import ImageItem from "./Component/imageItem";
 import PureModal from "react-pure-modal";
 import "react-pure-modal/dist/react-pure-modal.min.css";
 export default function Home() {
-  // const { width, height } = useWindowSize();
   const { checked } = useSwitch();
   const { user } = useAuthContext();
   const router = useRouter();
   const db = getFirestore(firebase_app);
   const time = dayjs().format("DD/MM/YYYY");
   const [scrollHeight, setScrollHeight] = useState(0);
-  const [selectedGroup, setSelectedGroup] = useState("");
-  const [selectedGroupData, setSelectedGroupData] = useState([]);
   const [runScreen, setRunScreen] = useState(false);
-  const [counter, setCounter] = useState(0);
+  // const [counter, setCounter] = useState(0);
   const [isFireworkActive, setIsFireworkActive] = useState(false);
-  const { totalHeartCount } = useHearthCount();
-  // const [isPet, setPet] = useState("");
-  const [closestObject, setClosestObject] = useState(null);
-  const [minDifference, setMinDifference] = useState(Infinity);
   const [image, setImage] = useState(null);
   const [base64, setBase64] = useState("");
   const [modal, setModal] = useState(false);
   const [textValue, setTextValue] = useState("");
 
   const { getDoc, data, loading } = useGetDocuments("album");
-
-  const levelEXP = closestObject?.level - 1;
-  const heartEXP = closestObject?.hearth;
 
   const dataUrls = data?.map((item) => item?.urls);
   // const handleGroupChange = (event) => {
@@ -83,20 +56,6 @@ export default function Home() {
   //   const storedState = localStorage?.getItem(`petState`);
   //   setPet(storedState);
   // }, [setPet]);
-
-  useEffect(() => {
-    dataReward.forEach((item) => {
-      // Đảm bảo 'hearth' lớn hơn targetHearth
-      if (item.hearth > totalHeartCount) {
-        const difference = item.hearth - totalHeartCount;
-        // So sánh sự khác biệt
-        if (difference < minDifference) {
-          setMinDifference(difference);
-          setClosestObject(item);
-        }
-      }
-    });
-  }, [minDifference, totalHeartCount]);
 
   useEffect(() => {
     const day = localStorage.getItem("day");
@@ -122,19 +81,19 @@ export default function Home() {
       const length = scrollHeight;
       setScrollHeight(length);
     }
-  }, [selectedGroupData.length]);
+  }, []);
 
   const scrollRef = useRef(null);
-  useEffect(() => {
-    if (runScreen) {
-      const intervalId = setInterval(() => {
-        setCounter((prevCounter) => prevCounter + 424);
-      }, 1000); // Thay đổi khoảng thời gian tăng giá trị ở đây, đơn vị là milliseconds (1000ms = 1 giây)
+  // useEffect(() => {
+  //   if (runScreen) {
+  //     const intervalId = setInterval(() => {
+  //       setCounter((prevCounter) => prevCounter + 424);
+  //     }, 1000); // Thay đổi khoảng thời gian tăng giá trị ở đây, đơn vị là milliseconds (1000ms = 1 giây)
 
-      // Clear interval khi component unmount
-      return () => clearInterval(intervalId);
-    }
-  }, [counter, runScreen, scrollHeight]); // Tham số thứ hai của
+  //     // Clear interval khi component unmount
+  //     return () => clearInterval(intervalId);
+  //   }
+  // }, [runScreen, scrollHeight]); // Tham số thứ hai của
 
   useEffect(() => {
     let startY = 0;
@@ -402,11 +361,11 @@ export default function Home() {
       {/* <button onClick={handleLogout}>Logout</button> */}
       {/* <button onClick={fetchData}>data</button> */}
 
-      {!selectedGroup && (
+      {/* {!selectedGroup && (
         <div className="flex w-full justify-center mt-3">
           <ProgressBar
-            completed={totalHeartCount}
-            maxCompleted={heartEXP}
+            completed={dataUrls[0]?.length}
+            maxCompleted={dataReward?.find((item) => item?.hearth ===)}
             className=" mt-[5%] w-[60%]"
           />
           <div
@@ -421,13 +380,13 @@ export default function Home() {
             </span>
           </div>
         </div>
-      )}
+      )} */}
       {/* {!selectedGroup && renderPet(isPet)} */}
       {/* {isFireworkActive && (
         <div className="firework container z-[50] absolute top-0 bottom-0 left-1/2 transform -translate-x-1/2" />
       )} */}
-      <div className="relative flex-1 ">
-        {suggestUserChoiceList()}{" "}
+      <div className="relative flex-1 mt-10 ">
+        {suggestUserChoiceList()}
         <div className="flex mt-4 justify-center">
           <AwesomeButton className="" type={`${checked ? "danger" : "link"}`}>
             <input type="file" id="fileInput" onChange={handleImageChange} />
@@ -461,19 +420,17 @@ export default function Home() {
           </AwesomeButton>
         </div>
       </div>
-      {selectedGroup && (
-        <AwesomeButton
-          className="bottom-24 absolute w-full"
-          type={`${checked ? "danger" : "link"}`}
-          onPress={() => {
-            setRunScreen((prevRunScreen) => !prevRunScreen);
-          }}
-        >
-          <span className="bg-left-bottom text-base font-bold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
-            {runScreen ? "Dừng thước phim" : " Chạy thước phim"}
-          </span>
-        </AwesomeButton>
-      )}
+      {/* <AwesomeButton
+        className="bottom-24 absolute w-full"
+        type={`${checked ? "danger" : "link"}`}
+        onPress={() => {
+          setRunScreen((prevRunScreen) => !prevRunScreen);
+        }}
+      >
+        <span className="bg-left-bottom text-base font-bold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
+          {runScreen ? "Dừng thước phim" : " Chạy thước phim"}
+        </span>
+      </AwesomeButton> */}
       {/* <Link className="w-[full] bottom-20 absolute" href="/gacha">
         <span className="bg-left-bottom text-white text-base font-semibold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
           Hôm nay em ăn gì?

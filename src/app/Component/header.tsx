@@ -8,6 +8,9 @@ import { useHearthCount } from "../context/HearthCountContext";
 import dynamic from "next/dynamic";
 import DrawerComp from "./drawer";
 import { useGetDocuments } from "../firebase/firestore/getData";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
+import { db } from "../firebase/config";
+import { FaPhotoFilm } from "react-icons/fa6";
 
 const Header = () => {
   const AnimatedNumbers = dynamic(() => import("react-animated-numbers"), {
@@ -17,6 +20,34 @@ const Header = () => {
   const { checked, handleChange } = useSwitch();
   const { totalHeartCount } = useHearthCount();
   const [isOpen, setIsOpen] = useState(false);
+  const [pictures, setPictures] = useState<number>();
+  useEffect(() => {
+    // Load the initial count from Firestore when the component mounts
+    const fetchCount = async () => {
+      const docRef = doc(db, "album", "kVP5JboDGkTnorvOi3Yi");
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        setPictures(data?.urls?.length);
+      }
+    };
+
+    fetchCount();
+
+    // Set up snapshot listener to listen for changes
+    const unsubscribe = onSnapshot(
+      doc(db, "album", "kVP5JboDGkTnorvOi3Yi"),
+      (docSnap) => {
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setPictures(data?.urls?.length);
+        }
+      }
+    );
+
+    // Clean up listener when component unmounts
+    return () => unsubscribe();
+  }, []);
 
   return (
     <>
@@ -46,7 +77,7 @@ const Header = () => {
                   type: "spring",
                   duration: index + 1,
                 })}
-                animateToNumber={totalHeartCount}
+                animateToNumber={pictures!}
                 fontStyle={{
                   fontSize: 16,
                   color: "white",
@@ -58,7 +89,7 @@ const Header = () => {
 
           <div className="flex justify-center items-center">
             <div className="flex justify-center items-center w-full h-full text-white text-lg absolute">
-              <FaHeart />{" "}
+              <FaPhotoFilm />{" "}
             </div>
           </div>
         </span>

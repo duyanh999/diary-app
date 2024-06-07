@@ -55,7 +55,7 @@ export default function Home() {
   const [counter, setCounter] = useState(0);
   const [isFireworkActive, setIsFireworkActive] = useState(false);
   const { totalHeartCount } = useHearthCount();
-  const [isPet, setPet] = useState("");
+  // const [isPet, setPet] = useState("");
   const [closestObject, setClosestObject] = useState(null);
   const [minDifference, setMinDifference] = useState(Infinity);
   const [image, setImage] = useState(null);
@@ -79,10 +79,10 @@ export default function Home() {
     if (user == null) router.push("/admin");
   }, [router, user]);
 
-  useEffect(() => {
-    const storedState = localStorage?.getItem(`petState`);
-    setPet(storedState);
-  }, [setPet]);
+  // useEffect(() => {
+  //   const storedState = localStorage?.getItem(`petState`);
+  //   setPet(storedState);
+  // }, [setPet]);
 
   useEffect(() => {
     dataReward.forEach((item) => {
@@ -176,7 +176,6 @@ export default function Home() {
       }
     };
   }, [dataUrls]);
-  console.log("lenght", dataUrls[0]?.length);
   useEffect(() => {
     if (isFireworkActive) {
       const stopFireworks = setTimeout(() => {
@@ -208,32 +207,32 @@ export default function Home() {
   //   }
   // };
 
-  const renderPet = useCallback((item) => {
-    switch (item) {
-      case "catpixel":
-        return (
-          <img
-            src={"./catpixel.gif"}
-            alt="dsad"
-            className="absolute top-[20%]"
-          />
-        );
-      case "bunnypixel":
-        return (
-          <img
-            src={"./bunnypixel.gif"}
-            alt="dsad"
-            className="absolute top-[10%]"
-          />
-        );
-      case "humanpixel":
-        return <img src={"./humanpixel.gif"} className="absolute top-[35%]" />;
-      case "robopixel":
-        return <img src={"./robopixel.gif"} className="absolute top-[35%]" />;
-      default:
-      // code block
-    }
-  }, []);
+  // const renderPet = useCallback((item) => {
+  //   switch (item) {
+  //     case "catpixel":
+  //       return (
+  //         <img
+  //           src={"./catpixel.gif"}
+  //           alt="dsad"
+  //           className="absolute top-[20%]"
+  //         />
+  //       );
+  //     case "bunnypixel":
+  //       return (
+  //         <img
+  //           src={"./bunnypixel.gif"}
+  //           alt="dsad"
+  //           className="absolute top-[10%]"
+  //         />
+  //       );
+  //     case "humanpixel":
+  //       return <img src={"./humanpixel.gif"} className="absolute top-[35%]" />;
+  //     case "robopixel":
+  //       return <img src={"./robopixel.gif"} className="absolute top-[35%]" />;
+  //     default:
+  //     // code block
+  //   }
+  // }, []);
   const handleImageChange = (e) => {
     const file = e.target.files[0];
 
@@ -319,7 +318,6 @@ export default function Home() {
         id={item.id}
         title={item?.textValue}
         images={item.url}
-        url={item?.url}
         time={item?.time}
         activeFirework={handleFireworkActivation}
       />
@@ -424,7 +422,7 @@ export default function Home() {
           </div>
         </div>
       )}
-      {!selectedGroup && renderPet(isPet)}
+      {/* {!selectedGroup && renderPet(isPet)} */}
       {/* {isFireworkActive && (
         <div className="firework container z-[50] absolute top-0 bottom-0 left-1/2 transform -translate-x-1/2" />
       )} */}
@@ -434,6 +432,9 @@ export default function Home() {
           <AwesomeButton className="" type={`${checked ? "danger" : "link"}`}>
             <input type="file" id="fileInput" onChange={handleImageChange} />
           </AwesomeButton>
+        </div>
+        <div className="flex justify-center">
+          {" "}
           <AwesomeButton
             onPress={() => {
               scrollRef.current.scrollTo({

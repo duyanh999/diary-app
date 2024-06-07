@@ -9,24 +9,19 @@ import { db } from "../firebase/config"; // Adjust the import path as necessary
 interface Props {
   id: string;
   images?: any;
-  index?: number;
-  description?: string;
-  type?: string;
+  index?: any;
   title?: string;
   time?: string;
-  selectedGroupData: any;
   activeFirework: () => any;
 }
 
 const ImageItem = ({
   images,
   id,
-  index,
   activeFirework,
   title,
   time,
-  selectedGroupData,
-  type,
+  index,
 }: Props) => {
   const { handleCount } = useHearthCount();
   const [count, setCount] = useState<number>(0);
@@ -62,6 +57,7 @@ const ImageItem = ({
 
   return (
     <div
+      key={index}
       className={`hover: hover:origin-center duration-500 delay-100 py-3 rounded-2xl ${styles.container}`}
     >
       <img src={images} alt="Example" className="rounded-lg" />

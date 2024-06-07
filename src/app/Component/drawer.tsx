@@ -1,11 +1,10 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // import component 👇
 import Drawer from "react-modern-drawer";
-import { FaTimes } from "react-icons/fa"; // Import icon từ thư viện react-icons
 
 //import styles 👇
 import "react-modern-drawer/dist/index.css";
@@ -19,13 +18,42 @@ import { Fade } from "react-slideshow-image";
 import "react-slideshow-image/dist/styles.css";
 
 import randomInteger from "random-int";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
+import { db } from "../firebase/config";
 
 const DrawerComp = ({ isOpen, setIsOpen }: any) => {
   const [modal, setModal] = useState(false);
   const [unbox, setUnbox] = useState(false);
   const [itemDetail, setItemDetail] = useState<any>();
   const [running, setRunning] = useState(false);
+  const [pictures, setPictures] = useState<number>();
+  useEffect(() => {
+    // Load the initial count from Firestore when the component mounts
+    const fetchCount = async () => {
+      const docRef = doc(db, "album", "kVP5JboDGkTnorvOi3Yi");
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        setPictures(data?.urls?.length);
+      }
+    };
 
+    fetchCount();
+
+    // Set up snapshot listener to listen for changes
+    const unsubscribe = onSnapshot(
+      doc(db, "album", "kVP5JboDGkTnorvOi3Yi"),
+      (docSnap) => {
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setPictures(data?.urls?.length);
+        }
+      }
+    );
+
+    // Clean up listener when component unmounts
+    return () => unsubscribe();
+  }, []);
   const AnimatedNumbers = dynamic(() => import("react-animated-numbers"), {
     ssr: false,
   });
@@ -44,15 +72,10 @@ const DrawerComp = ({ isOpen, setIsOpen }: any) => {
 
   const dataMoney = ["./200k.jpg", "./500k.jpg"];
   const checkLevelUpText = (item: any) => {
-    if (item?.hearth! - totalHeartCount <= 0) {
-      return <div className="text-green-400"> Đã đủ số tim để nhận quà</div>;
+    if (item?.hearth! - pictures! <= 0) {
+      return <div className="text-green-400"> Đã đủ số ảnh để nhận quà</div>;
     } else {
-      return (
-        <>
-          Thu thập đủ {item?.hearth! - totalHeartCount} trái tim để lên cấp tiếp
-          theo
-        </>
-      );
+      return <>Đăng {item?.hearth! - pictures!} ảnh để lên cấp tiếp theo</>;
     }
   };
 
@@ -109,13 +132,13 @@ const DrawerComp = ({ isOpen, setIsOpen }: any) => {
                   type: "just",
                   duration: index + 3,
                 })}
-                animateToNumber={totalHeartCount}
+                animateToNumber={pictures!}
                 fontStyle={{
                   fontSize: 50,
                   color: "white",
                 }}
               />
-              <div>Trái Tim</div>
+              <div>Ảnh & Video</div>
             </div>
           </div>
           <div className="flex justify-center w-full h-full">
@@ -124,16 +147,15 @@ const DrawerComp = ({ isOpen, setIsOpen }: any) => {
                 <div
                   key={index}
                   className={`${
-                    item?.hearth! - totalHeartCount > 0 &&
-                    "inset-0 opacity-50 z-50"
+                    item?.hearth! - pictures! > 0 && "inset-0 opacity-50 z-50"
                   } bg-white shadow-md hover:shadow-xl w-[360px] h-[160px] hover:scale-105 flex justify-around rounded-2xl border`}
                   onClick={() => {
-                    item?.hearth! - totalHeartCount <= 0 && setModal(true);
+                    item?.hearth! - pictures! <= 0 && setModal(true);
                     setItemDetail(item);
                   }}
                 >
                   <div className="w-[100px] mt-7 relative h-[100px] rounded-full bg-red-500">
-                    {item?.hearth! - totalHeartCount <= 0 ? (
+                    {item?.hearth! - pictures! <= 0 ? (
                       <img
                         src="medal.gif"
                         alt=""

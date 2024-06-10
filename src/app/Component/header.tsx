@@ -7,10 +7,10 @@ import { useSwitch } from "../context/SwitchContext";
 import { useHearthCount } from "../context/HearthCountContext";
 import dynamic from "next/dynamic";
 import DrawerComp from "./drawer";
-import { useGetDocuments } from "../firebase/firestore/getData";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
-import { db } from "../firebase/config";
+import { db, firebase_app } from "../firebase/config";
 import { FaPhotoFilm } from "react-icons/fa6";
+import { getMessaging, getToken } from "firebase/messaging";
 
 const Header = () => {
   const AnimatedNumbers = dynamic(() => import("react-animated-numbers"), {
@@ -41,6 +41,47 @@ const Header = () => {
         if (docSnap.exists()) {
           const data = docSnap.data();
           setPictures(data?.urls?.length);
+          if (typeof window !== "undefined" && "serviceWorker" in navigator) {
+            navigator.serviceWorker
+              .register("/firebase-messaging-sw.js")
+              .then((registration) => {
+                const messaging = getMessaging(firebase_app);
+
+                Notification.requestPermission().then((permission) => {
+                  if (permission === "granted") {
+                    console.log("Notification permission granted.");
+
+                    // Nhận token FCM
+                    getToken(messaging, {
+                      vapidKey:
+                        "BMV7JAk01-sz_VWlX8g2nHJCh9P1EXVEaiNEyQbmVVsvfXocnW2OhmooZdbChpHEzxLOe35pxfdYDpjyFEWUKN8",
+                      serviceWorkerRegistration: registration,
+                    })
+                      .then((currentToken) => {
+                        if (currentToken) {
+                          console.log("Current token:", currentToken);
+                          // Gửi token đến máy chủ để đăng ký thiết bị này
+                        } else {
+                          console.log(
+                            "No registration token available. Request permission to generate one."
+                          );
+                        }
+                      })
+                      .catch((err) => {
+                        console.log(
+                          "An error occurred while retrieving token. ",
+                          err
+                        );
+                      });
+                  } else {
+                    console.log("Unable to get permission to notify.");
+                  }
+                });
+              })
+              .catch((error) => {
+                console.error("Service Worker registration failed:", error);
+              });
+          }
         }
       }
     );

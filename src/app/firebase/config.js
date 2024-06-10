@@ -1,16 +1,11 @@
-// Import the functions you need from the SDKs you need
+"use client";
+import { useEffect } from "react";
 import { initializeApp, getApps } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
-import { getMessaging } from "firebase/messaging";
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-
+let messaging;
 const firebaseConfig = {
   apiKey: "AIzaSyBuBgOfdD0k_QtunUVZY4wXdfVm-t8onRQ",
   authDomain: "hadiary-5e17e.firebaseapp.com",
@@ -25,6 +20,21 @@ const firebase_app = initializeApp(firebaseConfig);
 const db = getFirestore(firebase_app);
 const storage = getStorage(firebase_app);
 const auth = getAuth(firebase_app);
-const messaging = getMessaging(firebase_app);
 
-export { auth, firebase_app, db, storage, messaging };
+export { auth, firebase_app, db, storage };
+
+export default function FirebaseMessaging() {
+  useEffect(() => {
+    async function initializeMessaging() {
+      const { getMessaging } = await import("firebase/messaging");
+
+      if (typeof window !== "undefined" && navigator) {
+        messaging = getMessaging(firebase_app);
+      }
+    }
+
+    initializeMessaging();
+  }, []);
+
+  return null;
+}

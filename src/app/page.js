@@ -10,7 +10,7 @@ import { useSwitch } from "./context/SwitchContext";
 import { isYesterday } from "date-fns/isYesterday";
 import dayjs from "dayjs";
 
-import { FaArrowDown, FaArrowUp } from "react-icons/fa";
+import { FaArrowDown, FaArrowUp, FaPlay, FaStop } from "react-icons/fa";
 import { useAuthContext } from "./context/AuthContext";
 import { useRouter } from "next/navigation";
 import { firebase_app, storage } from "./firebase/config";
@@ -30,8 +30,8 @@ export default function Home() {
   const db = getFirestore(firebase_app);
   const time = dayjs().format("DD/MM/YYYY");
   // const [scrollHeight, setScrollHeight] = useState(0);
-  // const [runScreen, setRunScreen] = useState(false);
-  // const [counter, setCounter] = useState(0);
+  const [runScreen, setRunScreen] = useState(false);
+  const [counter, setCounter] = useState(0);
   const [isFireworkActive, setIsFireworkActive] = useState(false);
   const [image, setImage] = useState(null);
   const [base64, setBase64] = useState("");
@@ -41,58 +41,30 @@ export default function Home() {
   const { getDoc, data, loading } = useGetDocuments("album");
 
   const dataUrls = data?.map((item) => item?.urls);
-  // const handleGroupChange = (event) => {
-  //   const selectedGroup = event.target.value;
-  //   setSelectedGroup(selectedGroup);
-  //   setSelectedGroupData(groupedData[selectedGroup] || []);
-  // };
 
   useEffect(() => {
     if (user == null) router.push("/admin");
   }, [router, user]);
 
-  // useEffect(() => {
-  //   const storedState = localStorage?.getItem(`petState`);
-  //   setPet(storedState);
-  // }, [setPet]);
+  const scrollRef = useRef(null);
 
   useEffect(() => {
-    const day = localStorage.getItem("day");
-    if (isYesterday(day)) {
-      for (let i = 0; i < localStorage.length; i++) {
-        // Get the key
-        const key = localStorage.key(i);
-        // Check if the key is related to Hearth State
-        if (key && key.startsWith("heartState_")) {
-          // Set the value of the key to false
-          localStorage.setItem(key, "false");
-        }
-      }
-      localStorage.setItem("day", dayjs()?.toString());
-    } else {
-      localStorage.setItem("day", dayjs()?.toString());
+    if (runScreen) {
+      const intervalId = setInterval(() => {
+        setCounter((prevCounter) => prevCounter + 424);
+      }, 1000); // Thay đổi khoảng thời gian tăng giá trị ở đây, đơn vị là milliseconds (1000ms = 1 giây)
+
+      // Clear interval khi component unmount
+      return () => clearInterval(intervalId);
     }
-  }, []);
+  }, [runScreen]); // Tham số thứ hai của
 
-  // useEffect(() => {
-  //   if (scrollRef.current) {
-  //     const { scrollHeight } = scrollRef.current;
-  //     const length = scrollHeight;
-  //     setScrollHeight(length);
-  //   }
-  // }, []);
-
-  const scrollRef = useRef(null);
-  // useEffect(() => {
-  //   if (runScreen) {
-  //     const intervalId = setInterval(() => {
-  //       setCounter((prevCounter) => prevCounter + 424);
-  //     }, 1000); // Thay đổi khoảng thời gian tăng giá trị ở đây, đơn vị là milliseconds (1000ms = 1 giây)
-
-  //     // Clear interval khi component unmount
-  //     return () => clearInterval(intervalId);
-  //   }
-  // }, [runScreen, scrollHeight]); // Tham số thứ hai của
+  useEffect(() => {
+    scrollRef.current.scrollTo({
+      top: counter,
+      behavior: "smooth",
+    });
+  }, [counter]);
 
   useEffect(() => {
     let startY = 0;
@@ -382,45 +354,49 @@ export default function Home() {
             <input type="file" id="fileInput" onChange={handleImageChange} />
           </AwesomeButton>
         </div>
-        <div className="flex justify-center overflow-hidden">
-          {" "}
-          <AwesomeButton
-            onPress={() => {
-              scrollRef.current.scrollTo({
-                top: 0,
-                behavior: "smooth",
-              });
-            }}
-            className="w-[40px] items-center flex"
-            type={`${checked ? "danger" : "link"}`}
-          >
-            <FaArrowUp />
-          </AwesomeButton>
-          <AwesomeButton
-            className="w-[40px]"
-            type={`${checked ? "danger" : "link"}`}
-            onPress={() => {
-              scrollRef.current.scrollTo({
-                top: (dataUrls[0]?.length + 1) * 424,
-                behavior: "smooth",
-              });
-            }}
-          >
-            <FaArrowDown />
-          </AwesomeButton>
+        <div className="flex justify-center mt-2">
+          <div className="flex justify-center bg-gray-600 p-3 w-[295px] rounded-md shadow-2xl">
+            <div className="flex justify-around overflow-hidden bg-gray-900 p-3 rounded-md w-[200px]">
+              <AwesomeButton
+                onPress={() => {
+                  scrollRef.current.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                  });
+                }}
+                className="w-[40px] items-center flex"
+                type={`${checked ? "danger" : "link"}`}
+              >
+                <FaArrowUp />
+              </AwesomeButton>
+              <AwesomeButton
+                className=" items-center flex w-[40px]"
+                type={`${checked ? "danger" : "link"}`}
+                onPress={() => {
+                  setRunScreen((prevRunScreen) => !prevRunScreen);
+                }}
+              >
+                <span className="bg-left-bottom text-base font-bold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
+                  {runScreen ? <FaStop /> : <FaPlay />}
+                </span>
+              </AwesomeButton>
+              <AwesomeButton
+                className="w-[40px]"
+                type={`${checked ? "danger" : "link"}`}
+                onPress={() => {
+                  scrollRef.current.scrollTo({
+                    top: (dataUrls[0]?.length + 1) * 424,
+                    behavior: "smooth",
+                  });
+                }}
+              >
+                <FaArrowDown />
+              </AwesomeButton>
+            </div>
+          </div>
         </div>
       </div>
-      {/* <AwesomeButton
-        className="bottom-24 absolute w-full"
-        type={`${checked ? "danger" : "link"}`}
-        onPress={() => {
-          setRunScreen((prevRunScreen) => !prevRunScreen);
-        }}
-      >
-        <span className="bg-left-bottom text-base font-bold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
-          {runScreen ? "Dừng thước phim" : " Chạy thước phim"}
-        </span>
-      </AwesomeButton> */}
+
       {/* <Link className="w-[full] bottom-20 absolute" href="/gacha">
         <span className="bg-left-bottom text-white text-base font-semibold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
           Hôm nay em ăn gì?

@@ -52,12 +52,18 @@ export default function Home() {
     if (runScreen) {
       const intervalId = setInterval(() => {
         setCounter((prevCounter) => prevCounter + 424);
+        if (counter >= dataUrls[0]?.length * 424) {
+          setRunScreen(false);
+          setTimeout(() => {
+            setCounter(0);
+          }, 3000);
+        }
       }, 1000); // Thay đổi khoảng thời gian tăng giá trị ở đây, đơn vị là milliseconds (1000ms = 1 giây)
 
       // Clear interval khi component unmount
       return () => clearInterval(intervalId);
     }
-  }, [runScreen]); // Tham số thứ hai của
+  }, [counter, dataUrls, runScreen]); // Tham số thứ hai của
 
   useEffect(() => {
     scrollRef.current.scrollTo({
@@ -347,7 +353,7 @@ export default function Home() {
       {/* {isFireworkActive && (
         <div className="firework container z-[50] absolute top-0 bottom-0 left-1/2 transform -translate-x-1/2" />
       )} */}
-      <div className="relative flex-1 overflow-hidden mt-3">
+      <div className="relative flex-1 overflow-hidden mt-4">
         {suggestUserChoiceList()}
         <div className="flex justify-center overflow-hidden">
           <AwesomeButton className="" type={`${checked ? "danger" : "link"}`}>

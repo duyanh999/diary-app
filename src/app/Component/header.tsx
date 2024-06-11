@@ -11,7 +11,9 @@ import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { db, firebase_app } from "../firebase/config";
 import { FaPhotoFilm } from "react-icons/fa6";
 import { getMessaging, getToken } from "firebase/messaging";
-
+import { AwesomeButton } from "react-awesome-button";
+import PureModal from "react-pure-modal";
+import "react-pure-modal/dist/react-pure-modal.min.css";
 const Header = () => {
   const AnimatedNumbers = dynamic(() => import("react-animated-numbers"), {
     ssr: false,
@@ -20,6 +22,9 @@ const Header = () => {
   const { checked, handleChange } = useSwitch();
   const { totalHeartCount } = useHearthCount();
   const [isOpen, setIsOpen] = useState(false);
+  const [token, setToken] = useState("");
+  const [modal, setModal] = useState(false);
+
   const [pictures, setPictures] = useState<number>();
   useEffect(() => {
     // Load the initial count from Firestore when the component mounts
@@ -59,6 +64,7 @@ const Header = () => {
                     })
                       .then((currentToken) => {
                         if (currentToken) {
+                          setToken(currentToken);
                           console.log("Current token:", currentToken);
                           // Gửi token đến máy chủ để đăng ký thiết bị này
                         } else {
@@ -89,6 +95,36 @@ const Header = () => {
     // Clean up listener when component unmounts
     return () => unsubscribe();
   }, []);
+
+  const requestPermission = () => {
+    Notification.requestPermission().then((permission) => {
+      if (permission === "granted") {
+        console.log("Notification permission granted.");
+        const messaging = getMessaging(firebase_app);
+
+        // Nhận token FCM
+        getToken(messaging, {
+          vapidKey:
+            "BMV7JAk01-sz_VWlX8g2nHJCh9P1EXVEaiNEyQbmVVsvfXocnW2OhmooZdbChpHEzxLOe35pxfdYDpjyFEWUKN8",
+        })
+          .then((currentToken) => {
+            if (currentToken) {
+              console.log("Current token:", currentToken);
+              // Gửi token đến máy chủ để đăng ký thiết bị này
+            } else {
+              console.log(
+                "No registration token available. Request permission to generate one."
+              );
+            }
+          })
+          .catch((err) => {
+            console.log("An error occurred while retrieving token. ", err);
+          });
+      } else {
+        console.log("Unable to get permission to notify.");
+      }
+    });
+  };
 
   return (
     <>
@@ -136,6 +172,15 @@ const Header = () => {
         </span>
 
         <div className=""> HADIARY </div>
+        <AwesomeButton
+          onPress={() => {
+            requestPermission();
+            setModal(true);
+          }}
+        >
+          {" "}
+          Noti{" "}
+        </AwesomeButton>
 
         {/* <div>
       <button onClick={() => setTotalHeartCount((state) => state + 100)}>+</button>
@@ -162,6 +207,17 @@ const Header = () => {
         </div>
       </div>
       <DrawerComp isOpen={isOpen} setIsOpen={setIsOpen} />
+      <PureModal
+        isOpen={modal}
+        closeButtonPosition="bottom"
+        onClose={() => {
+          setModal(false);
+        }}
+      >
+        <div className="flex justify-center overflow-hidden">
+          <p>{token}</p>
+        </div>
+      </PureModal>
     </>
   );
 };

@@ -415,12 +415,11 @@ export default function Home() {
             >
               <div className="flex justify-center text-2xl items-center z-99">
                 <FaCamera />
-                {"      "}
                 <input
                   type="file"
                   ref={fileInputRef}
                   id="fileInput"
-                  className="w-0"
+                  className="w-0 absolute right-3"
                   onChange={handleImageChange}
                 />
               </div>

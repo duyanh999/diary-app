@@ -97,6 +97,26 @@ const Header = () => {
     return () => unsubscribe();
   }, []);
 
+  useEffect(() => {
+    Notification.requestPermission().then((permission) => {
+      if (permission === "granted") {
+        console.log("Notification permission granted.");
+        const messaging = getMessaging(firebase_app);
+        // Nhận token FCM
+        getToken(messaging, {
+          vapidKey:
+            "BMV7JAk01-sz_VWlX8g2nHJCh9P1EXVEaiNEyQbmVVsvfXocnW2OhmooZdbChpHEzxLOe35pxfdYDpjyFEWUKN8",
+        }).then((currentToken) => {
+          if (currentToken) {
+            console.log("Current token:", currentToken);
+
+            // Gửi token đến máy chủ để đăng ký thiết bị này
+          }
+        });
+      }
+    });
+  }, []);
+
   const requestPermission = () => {
     Notification.requestPermission().then((permission) => {
       if (permission === "granted") {
@@ -164,14 +184,14 @@ const Header = () => {
 
         <div className=""> HADIARY </div>
         <div> {token}</div>
-        <AwesomeButton
-          onPress={() => {
+        <button
+          onClick={() => {
             requestPermission();
             navigator.clipboard.writeText(token);
           }}
         >
           Code
-        </AwesomeButton>
+        </button>
 
         <AwesomeButton
           onPress={() => {

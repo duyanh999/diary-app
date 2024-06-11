@@ -110,6 +110,8 @@ const Header = () => {
           .then((currentToken) => {
             if (currentToken) {
               console.log("Current token:", currentToken);
+              setModal(true);
+
               // Gửi token đến máy chủ để đăng ký thiết bị này
             } else {
               console.log(
@@ -175,7 +177,6 @@ const Header = () => {
         <AwesomeButton
           onPress={() => {
             requestPermission();
-            setModal(true);
           }}
         >
           {" "}

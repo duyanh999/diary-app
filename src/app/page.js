@@ -375,14 +375,14 @@ export default function Home() {
                   behavior: "smooth",
                 });
               }}
-              className="w-[40px] items-center flex"
+              className="w-[45px] items-center flex"
               type={`${checked ? "danger" : "link"}`}
             >
               <FaArrowUp />
             </AwesomeButton>
 
             <AwesomeButton
-              className="w-[40px]"
+              className="w-[45px]"
               type={`${checked ? "danger" : "link"}`}
               onPress={() => {
                 scrollRef.current.scrollTo({
@@ -394,7 +394,7 @@ export default function Home() {
               <FaArrowDown />
             </AwesomeButton>
             <AwesomeButton
-              className=" items-center flex w-[40px]"
+              className=" items-center flex w-[45px]"
               type={`${checked ? "danger" : "link"}`}
               onPress={() => {
                 setRunScreen((prevRunScreen) => !prevRunScreen);
@@ -405,7 +405,7 @@ export default function Home() {
               </span>
             </AwesomeButton>
             <AwesomeButton
-              className="w-[40px]"
+              className="w-[45px]"
               type={`${checked ? "danger" : "link"}`}
               onPress={() => {
                 if (fileInputRef.current) {
@@ -413,15 +413,16 @@ export default function Home() {
                 }
               }}
             >
-              <FaCamera className="z-99" />
-              Ảnh
-              <input
-                type="file"
-                ref={fileInputRef}
-                id="fileInput"
-                className="w-0"
-                onChange={handleImageChange}
-              />
+              <div className="flex justify-center items-center z-99">
+                <FaCamera />
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  id="fileInput"
+                  className="w-0"
+                  onChange={handleImageChange}
+                />
+              </div>
             </AwesomeButton>
           </div>
         </div>

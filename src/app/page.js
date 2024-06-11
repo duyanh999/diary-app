@@ -353,7 +353,7 @@ export default function Home() {
       {/* {isFireworkActive && (
         <div className="firework container z-[50] absolute top-0 bottom-0 left-1/2 transform -translate-x-1/2" />
       )} */}
-      <div className="relative flex-1 overflow-hidden mt-5">
+      <div className="relative flex-1 overflow-hidden mt-7">
         {suggestUserChoiceList()}
         <div className="flex justify-center mt-1 overflow-hidden">
           <AwesomeButton className="" type={`${checked ? "danger" : "link"}`}>

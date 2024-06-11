@@ -11,9 +11,9 @@ import { isYesterday } from "date-fns/isYesterday";
 import dayjs from "dayjs";
 
 import {
-  FaArrowDown,
-  FaArrowUp,
   FaCamera,
+  FaCaretDown,
+  FaCaretUp,
   FaPlay,
   FaStop,
 } from "react-icons/fa";
@@ -378,7 +378,7 @@ export default function Home() {
               className="w-[45px] items-center flex"
               type={`${checked ? "danger" : "link"}`}
             >
-              <FaArrowUp className="text-xl" />
+              <FaCaretUp className="text-4xl" />
             </AwesomeButton>
 
             <AwesomeButton
@@ -391,7 +391,7 @@ export default function Home() {
                 });
               }}
             >
-              <FaArrowDown className="text-xl" />
+              <FaCaretDown className="text-4xl" />
             </AwesomeButton>
             <AwesomeButton
               className=" items-center flex w-[45px]"

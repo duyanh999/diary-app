@@ -378,11 +378,11 @@ export default function Home() {
               className="w-[45px] items-center flex"
               type={`${checked ? "danger" : "link"}`}
             >
-              <FaArrowUp />
+              <FaArrowUp className="text-xl" />
             </AwesomeButton>
 
             <AwesomeButton
-              className="w-[45px]"
+              className="w-[45px] "
               type={`${checked ? "danger" : "link"}`}
               onPress={() => {
                 scrollRef.current.scrollTo({
@@ -391,7 +391,7 @@ export default function Home() {
                 });
               }}
             >
-              <FaArrowDown />
+              <FaArrowDown className="text-xl" />
             </AwesomeButton>
             <AwesomeButton
               className=" items-center flex w-[45px]"
@@ -400,9 +400,9 @@ export default function Home() {
                 setRunScreen((prevRunScreen) => !prevRunScreen);
               }}
             >
-              <span className="bg-left-bottom text-base font-bold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
+              <div className="bg-left-bottom text-xl font-bold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
                 {runScreen ? <FaStop /> : <FaPlay />}
-              </span>
+              </div>
             </AwesomeButton>
             <AwesomeButton
               className="w-[45px]"
@@ -413,8 +413,8 @@ export default function Home() {
                 }
               }}
             >
-              <div className="flex justify-center items-center z-99">
-                <FaCamera /> Ảnh
+              <div className="flex justify-center text-2xl items-center z-99">
+                <FaCamera />
                 <input
                   type="file"
                   ref={fileInputRef}

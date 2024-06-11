@@ -7,8 +7,9 @@ import { useSwitch } from "../context/SwitchContext";
 import dynamic from "next/dynamic";
 import DrawerComp from "./drawer";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
-import { db } from "../firebase/config";
+import { db, firebase_app } from "../firebase/config";
 import { FaPhotoFilm } from "react-icons/fa6";
+import { getMessaging, getToken } from "firebase/messaging";
 
 const Header = () => {
   const AnimatedNumbers = dynamic(() => import("react-animated-numbers"), {
@@ -18,6 +19,65 @@ const Header = () => {
   const { checked, handleChange } = useSwitch();
   const [isOpen, setIsOpen] = useState(false);
   const [pictures, setPictures] = useState<number>();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      // Check if Notifications are supported by the browser
+      if (!("Notification" in window)) {
+        console.error("This browser does not support desktop notification");
+        return;
+      }
+
+      // Check if Service Workers are supported by the browser
+      if (!("serviceWorker" in navigator)) {
+        console.error("Service Workers are not supported by this browser");
+        return;
+      }
+
+      // Request Notification permission
+      Notification.requestPermission()
+        .then((permission) => {
+          if (permission === "granted") {
+            console.log("Notification permission granted.");
+            try {
+              const messaging = getMessaging(firebase_app);
+              // Receive FCM token
+              getToken(messaging, {
+                vapidKey:
+                  "BMV7JAk01-sz_VWlX8g2nHJCh9P1EXVEaiNEyQbmVVsvfXocnW2OhmooZdbChpHEzxLOe35pxfdYDpjyFEWUKN8",
+              })
+                .then((currentToken) => {
+                  if (currentToken) {
+                    console.log("Current token:", currentToken);
+                    // Send the token to your server to register this device
+                  } else {
+                    console.log(
+                      "No registration token available. Request permission to generate one."
+                    );
+                  }
+                })
+                .catch((err) => {
+                  console.error(
+                    "An error occurred while retrieving token: ",
+                    err
+                  );
+                });
+            } catch (err) {
+              console.error("An error occurred while getting messaging: ", err);
+            }
+          } else {
+            console.log("Unable to get permission to notify.");
+          }
+        })
+        .catch((err) => {
+          console.error(
+            "An error occurred while requesting notification permission: ",
+            err
+          );
+        });
+    }
+  }, []);
+
   useEffect(() => {
     // Load the initial count from Firestore when the component mounts
     const fetchCount = async () => {

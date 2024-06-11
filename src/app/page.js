@@ -413,7 +413,8 @@ export default function Home() {
                 }
               }}
             >
-              <FaCamera />
+              <FaCamera className="z-99" />
+              Ảnh
               <input
                 type="file"
                 ref={fileInputRef}

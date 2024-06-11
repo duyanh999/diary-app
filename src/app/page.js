@@ -22,6 +22,7 @@ import { v4 as uuidv4 } from "uuid";
 import ImageItem from "./Component/imageItem";
 import PureModal from "react-pure-modal";
 import "react-pure-modal/dist/react-pure-modal.min.css";
+
 export default function Home() {
   const { checked } = useSwitch();
   const { user } = useAuthContext();
@@ -154,6 +155,17 @@ export default function Home() {
   const handleFireworkActivation = () => {
     setIsFireworkActive(true);
   };
+
+  useEffect(() => {
+    const viewportMeta = document.querySelector('meta[name="viewport"]');
+    if (viewportMeta) {
+      // Add minimal-ui to the viewport content
+      viewportMeta.setAttribute(
+        "content",
+        "width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui"
+      );
+    }
+  }, [router.events]);
 
   // const handleLogout = async () => {
   //   try {

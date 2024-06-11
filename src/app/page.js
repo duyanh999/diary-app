@@ -413,7 +413,7 @@ export default function Home() {
                 }
               }}
             >
-              <div className="flex justify-around text-md items-center z-99">
+              <div className="flex text-md items-center z-99">
                 <div>
                   <FaCamera />
                 </div>

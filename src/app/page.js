@@ -361,44 +361,46 @@ export default function Home() {
           </AwesomeButton>
         </div>
         <div className="flex justify-center mt-2">
-          <div className="flex justify-center bg-gray-600 p-3 w-[295px] rounded-md shadow-2xl">
-            <div className="flex justify-around overflow-hidden bg-gray-900 p-3 rounded-md w-[200px]">
-              <AwesomeButton
-                onPress={() => {
-                  scrollRef.current.scrollTo({
-                    top: 0,
-                    behavior: "smooth",
-                  });
-                }}
-                className="w-[40px] items-center flex"
-                type={`${checked ? "danger" : "link"}`}
-              >
-                <FaArrowUp />
-              </AwesomeButton>
-              <AwesomeButton
-                className=" items-center flex w-[40px]"
-                type={`${checked ? "danger" : "link"}`}
-                onPress={() => {
-                  setRunScreen((prevRunScreen) => !prevRunScreen);
-                }}
-              >
-                <span className="bg-left-bottom text-base font-bold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
-                  {runScreen ? <FaStop /> : <FaPlay />}
-                </span>
-              </AwesomeButton>
-              <AwesomeButton
-                className="w-[40px]"
-                type={`${checked ? "danger" : "link"}`}
-                onPress={() => {
-                  scrollRef.current.scrollTo({
-                    top: (dataUrls[0]?.length + 1) * 424,
-                    behavior: "smooth",
-                  });
-                }}
-              >
-                <FaArrowDown />
-              </AwesomeButton>
-            </div>
+          <div
+            className={`flex justify-around shadow-2xl overflow-hidden  ${
+              checked ? "bg-[#f68738]" : "bg-[#334155]"
+            }  p-3 rounded-md w-[200px]`}
+          >
+            <AwesomeButton
+              onPress={() => {
+                scrollRef.current.scrollTo({
+                  top: 0,
+                  behavior: "smooth",
+                });
+              }}
+              className="w-[40px] items-center flex"
+              type={`${checked ? "danger" : "link"}`}
+            >
+              <FaArrowUp />
+            </AwesomeButton>
+            <AwesomeButton
+              className=" items-center flex w-[40px]"
+              type={`${checked ? "danger" : "link"}`}
+              onPress={() => {
+                setRunScreen((prevRunScreen) => !prevRunScreen);
+              }}
+            >
+              <span className="bg-left-bottom text-base font-bold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
+                {runScreen ? <FaStop /> : <FaPlay />}
+              </span>
+            </AwesomeButton>
+            <AwesomeButton
+              className="w-[40px]"
+              type={`${checked ? "danger" : "link"}`}
+              onPress={() => {
+                scrollRef.current.scrollTo({
+                  top: (dataUrls[0]?.length + 1) * 424,
+                  behavior: "smooth",
+                });
+              }}
+            >
+              <FaArrowDown />
+            </AwesomeButton>
           </div>
         </div>
       </div>

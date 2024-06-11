@@ -347,9 +347,9 @@ export default function Home() {
       {/* {isFireworkActive && (
         <div className="firework container z-[50] absolute top-0 bottom-0 left-1/2 transform -translate-x-1/2" />
       )} */}
-      <div className="relative flex-1 overflow-hidden mt-11">
+      <div className="relative flex-1 overflow-hidden mt-8">
         {suggestUserChoiceList()}
-        <div className="flex mt-4 justify-center overflow-hidden">
+        <div className="flex mt-1 justify-center overflow-hidden">
           <AwesomeButton className="" type={`${checked ? "danger" : "link"}`}>
             <input type="file" id="fileInput" onChange={handleImageChange} />
           </AwesomeButton>

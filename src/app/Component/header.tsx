@@ -14,6 +14,8 @@ import { getMessaging, getToken } from "firebase/messaging";
 import { AwesomeButton } from "react-awesome-button";
 import PureModal from "react-pure-modal";
 import "react-pure-modal/dist/react-pure-modal.min.css";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+
 const Header = () => {
   const AnimatedNumbers = dynamic(() => import("react-animated-numbers"), {
     ssr: false,
@@ -110,7 +112,6 @@ const Header = () => {
           .then((currentToken) => {
             if (currentToken) {
               console.log("Current token:", currentToken);
-              setModal(true);
 
               // Gửi token đến máy chủ để đăng ký thiết bị này
             } else {
@@ -177,10 +178,19 @@ const Header = () => {
         <AwesomeButton
           onPress={() => {
             requestPermission();
+            navigator.clipboard.writeText(token);
+          }}
+        >
+          Code
+        </AwesomeButton>
+
+        <AwesomeButton
+          onPress={() => {
+            setModal(true);
           }}
         >
           {" "}
-          Noti{" "}
+          modal{" "}
         </AwesomeButton>
 
         {/* <div>

@@ -102,28 +102,17 @@ const Header = () => {
       if (permission === "granted") {
         console.log("Notification permission granted.");
         const messaging = getMessaging(firebase_app);
-
         // Nhận token FCM
         getToken(messaging, {
           vapidKey:
             "BMV7JAk01-sz_VWlX8g2nHJCh9P1EXVEaiNEyQbmVVsvfXocnW2OhmooZdbChpHEzxLOe35pxfdYDpjyFEWUKN8",
-        })
-          .then((currentToken) => {
-            if (currentToken) {
-              console.log("Current token:", currentToken);
+        }).then((currentToken) => {
+          if (currentToken) {
+            console.log("Current token:", currentToken);
 
-              // Gửi token đến máy chủ để đăng ký thiết bị này
-            } else {
-              console.log(
-                "No registration token available. Request permission to generate one."
-              );
-            }
-          })
-          .catch((err) => {
-            console.log("An error occurred while retrieving token. ", err);
-          });
-      } else {
-        console.log("Unable to get permission to notify.");
+            // Gửi token đến máy chủ để đăng ký thiết bị này
+          }
+        });
       }
     });
   };
@@ -174,6 +163,7 @@ const Header = () => {
         </span>
 
         <div className=""> HADIARY </div>
+        <div> {token}</div>
         <AwesomeButton
           onPress={() => {
             requestPermission();

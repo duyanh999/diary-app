@@ -10,6 +10,7 @@ import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { db, firebase_app } from "../firebase/config";
 import { FaPhotoFilm } from "react-icons/fa6";
 import { getMessaging, getToken } from "firebase/messaging";
+import { AwesomeButton } from "react-awesome-button";
 
 const Header = () => {
   const AnimatedNumbers = dynamic(() => import("react-animated-numbers"), {
@@ -20,7 +21,7 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [pictures, setPictures] = useState<number>();
 
-  useEffect(() => {
+  const requestPermission = () => {
     if (typeof window !== "undefined") {
       // Check if Notifications are supported by the browser
       if (!("Notification" in window)) {
@@ -37,6 +38,7 @@ const Header = () => {
       // Request Notification permission
       Notification.requestPermission()
         .then((permission) => {
+          console.log(`Notification permission status: ${permission}`);
           if (permission === "granted") {
             console.log("Notification permission granted.");
             try {
@@ -76,7 +78,7 @@ const Header = () => {
           );
         });
     }
-  }, []);
+  };
 
   useEffect(() => {
     // Load the initial count from Firestore when the component mounts
@@ -151,7 +153,14 @@ const Header = () => {
         </span>
 
         <div className=""> HADIARY </div>
-
+        <AwesomeButton
+          onPress={() => {
+            requestPermission();
+          }}
+        >
+          {" "}
+          Noti
+        </AwesomeButton>
         <div className="flex justify-start">
           <div>
             <ReactSwitch

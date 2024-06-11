@@ -10,7 +10,13 @@ import { useSwitch } from "./context/SwitchContext";
 import { isYesterday } from "date-fns/isYesterday";
 import dayjs from "dayjs";
 
-import { FaArrowDown, FaArrowUp, FaPlay, FaStop } from "react-icons/fa";
+import {
+  FaArrowDown,
+  FaArrowUp,
+  FaCamera,
+  FaPlay,
+  FaStop,
+} from "react-icons/fa";
 import { useAuthContext } from "./context/AuthContext";
 import { useRouter } from "next/navigation";
 import { firebase_app, storage } from "./firebase/config";
@@ -39,6 +45,7 @@ export default function Home() {
   const [textValue, setTextValue] = useState("");
 
   const { getDoc, data, loading } = useGetDocuments("album");
+  const fileInputRef = useRef(null);
 
   const dataUrls = data?.map((item) => item?.urls);
 
@@ -355,16 +362,11 @@ export default function Home() {
       )} */}
       <div className="relative flex-1 overflow-hidden mt-7">
         {suggestUserChoiceList()}
-        <div className="flex justify-center mt-1 overflow-hidden">
-          <AwesomeButton className="" type={`${checked ? "danger" : "link"}`}>
-            <input type="file" id="fileInput" onChange={handleImageChange} />
-          </AwesomeButton>
-        </div>
-        <div className="flex justify-center mt-2">
+        <div className="flex justify-center mt-4">
           <div
             className={`flex justify-around shadow-2xl overflow-hidden  ${
               checked ? "bg-[#f68738]" : "bg-[#334155]"
-            }  p-3 rounded-md w-[200px]`}
+            }  p-3 rounded-md w-[300px]`}
           >
             <AwesomeButton
               onPress={() => {
@@ -377,6 +379,19 @@ export default function Home() {
               type={`${checked ? "danger" : "link"}`}
             >
               <FaArrowUp />
+            </AwesomeButton>
+
+            <AwesomeButton
+              className="w-[40px]"
+              type={`${checked ? "danger" : "link"}`}
+              onPress={() => {
+                scrollRef.current.scrollTo({
+                  top: (dataUrls[0]?.length + 1) * 424,
+                  behavior: "smooth",
+                });
+              }}
+            >
+              <FaArrowDown />
             </AwesomeButton>
             <AwesomeButton
               className=" items-center flex w-[40px]"
@@ -393,13 +408,19 @@ export default function Home() {
               className="w-[40px]"
               type={`${checked ? "danger" : "link"}`}
               onPress={() => {
-                scrollRef.current.scrollTo({
-                  top: (dataUrls[0]?.length + 1) * 424,
-                  behavior: "smooth",
-                });
+                if (fileInputRef.current) {
+                  fileInputRef.current.click();
+                }
               }}
             >
-              <FaArrowDown />
+              <FaCamera />
+              <input
+                type="file"
+                ref={fileInputRef}
+                id="fileInput"
+                className="w-0"
+                onChange={handleImageChange}
+              />
             </AwesomeButton>
           </div>
         </div>

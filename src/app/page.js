@@ -10,8 +10,6 @@ import { useSwitch } from "./context/SwitchContext";
 import { isYesterday } from "date-fns/isYesterday";
 import dayjs from "dayjs";
 
-import { dataReward } from "./Data/dataReward";
-import { useHearthCount } from "./context/HearthCountContext";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { useAuthContext } from "./context/AuthContext";
 import { useRouter } from "next/navigation";
@@ -24,7 +22,6 @@ import { v4 as uuidv4 } from "uuid";
 import ImageItem from "./Component/imageItem";
 import PureModal from "react-pure-modal";
 import "react-pure-modal/dist/react-pure-modal.min.css";
-import ProgressBar from "@ramonak/react-progress-bar";
 export default function Home() {
   const { checked } = useSwitch();
   const { user } = useAuthContext();
@@ -34,7 +31,6 @@ export default function Home() {
   // const [scrollHeight, setScrollHeight] = useState(0);
   // const [runScreen, setRunScreen] = useState(false);
   // const [counter, setCounter] = useState(0);
-  const [streak, setStreak] = useState(0);
   const [isFireworkActive, setIsFireworkActive] = useState(false);
   const [image, setImage] = useState(null);
   const [base64, setBase64] = useState("");
@@ -49,50 +45,6 @@ export default function Home() {
   //   setSelectedGroup(selectedGroup);
   //   setSelectedGroupData(groupedData[selectedGroup] || []);
   // };
-
-  const previousDataRef = useRef(null);
-
-  const dataStreak = data?.map((item) => item?.streak);
-  useEffect(() => {
-    setStreak(dataStreak[0]);
-  }, [dataStreak]);
-  useEffect(() => {
-    if (data && previousDataRef.current) {
-      data.forEach(async (item, index) => {
-        const previousItem = previousDataRef.current[index];
-
-        if (
-          previousItem &&
-          JSON.stringify(item.urls) !== JSON.stringify(previousItem.urls)
-        ) {
-          // Kiểm tra sự khác biệt trong urls
-          const docRef = doc(db, "album", item.id); // Điều chỉnh đường dẫn và trường id theo cấu trúc Firestore của bạn
-          try {
-            let currentStreak = 0; // Giá trị mặc định của streak là 0
-
-            if (item.streak && typeof item.streak === "number") {
-              currentStreak = item.streak;
-            }
-
-            await updateDoc(docRef, {
-              streak: currentStreak + 1, // Tăng giá trị streak lên 1
-            });
-          } catch (error) {
-            console.error("Error updating streak: ", error);
-          }
-        }
-      });
-    }
-
-    // Cập nhật previousDataRef với dữ liệu hiện tại sau mỗi lần render
-    previousDataRef.current = data;
-  }, [data, db]);
-
-  useEffect(() => {
-    if (dayjs().get("hour") > 6 && dayjs().get("hour") < 17) {
-      setStreak(0);
-    }
-  }, []);
 
   useEffect(() => {
     if (user == null) router.push("/admin");
@@ -407,25 +359,6 @@ export default function Home() {
       {/* <button onClick={handleLogout}>Logout</button> */}
       {/* <button onClick={fetchData}>data</button> */}
 
-      <div className="flex w-full justify-center mt-10 overflow-hidden">
-        <ProgressBar
-          completed={streak}
-          customLabel="Chuỗi ảnh"
-          maxCompleted={10}
-          className=" mt-[5%] w-[60%]"
-        />
-        <span
-          className="flex w-[50px] bg-no-repeat justify-center relative"
-          style={{
-            backgroundImage: `url(streakfire.gif)`,
-            backgroundSize: "contain",
-          }}
-        >
-          <div className="absolute text-white bottom-0 left-4 text-[10px] font-semibold">
-            {streak}
-          </div>
-        </span>
-      </div>
       {/* {!selectedGroup && renderPet(isPet)} */}
       {/* {isFireworkActive && (
         <div className="firework container z-[50] absolute top-0 bottom-0 left-1/2 transform -translate-x-1/2" />

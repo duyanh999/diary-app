@@ -14,7 +14,6 @@ import { getMessaging, getToken } from "firebase/messaging";
 import { AwesomeButton } from "react-awesome-button";
 import PureModal from "react-pure-modal";
 import "react-pure-modal/dist/react-pure-modal.min.css";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const Header = () => {
   const AnimatedNumbers = dynamic(() => import("react-animated-numbers"), {

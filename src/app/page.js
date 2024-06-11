@@ -415,6 +415,7 @@ export default function Home() {
             >
               <div className="flex justify-center text-2xl items-center z-99">
                 <FaCamera />
+                {"      "}
                 <input
                   type="file"
                   ref={fileInputRef}

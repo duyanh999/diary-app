@@ -400,7 +400,7 @@ export default function Home() {
                 setRunScreen((prevRunScreen) => !prevRunScreen);
               }}
             >
-              <div className="bg-left-bottom text-xl font-bold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
+              <div className="bg-left-bottom text-lg font-bold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
                 {runScreen ? <FaStop /> : <FaPlay />}
               </div>
             </AwesomeButton>
@@ -413,8 +413,11 @@ export default function Home() {
                 }
               }}
             >
-              <div className="flex justify-center text-2xl items-center z-99">
-                <FaCamera />
+              <div className="flex justify-around text-md items-center z-99">
+                <div>
+                  <FaCamera />
+                </div>
+                <div> Ảnh</div>
                 <input
                   type="file"
                   ref={fileInputRef}

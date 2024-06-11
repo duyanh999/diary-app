@@ -422,7 +422,7 @@ export default function Home() {
                   type="file"
                   ref={fileInputRef}
                   id="fileInput"
-                  className="w-0 absolute right-3"
+                  className="w-0"
                   onChange={handleImageChange}
                 />
               </div>

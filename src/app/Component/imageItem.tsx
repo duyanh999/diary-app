@@ -6,6 +6,7 @@ import { useHearthCount } from "../context/HearthCountContext";
 import { doc, updateDoc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/config"; // Adjust the import path as necessary
 import {
+  FaCloudArrowDown,
   FaFaceDizzy,
   FaFaceKissWinkHeart,
   FaFaceLaughSquint,
@@ -118,12 +119,29 @@ const ImageItem = ({
     }
   };
 
+  const downloadImage = async (url: string) => {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    const urlBlob = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.style.display = "none";
+    a.href = urlBlob;
+    a.download = "image.jpg"; // Bạn có thể đặt tên cho ảnh theo nhu cầu
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(urlBlob);
+  };
+
   return (
     <div
       className={`hover: hover:origin-center duration-500 delay-100 py-3 rounded-2xl ${styles.container}`}
     >
       <img src={images} alt="Example" className="rounded-lg" />
+
       <div className={`${styles.overlayRed} top-0 left-0 w-full h-full`}>
+        <div className="flex justify-center text-3xl cursor-pointer text-[#2D2D2D] absolute top-4 right-4">
+          <FaCloudArrowDown onClick={() => downloadImage(images)} />
+        </div>
         <div className={`${styles.text} grid grid-cols-1`}>
           <div className="flex justify-center text-3xl cursor-pointer text-blue-500 absolute top-[37.5%]">
             <div>

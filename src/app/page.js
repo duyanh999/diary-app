@@ -413,7 +413,7 @@ export default function Home() {
                 }
               }}
             >
-              <div className="flex justify-around text-md items-center z-99">
+              <div className="flex justify-around text-[16px] items-center z-99">
                 <FaCamera />
                 Ảnh
                 <input

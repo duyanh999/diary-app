@@ -413,9 +413,9 @@ export default function Home() {
                 }
               }}
             >
-              <div className="flex justify-around text-[16px] items-center z-99">
-                <FaCamera />
-                Ảnh
+              <FaCamera />
+
+              <div className="flex items-center z-99">
                 <input
                   type="file"
                   ref={fileInputRef}

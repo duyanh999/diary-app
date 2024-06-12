@@ -43,6 +43,7 @@ export default function Home() {
   const [base64, setBase64] = useState("");
   const [modal, setModal] = useState(false);
   const [textValue, setTextValue] = useState("");
+  const [isToggled, setIsToggled] = useState(false);
 
   const { getDoc, data, loading } = useGetDocuments("album");
   const fileInputRef = useRef(null);
@@ -140,6 +141,12 @@ export default function Home() {
   const handleFireworkActivation = () => {
     setIsFireworkActive(true);
   };
+
+  useEffect(() => {
+    if (runScreen) {
+      setCounter(0);
+    }
+  }, [runScreen]);
 
   useEffect(() => {
     const viewportMeta = document.querySelector('meta[name="viewport"]');
@@ -364,34 +371,55 @@ export default function Home() {
         {suggestUserChoiceList()}
         <div className="flex justify-center mt-4">
           <div
-            className={`flex justify-around shadow-2xl overflow-hidden rounded-r-none ${
+            className={`flex justify-around items-center shadow-2xl overflow-hidden ${
               checked ? "bg-[#f68738]" : "bg-[#334155]"
-            }  p-3 rounded-md w-[300px]`}
+            }  p-3 rounded-full w-[300px]`}
           >
             <AwesomeButton
+              disabled={runScreen}
               onPress={() => {
-                scrollRef.current.scrollTo({
-                  top: 0,
-                  behavior: "smooth",
-                });
+                isToggled
+                  ? scrollRef.current.scrollTo({
+                      top: (dataUrls[0]?.length + 1) * 424,
+                      behavior: "smooth",
+                    })
+                  : scrollRef.current.scrollTo({
+                      top: 0,
+                      behavior: "smooth",
+                    });
+                setIsToggled(!isToggled);
               }}
               className="w-[45px] items-center flex"
               type={`${checked ? "danger" : "link"}`}
             >
-              <FaCaretUp className="text-4xl" />
+              {isToggled ? (
+                <FaCaretDown className="text-4xl" />
+              ) : (
+                <FaCaretUp className="text-4xl" />
+              )}
             </AwesomeButton>
-            <AwesomeButton
-              className="w-[45px] "
-              type={`${checked ? "danger" : "link"}`}
-              onPress={() => {
-                scrollRef.current.scrollTo({
-                  top: (dataUrls[0]?.length + 1) * 424,
-                  behavior: "smooth",
-                });
-              }}
-            >
-              <FaCaretDown className="text-4xl" />
-            </AwesomeButton>
+
+            <div className="bg-[#2D2D2D] border-4 flex items-center justify-center border-yellow-200 px-2 rounded-full h-[70px] w-[70px]">
+              <AwesomeButton
+                className="w-[40px]"
+                type={`${checked ? "danger" : "link"}`}
+                onPress={() => {
+                  if (fileInputRef.current) {
+                    fileInputRef.current.click();
+                  }
+                }}
+              >
+                <div className="flex items-center z-99">
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    id="fileInput"
+                    className="w-0"
+                    onChange={handleImageChange}
+                  />
+                </div>
+              </AwesomeButton>
+            </div>
             <AwesomeButton
               className=" items-center flex w-[45px]"
               type={`${checked ? "danger" : "link"}`}
@@ -401,27 +429,6 @@ export default function Home() {
             >
               <div className="bg-left-bottom text-xl font-bold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
                 {runScreen ? <FaStop /> : <FaPlay />}
-              </div>
-            </AwesomeButton>
-          </div>
-          <div className="bg-[#2D2D2D] border-4 flex items-center border-yellow-200 px-2 rounded-r-lg">
-            <AwesomeButton
-              className="w-[45px]"
-              type={`${checked ? "danger" : "link"}`}
-              onPress={() => {
-                if (fileInputRef.current) {
-                  fileInputRef.current.click();
-                }
-              }}
-            >
-              <div className="flex items-center z-99">
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  id="fileInput"
-                  className="w-0"
-                  onChange={handleImageChange}
-                />
               </div>
             </AwesomeButton>
           </div>

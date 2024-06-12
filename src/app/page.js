@@ -417,6 +417,7 @@ export default function Home() {
                 <div>
                   <FaCamera />
                 </div>
+                Ảnh
                 <input
                   type="file"
                   ref={fileInputRef}

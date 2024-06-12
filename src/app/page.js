@@ -413,11 +413,8 @@ export default function Home() {
                 }
               }}
             >
-              <div className="flex text-md items-center z-99">
-                <div>
-                  <FaCamera />
-                </div>
-                <div> Ảnh</div>
+              <div className="flex text-4xl items-center z-99">
+                <FaCamera />
                 <input
                   type="file"
                   ref={fileInputRef}

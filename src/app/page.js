@@ -400,32 +400,31 @@ export default function Home() {
                 setRunScreen((prevRunScreen) => !prevRunScreen);
               }}
             >
-              <div className="bg-left-bottom text-lg font-bold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
+              <div className="bg-left-bottom text-xl font-bold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
                 {runScreen ? <FaStop /> : <FaPlay />}
               </div>
             </AwesomeButton>
-            <button
-              className="w-[45px] items-center flex justify-center rounded-full bg-white border-4 border-yellow-400 shadow-2xl"
+            <AwesomeButton
+              className="w-[45px]"
               type={`${checked ? "danger" : "link"}`}
-              onClick={() => {
+              onPress={() => {
                 if (fileInputRef.current) {
                   fileInputRef.current.click();
                 }
               }}
             >
-              <div className="flex text-2xl items-center z-99">
-                <div>
-                  <FaCamera />
-                </div>
+              <div className="flex justify-around text-md items-center z-99">
+                <FaCamera />
+                Ảnh
                 <input
                   type="file"
                   ref={fileInputRef}
                   id="fileInput"
-                  className="w-0"
+                  className="w-0 absolute right-3"
                   onChange={handleImageChange}
                 />
               </div>
-            </button>
+            </AwesomeButton>
           </div>
         </div>
       </div>

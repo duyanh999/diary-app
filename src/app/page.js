@@ -404,20 +404,19 @@ export default function Home() {
                 {runScreen ? <FaStop /> : <FaPlay />}
               </div>
             </AwesomeButton>
-            <AwesomeButton
-              className="w-[45px]"
+            <button
+              className="w-[45px] items-center flex justify-center rounded-full bg-white border-4 border-yellow-400 shadow-2xl"
               type={`${checked ? "danger" : "link"}`}
-              onPress={() => {
+              onClick={() => {
                 if (fileInputRef.current) {
                   fileInputRef.current.click();
                 }
               }}
             >
-              <div className="flex text-4xl items-center z-99">
+              <div className="flex text-2xl items-center z-99">
                 <div>
                   <FaCamera />
                 </div>
-                Ảnh
                 <input
                   type="file"
                   ref={fileInputRef}
@@ -426,7 +425,7 @@ export default function Home() {
                   onChange={handleImageChange}
                 />
               </div>
-            </AwesomeButton>
+            </button>
           </div>
         </div>
       </div>

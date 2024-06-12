@@ -364,7 +364,7 @@ export default function Home() {
         {suggestUserChoiceList()}
         <div className="flex justify-center mt-4">
           <div
-            className={`flex justify-around shadow-2xl overflow-hidden  ${
+            className={`flex justify-around shadow-2xl overflow-hidden rounded-r-none ${
               checked ? "bg-[#f68738]" : "bg-[#334155]"
             }  p-3 rounded-md w-[300px]`}
           >
@@ -380,7 +380,6 @@ export default function Home() {
             >
               <FaCaretUp className="text-4xl" />
             </AwesomeButton>
-
             <AwesomeButton
               className="w-[45px] "
               type={`${checked ? "danger" : "link"}`}
@@ -404,6 +403,8 @@ export default function Home() {
                 {runScreen ? <FaStop /> : <FaPlay />}
               </div>
             </AwesomeButton>
+          </div>
+          <div className="bg-[#2D2D2D] border-4 flex items-center border-yellow-200 px-2 rounded-r-lg">
             <AwesomeButton
               className="w-[45px]"
               type={`${checked ? "danger" : "link"}`}
@@ -413,8 +414,6 @@ export default function Home() {
                 }
               }}
             >
-              <FaCamera />
-
               <div className="flex items-center z-99">
                 <input
                   type="file"

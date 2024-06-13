@@ -7,17 +7,9 @@ import { AwesomeButton } from "react-awesome-button";
 import "react-awesome-button/dist/styles.css";
 import Confetti from "react-confetti";
 import { useSwitch } from "./context/SwitchContext";
-import { isYesterday } from "date-fns/isYesterday";
 import dayjs from "dayjs";
 
-import {
-  FaBorderAll,
-  FaCamera,
-  FaCaretDown,
-  FaCaretUp,
-  FaPlay,
-  FaStop,
-} from "react-icons/fa";
+import { FaPlay, FaStop } from "react-icons/fa";
 import { useAuthContext } from "./context/AuthContext";
 import { useRouter } from "next/navigation";
 import { firebase_app, storage } from "./firebase/config";
@@ -29,6 +21,7 @@ import { v4 as uuidv4 } from "uuid";
 import ImageItem from "./Component/imageItem";
 import PureModal from "react-pure-modal";
 import "react-pure-modal/dist/react-pure-modal.min.css";
+import { FaGrip } from "react-icons/fa6";
 
 export default function Home() {
   const { checked } = useSwitch();
@@ -433,7 +426,7 @@ export default function Home() {
                 setGridView(!gridView);
               }}
             >
-              <FaBorderAll className="text-3xl" />
+              <FaGrip className="text-3xl" />
             </AwesomeButton>
 
             <div className="bg-[#2D2D2D] border-4 flex items-center justify-center border-yellow-200 px-2 rounded-full h-[70px] w-[70px]">

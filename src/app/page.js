@@ -169,7 +169,7 @@ export default function Home() {
   useEffect(() => {
     if (!gridView && indexImage !== undefined) {
       scrollRef.current.scrollTo({
-        top: indexImage * 424 + 200,
+        top: indexImage * 424 + 212,
         behavior: "smooth",
       });
       setIndexImage(undefined);

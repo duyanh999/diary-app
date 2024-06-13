@@ -154,7 +154,11 @@ const ImageItem = ({
       >
         {!gridView && (
           <>
-            <div className="flex justify-center text-3xl cursor-pointer text-[#2D2D2D] absolute top-4 right-4">
+            <div
+              className={`flex justify-center text-3xl cursor-pointer ${
+                checked ? "text-[#2D2D2D]" : "text-slate-200"
+              }  absolute top-4 right-4`}
+            >
               <FaCloudArrowDown onClick={() => downloadImage(images)} />
             </div>
             <div className={`${styles.text} grid grid-cols-1`}>

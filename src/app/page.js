@@ -419,10 +419,15 @@ export default function Home() {
             </AwesomeButton> */}
 
             <AwesomeButton
-              disabled={runScreen}
+              disabled={setTimeout(false, 5000)}
               type={`${checked ? "danger" : "link"}`}
               className="w-[45px]"
               onPress={() => {
+                gridView &&
+                  scrollRef.current.scrollTo({
+                    top: dataUrls[0]?.length * 424,
+                    behavior: "smooth",
+                  });
                 setGridView(!gridView);
               }}
             >

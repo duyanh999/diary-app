@@ -9,7 +9,7 @@ import Confetti from "react-confetti";
 import { useSwitch } from "./context/SwitchContext";
 import dayjs from "dayjs";
 
-import { FaGripVertical, FaPlay, FaStop } from "react-icons/fa";
+import { FaPlay, FaStop } from "react-icons/fa";
 import { useAuthContext } from "./context/AuthContext";
 import { useRouter } from "next/navigation";
 import { firebase_app, storage } from "./firebase/config";
@@ -29,7 +29,6 @@ export default function Home() {
   const router = useRouter();
   const db = getFirestore(firebase_app);
   const time = dayjs().format("DD/MM/YYYY");
-  // const [scrollHeight, setScrollHeight] = useState(0);
   const [runScreen, setRunScreen] = useState(false);
   const [counter, setCounter] = useState(0);
   const [isFireworkActive, setIsFireworkActive] = useState(false);
@@ -37,7 +36,6 @@ export default function Home() {
   const [base64, setBase64] = useState("");
   const [modal, setModal] = useState(false);
   const [textValue, setTextValue] = useState("");
-  // const [isToggled, setIsToggled] = useState(false);
   const [gridView, setGridView] = useState(false);
   const [indexImage, setIndexImage] = useState();
 
@@ -176,42 +174,6 @@ export default function Home() {
     }
   }, [gridView, indexImage]);
 
-  // const handleLogout = async () => {
-  //   try {
-  //     await signOut(auth);
-  //     router.push("/login"); // Điều hướng về trang login sau khi đăng xuất
-  //   } catch (error) {
-  //     console.error("Error logging out: ", error);
-  //   }
-  // };
-
-  // const renderPet = useCallback((item) => {
-  //   switch (item) {
-  //     case "catpixel":
-  //       return (
-  //         <img
-  //           src={"./catpixel.gif"}
-  //           alt="dsad"
-  //           className="absolute top-[20%]"
-  //         />
-  //       );
-  //     case "bunnypixel":
-  //       return (
-  //         <img
-  //           src={"./bunnypixel.gif"}
-  //           alt="dsad"
-  //           className="absolute top-[10%]"
-  //         />
-  //       );
-  //     case "humanpixel":
-  //       return <img src={"./humanpixel.gif"} className="absolute top-[35%]" />;
-  //     case "robopixel":
-  //       return <img src={"./robopixel.gif"} className="absolute top-[35%]" />;
-  //     default:
-  //     // code block
-  //   }
-  // }, []);
-
   const handleUpdateIndexImage = (index) => {
     setIndexImage(index);
   };
@@ -261,20 +223,6 @@ export default function Home() {
         console.error("Upload failed", error);
       }
     }
-    // console.log("bs64", uploadTask);
-
-    // const { result, error } = await addData(
-    //   "album",
-    //   "kVP5JboDGkTnorvOi3Yi",
-    //   data
-    // );
-
-    // if (error) {
-    //   return console.log(error);
-    // }
-    // if (result) {
-    //   return console.log(result);
-    // }
   };
 
   const fetchData = async () => {

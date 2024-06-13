@@ -23,7 +23,7 @@
   width: 100%;
   opacity: 0;
   transition: 0.5s ease;
-  background-color: #191919;
+  background-color: #0d2136;
 }
 
 .overlayRed {
@@ -34,7 +34,7 @@
   height: 100%; /* Đảm bảo overlay cao bằng hình ảnh */
   opacity: 0;
   transition: 0.5s ease;
-  background-color: pink;
+  background-color: rgb(251, 178, 178);
   padding-top: 10rem /* 16px */;
   padding-bottom: 1rem /* 16px */;
 }

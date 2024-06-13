@@ -6,6 +6,7 @@ import { doc, updateDoc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/config"; // Adjust the import path as necessary
 import { FaCloudArrowDown } from "react-icons/fa6";
 import { FaKissWinkHeart, FaLaughSquint } from "react-icons/fa";
+import { useSwitch } from "../context/SwitchContext";
 
 interface Props {
   id: string;
@@ -31,6 +32,7 @@ const ImageItem = ({
   const [count, setCount] = useState<number>(0);
   const [smile, setSmile] = useState<number>(0);
   const [kiss, setKiss] = useState<number>(0);
+  const { checked } = useSwitch();
 
   useEffect(() => {
     // Load the initial count from Firestore when the component mounts
@@ -147,7 +149,7 @@ const ImageItem = ({
 
       <div
         className={`${
-          !gridView && styles.overlayRed
+          !gridView && (checked ? styles.overlayRed : styles.overlayBlack)
         } top-0 left-0 w-full h-full`}
       >
         {!gridView && (

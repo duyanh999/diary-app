@@ -426,6 +426,7 @@ export default function Home() {
             </AwesomeButton> */}
 
             <AwesomeButton
+              disabled={runScreen}
               type={`${checked ? "danger" : "link"}`}
               className="w-[45px]"
               onPress={() => {
@@ -437,6 +438,7 @@ export default function Home() {
 
             <div className="bg-[#2D2D2D] border-4 flex items-center justify-center border-yellow-200 px-2 rounded-full h-[70px] w-[70px]">
               <AwesomeButton
+                disabled={runScreen || gridView}
                 className="w-[40px]"
                 type={`${checked ? "danger" : "link"}`}
                 onPress={() => {
@@ -457,6 +459,7 @@ export default function Home() {
               </AwesomeButton>
             </div>
             <AwesomeButton
+              disabled={gridView}
               className=" items-center flex w-[45px]"
               type={`${checked ? "danger" : "link"}`}
               onPress={() => {

@@ -5,7 +5,6 @@
 
 .container img {
   width: 100%; /* Đảm bảo hình ảnh rộng bằng toàn bộ chiều rộng của div */
-  height: 400px; /* Đảm bảo tỷ lệ hình ảnh không bị bóp lại */
   object-fit: cover; /* Lấp đầy hình ảnh trong div mà vẫn giữ tỷ lệ khung hình */
 }
 .image {

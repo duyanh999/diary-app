@@ -11,6 +11,7 @@ import { isYesterday } from "date-fns/isYesterday";
 import dayjs from "dayjs";
 
 import {
+  FaBorderAll,
   FaCamera,
   FaCaretDown,
   FaCaretUp,
@@ -43,7 +44,9 @@ export default function Home() {
   const [base64, setBase64] = useState("");
   const [modal, setModal] = useState(false);
   const [textValue, setTextValue] = useState("");
-  const [isToggled, setIsToggled] = useState(false);
+  // const [isToggled, setIsToggled] = useState(false);
+  const [gridView, setGridView] = useState(false);
+  const [indexImage, setIndexImage] = useState();
 
   const { getDoc, data, loading } = useGetDocuments("album");
   const fileInputRef = useRef(null);
@@ -81,45 +84,50 @@ export default function Home() {
   }, [counter]);
 
   useEffect(() => {
-    let startY = 0;
+    if (!gridView) {
+      let startY = 0;
 
-    const handleTouchStart = (event) => {
-      startY = event.touches[0].clientY;
-    };
+      const handleTouchStart = (event) => {
+        startY = event.touches[0].clientY;
+      };
 
-    const handleTouchMove = (event) => {
-      event.preventDefault(); // Ngăn chặn cuộn mặc định
+      const handleTouchMove = (event) => {
+        event.preventDefault(); // Ngăn chặn cuộn mặc định
 
-      const deltaY = event.touches[0].clientY - startY;
-      const itemHeight = scrollRef.current.scrollHeight / dataUrls[0]?.length;
+        const deltaY = event.touches[0].clientY - startY;
+        const itemHeight = scrollRef.current.scrollHeight / dataUrls[0]?.length;
 
-      if (deltaY > 0) {
-        // Lăn lên
-        const newIndex =
-          Math.floor(scrollRef.current.scrollTop / itemHeight) - 0.01;
-        const scrollTo = newIndex * itemHeight;
-        scrollRef.current.scrollTo({ top: scrollTo, behavior: "smooth" });
-      } else if (deltaY < 0) {
-        // Lăn xuống
-        const newIndex =
-          Math.ceil(scrollRef.current.scrollTop / itemHeight) + 0.01;
-        const scrollTo = newIndex * itemHeight;
-        scrollRef.current.scrollTo({ top: scrollTo, behavior: "smooth" });
-      }
-    };
+        if (deltaY > 0) {
+          // Lăn lên
+          const newIndex =
+            Math.floor(scrollRef.current.scrollTop / itemHeight) - 0.01;
+          const scrollTo = newIndex * itemHeight;
+          scrollRef.current.scrollTo({ top: scrollTo, behavior: "smooth" });
+        } else if (deltaY < 0) {
+          // Lăn xuống
+          const newIndex =
+            Math.ceil(scrollRef.current.scrollTop / itemHeight) + 0.01;
+          const scrollTo = newIndex * itemHeight;
+          scrollRef.current.scrollTo({ top: scrollTo, behavior: "smooth" });
+        }
+      };
 
-    if (scrollRef.current) {
-      scrollRef.current.addEventListener("touchstart", handleTouchStart);
-      scrollRef.current.addEventListener("touchmove", handleTouchMove);
-    }
-
-    return () => {
       if (scrollRef.current) {
-        scrollRef?.current.removeEventListener("touchstart", handleTouchStart);
-        scrollRef?.current.removeEventListener("touchmove", handleTouchMove);
+        scrollRef.current.addEventListener("touchstart", handleTouchStart);
+        scrollRef.current.addEventListener("touchmove", handleTouchMove);
       }
-    };
-  }, [dataUrls]);
+
+      return () => {
+        if (scrollRef.current) {
+          scrollRef?.current.removeEventListener(
+            "touchstart",
+            handleTouchStart
+          );
+          scrollRef?.current.removeEventListener("touchmove", handleTouchMove);
+        }
+      };
+    }
+  }, [dataUrls, gridView]);
   useEffect(() => {
     if (isFireworkActive) {
       const stopFireworks = setTimeout(() => {
@@ -159,6 +167,22 @@ export default function Home() {
     }
   }, [router.events]);
 
+  useEffect(() => {
+    if (gridView && indexImage !== undefined) {
+      setGridView(false);
+    }
+  }, [gridView, indexImage]);
+
+  useEffect(() => {
+    if (!gridView && indexImage !== undefined) {
+      scrollRef.current.scrollTo({
+        top: indexImage * 424,
+        behavior: "smooth",
+      });
+      setIndexImage(undefined);
+    }
+  }, [gridView, indexImage]);
+
   // const handleLogout = async () => {
   //   try {
   //     await signOut(auth);
@@ -194,6 +218,11 @@ export default function Home() {
   //     // code block
   //   }
   // }, []);
+
+  const handleUpdateIndexImage = (index) => {
+    setIndexImage(index);
+  };
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
 
@@ -222,13 +251,6 @@ export default function Home() {
         await uploadString(storageRef, base64, "data_url");
         const url = await getDownloadURL(storageRef);
         const uniqueId = uuidv4();
-
-        // Store the image URL in Firestore
-        // const { result, error } = await addData(
-        //   "album",
-        //   "kVP5JboDGkTnorvOi3Yi",
-        //   { url }
-        // );
 
         const ref = doc(db, "album", "kVP5JboDGkTnorvOi3Yi");
         await updateDoc(ref, {
@@ -280,6 +302,8 @@ export default function Home() {
         title={item?.textValue}
         images={item.url}
         time={item?.time}
+        gridView={gridView}
+        handleUpdateIndexImage={handleUpdateIndexImage}
         activeFirework={handleFireworkActivation}
       />
     );
@@ -318,9 +342,11 @@ export default function Home() {
                 }}
               />
             )}
-            {data?.flatMap((group) =>
-              group?.urls?.map((item, index) => renderItemImage(item, index))
-            )}
+            <div className={`${gridView && "grid grid-cols-3"}`}>
+              {data?.flatMap((group) =>
+                group?.urls?.map((item, index) => renderItemImage(item, index))
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -375,7 +401,7 @@ export default function Home() {
               checked ? "bg-[#f68738]" : "bg-[#334155]"
             }  p-3 rounded-full w-[300px]`}
           >
-            <AwesomeButton
+            {/* <AwesomeButton
               disabled={runScreen}
               onPress={() => {
                 isToggled
@@ -397,6 +423,16 @@ export default function Home() {
               ) : (
                 <FaCaretUp className="text-4xl" />
               )}
+            </AwesomeButton> */}
+
+            <AwesomeButton
+              type={`${checked ? "danger" : "link"}`}
+              className="w-[45px]"
+              onPress={() => {
+                setGridView(!gridView);
+              }}
+            >
+              <FaBorderAll className="text-3xl" />
             </AwesomeButton>
 
             <div className="bg-[#2D2D2D] border-4 flex items-center justify-center border-yellow-200 px-2 rounded-full h-[70px] w-[70px]">

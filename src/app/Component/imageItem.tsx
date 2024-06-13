@@ -19,7 +19,9 @@ interface Props {
   index?: any;
   title?: string;
   time?: string;
+  gridView: boolean;
   activeFirework: () => any;
+  handleUpdateIndexImage: (index: any) => void;
 }
 
 const ImageItem = ({
@@ -29,6 +31,8 @@ const ImageItem = ({
   title,
   time,
   index,
+  gridView,
+  handleUpdateIndexImage,
 }: Props) => {
   const [count, setCount] = useState<number>(0);
   const [smile, setSmile] = useState<number>(0);
@@ -134,75 +138,93 @@ const ImageItem = ({
 
   return (
     <div
-      className={`hover: hover:origin-center duration-500 delay-100 py-3 rounded-2xl ${styles.container}`}
+      onClick={() => {
+        handleUpdateIndexImage(index);
+      }}
+      className={`hover: hover:origin-center duration-500 delay-100 py-3 rounded-2xl ${
+        gridView && "h-[150px] px-1"
+      }  ${styles.container}`}
     >
-      <img src={images} alt="Example" className="rounded-lg" />
+      <img
+        src={images}
+        alt="Example"
+        className={`rounded-lg ${!gridView && "h-[400px]"} `}
+      />
 
-      <div className={`${styles.overlayRed} top-0 left-0 w-full h-full`}>
-        <div className="flex justify-center text-3xl cursor-pointer text-[#2D2D2D] absolute top-4 right-4">
-          <FaCloudArrowDown onClick={() => downloadImage(images)} />
-        </div>
-        <div className={`${styles.text} grid grid-cols-1`}>
-          <div className="flex justify-center text-3xl cursor-pointer text-blue-500 absolute top-[37.5%]">
-            <div>
-              <FaLaughSquint
-                onClick={() => {
-                  setSmile((prevCount) => prevCount + 1);
-                  handleAddSmileToFirestore();
-                }}
-              />
+      <div
+        className={`${
+          !gridView && styles.overlayRed
+        } top-0 left-0 w-full h-full`}
+      >
+        {!gridView && (
+          <>
+            <div className="flex justify-center text-3xl cursor-pointer text-[#2D2D2D] absolute top-4 right-4">
+              <FaCloudArrowDown onClick={() => downloadImage(images)} />
             </div>
+            <div className={`${styles.text} grid grid-cols-1`}>
+              <div className="flex justify-center text-3xl cursor-pointer text-blue-500 absolute top-[37.5%]">
+                <div>
+                  <FaLaughSquint
+                    onClick={() => {
+                      setSmile((prevCount) => prevCount + 1);
+                      handleAddSmileToFirestore();
+                    }}
+                  />
+                </div>
 
-            <div
-              className={`absolute text-lg mt-[85%] ${
-                smile === 0 ? "text-slate-400" : "text-blue-500"
-              } `}
-            >
-              {smile}
-            </div>
-          </div>
-          <div className="flex justify-center text-3xl cursor-pointer text-pink-600 absolute top-[37.5%] left-[73%]">
-            <div>
-              <FaKissWinkHeart
-                onClick={() => {
-                  setKiss((prevCount) => prevCount + 1);
-                  handleAddKissToFirestore();
-                }}
-              />
-            </div>
+                <div
+                  className={`absolute text-lg mt-[85%] ${
+                    smile === 0 ? "text-slate-400" : "text-blue-500"
+                  } `}
+                >
+                  {smile}
+                </div>
+              </div>
+              <div className="flex justify-center text-3xl cursor-pointer text-pink-600 absolute top-[37.5%] left-[73%]">
+                <div>
+                  <FaKissWinkHeart
+                    onClick={() => {
+                      setKiss((prevCount) => prevCount + 1);
+                      handleAddKissToFirestore();
+                    }}
+                  />
+                </div>
 
-            <div
-              className={`absolute text-lg mt-[85%] ${
-                kiss === 0 ? "text-slate-400" : "text-pink-600"
-              } `}
-            >
-              {kiss}
+                <div
+                  className={`absolute text-lg mt-[85%] ${
+                    kiss === 0 ? "text-slate-400" : "text-pink-600"
+                  } `}
+                >
+                  {kiss}
+                </div>
+              </div>
+              <div className="flex justify-center w-[px] h-[100px]">
+                <div className="absolute text-xs mt-[15%]">{time}</div>
+                <div>
+                  <Heart
+                    isClick={true} // Always allow clicking
+                    onClick={() => {
+                      setCount((prevCount) => prevCount + 1);
+                      handleAddCountToFirestore();
+                      activeFirework();
+                    }}
+                  />
+                </div>
+                <div className="text-white bg-[#2D2D2D] rounded-full p-2 absolute text-lg mt-[90%] whitespace-normal break-words w-[200px]">
+                  {title}
+                </div>
+                <div
+                  className={`absolute text-lg mt-[63%] ${
+                    count === 0 ? "text-slate-400" : "text-[#E5234C]"
+                  } `}
+                >
+                  {count}
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="flex justify-center w-[px] h-[100px]">
-            <div className="absolute text-xs mt-[15%]">{time}</div>
-            <div>
-              <Heart
-                isClick={true} // Always allow clicking
-                onClick={() => {
-                  setCount((prevCount) => prevCount + 1);
-                  handleAddCountToFirestore();
-                  activeFirework();
-                }}
-              />
-            </div>
-            <div className="text-white bg-[#2D2D2D] rounded-full p-2 absolute text-lg mt-[90%] whitespace-normal break-words w-[200px]">
-              {title}
-            </div>
-            <div
-              className={`absolute text-lg mt-[63%] ${
-                count === 0 ? "text-slate-400" : "text-[#E5234C]"
-              } `}
-            >
-              {count}
-            </div>
-          </div>
-        </div>
+          </>
+        )}
+
         <div className="absolute top-[55%] left-[17%] w-[220px]">
           {/* Other content */}
         </div>

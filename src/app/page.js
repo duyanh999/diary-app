@@ -306,35 +306,11 @@ export default function Home() {
             }
       }
     >
-      {/* <div className="text-white text-3xl mb-5">Yêu Hương</div> */}
-      {/* <div className="relative">
-        <select
-          id="groupSelect"
-          value={selectedGroup}
-          onChange={handleGroupChange}
-          className="block appearance-none mt-8 w-[150px] rounded-full text-slate-300 bg-[#2D2D2D] px-4 py-2 pr-8 shadow leading-tight focus:outline-none focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50 relative"
-        >
-          <option value=""> Thời điểm </option>
-          {Object.keys(groupedData).map((groupKey) => (
-            <option key={groupKey} value={groupKey} className="relative">
-              {groupKey}
-            </option>
-          ))}
-        </select>
-        <img
-          src={"./arrowselect.png"}
-          alt="dsad"
-          className="w-3 absolute top-[70%] left-[80%]"
-        />
-      </div> */}
-      {/* <button onClick={handleLogout}>Logout</button> */}
-      {/* <button onClick={fetchData}>data</button> */}
-
-      {/* {!selectedGroup && renderPet(isPet)} */}
-      {/* {isFireworkActive && (
-        <div className="firework container z-[50] absolute top-0 bottom-0 left-1/2 transform -translate-x-1/2" />
-      )} */}
-      <div className="relative flex-1 overflow-hidden mt-7">
+      <div
+        className={`relative flex-1 overflow-hidden ${
+          gridView && "mt-[20%]"
+        } mt-7`}
+      >
         {suggestUserChoiceList()}
         {!gridView && (
           <div className="flex justify-center mt-4">

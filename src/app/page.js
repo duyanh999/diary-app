@@ -9,7 +9,7 @@ import Confetti from "react-confetti";
 import { useSwitch } from "./context/SwitchContext";
 import dayjs from "dayjs";
 
-import { FaPlay, FaStop } from "react-icons/fa";
+import { FaGripVertical, FaPlay, FaStop } from "react-icons/fa";
 import { useAuthContext } from "./context/AuthContext";
 import { useRouter } from "next/navigation";
 import { firebase_app, storage } from "./firebase/config";
@@ -426,7 +426,11 @@ export default function Home() {
                 setGridView(!gridView);
               }}
             >
-              <FaGrip className="text-3xl" />
+              {gridView ? (
+                <FaGripVertical className="text-3xl" />
+              ) : (
+                <FaGrip className="text-3xl" />
+              )}
             </AwesomeButton>
 
             <div className="bg-[#2D2D2D] border-4 flex items-center justify-center border-yellow-200 px-2 rounded-full h-[70px] w-[70px]">

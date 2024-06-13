@@ -2,13 +2,10 @@
 import styles from "./styles.module.css";
 import { useEffect, useState } from "react";
 import Heart from "react-animated-heart";
-import { useHearthCount } from "../context/HearthCountContext";
 import { doc, updateDoc, getDoc } from "firebase/firestore";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 import { db } from "../firebase/config"; // Adjust the import path as necessary
 import { FaCloudArrowDown } from "react-icons/fa6";
 import { FaKissWinkHeart, FaLaughSquint } from "react-icons/fa";
-import "react-lazy-load-image-component/src/effects/blur.css";
 
 interface Props {
   id: string;
@@ -138,31 +135,15 @@ const ImageItem = ({
       onClick={() => {
         handleUpdateIndexImage(index);
       }}
-      className={`hover: hover:origin-center duration-500 delay-100  rounded-xl ${
-        gridView ? " " : "py-3"
+      className={`hover: hover:origin-center duration-500 delay-100 py-3 rounded-2xl ${
+        gridView && "h-[150px] px-1"
       }  ${styles.container}`}
     >
-      {!gridView ? (
-        <LazyLoadImage
-          alt="Example"
-          src={images}
-          height={400}
-          effect="blur"
-          width={400}
-          className={`rounded-lg ${!gridView && "h-[400px]"} `}
-        />
-      ) : (
-        <LazyLoadImage
-          alt="Example"
-          src={images}
-          height={130}
-          effect="blur"
-          width={150}
-          className={`object-cover`}
-        />
-      )}
-
-      {/* <img src={images} alt="Example" /> */}
+      <img
+        src={images}
+        alt="Example"
+        className={`rounded-lg ${!gridView && "h-[400px]"} `}
+      />
 
       <div
         className={`${

@@ -388,13 +388,14 @@ export default function Home() {
       )} */}
       <div className="relative flex-1 overflow-hidden mt-7">
         {suggestUserChoiceList()}
-        <div className="flex justify-center mt-4">
-          <div
-            className={`flex justify-around items-center shadow-2xl overflow-hidden ${
-              checked ? "bg-[#f68738]" : "bg-[#334155]"
-            }  p-3 rounded-full w-[300px]`}
-          >
-            {/* <AwesomeButton
+        {!gridView && (
+          <div className="flex justify-center mt-4">
+            <div
+              className={`flex justify-around items-center shadow-2xl overflow-hidden ${
+                checked ? "bg-[#f68738]" : "bg-[#334155]"
+              }  p-3 rounded-full w-[300px]`}
+            >
+              {/* <AwesomeButton
               disabled={runScreen}
               onPress={() => {
                 isToggled
@@ -418,62 +419,57 @@ export default function Home() {
               )}
             </AwesomeButton> */}
 
-            <AwesomeButton
-              disabled={setTimeout(false, 5000)}
-              type={`${checked ? "danger" : "link"}`}
-              className="w-[45px]"
-              onPress={() => {
-                gridView &&
-                  scrollRef.current.scrollTo({
-                    top: dataUrls[0]?.length * 424,
-                    behavior: "smooth",
-                  });
-                setGridView(!gridView);
-              }}
-            >
-              {gridView ? (
-                <FaGripVertical className="text-3xl" />
-              ) : (
-                <FaGrip className="text-3xl" />
-              )}
-            </AwesomeButton>
-
-            <div className="bg-[#2D2D2D] border-4 flex items-center justify-center border-yellow-200 px-2 rounded-full h-[70px] w-[70px]">
               <AwesomeButton
-                disabled={runScreen || gridView}
-                className="w-[40px]"
                 type={`${checked ? "danger" : "link"}`}
+                className="w-[45px]"
                 onPress={() => {
-                  if (fileInputRef.current) {
-                    fileInputRef.current.click();
-                  }
+                  gridView &&
+                    scrollRef.current.scrollTo({
+                      top: dataUrls[0]?.length * 424,
+                      behavior: "smooth",
+                    });
+                  setGridView(!gridView);
                 }}
               >
-                <div className="flex items-center z-99">
-                  <input
-                    type="file"
-                    ref={fileInputRef}
-                    id="fileInput"
-                    className="w-0"
-                    onChange={handleImageChange}
-                  />
+                <FaGrip className="text-3xl" />
+              </AwesomeButton>
+
+              <div className="bg-[#2D2D2D] border-4 flex items-center justify-center border-yellow-200 px-2 rounded-full h-[70px] w-[70px]">
+                <AwesomeButton
+                  disabled={runScreen}
+                  className="w-[40px]"
+                  type={`${checked ? "danger" : "link"}`}
+                  onPress={() => {
+                    if (fileInputRef.current) {
+                      fileInputRef.current.click();
+                    }
+                  }}
+                >
+                  <div className="flex items-center z-99">
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      id="fileInput"
+                      className="w-0"
+                      onChange={handleImageChange}
+                    />
+                  </div>
+                </AwesomeButton>
+              </div>
+              <AwesomeButton
+                className="items-center flex w-[45px]"
+                type={`${checked ? "danger" : "link"}`}
+                onPress={() => {
+                  setRunScreen((prevRunScreen) => !prevRunScreen);
+                }}
+              >
+                <div className="bg-left-bottom text-xl font-bold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
+                  {runScreen ? <FaStop /> : <FaPlay />}
                 </div>
               </AwesomeButton>
             </div>
-            <AwesomeButton
-              disabled={gridView}
-              className=" items-center flex w-[45px]"
-              type={`${checked ? "danger" : "link"}`}
-              onPress={() => {
-                setRunScreen((prevRunScreen) => !prevRunScreen);
-              }}
-            >
-              <div className="bg-left-bottom text-xl font-bold bg-gradient-to-r from-white to-white bg-[length:0%_2px] bg-no-repeat group-hover:bg-[length:100%_2px] transition-all duration-500 ease-out">
-                {runScreen ? <FaStop /> : <FaPlay />}
-              </div>
-            </AwesomeButton>
           </div>
-        </div>
+        )}
       </div>
 
       {/* <Link className="w-[full] bottom-20 absolute" href="/gacha">

@@ -348,17 +348,15 @@ export default function Home() {
 
   return (
     <main
-      className={`${
-        checked ? "bg-[#151515]" : "bg-[#031525]"
-      } flex min-h-screen flex-col items-center justify-between bg-no-repeat	h-full p-5 relative overflow-hidden`}
-      // style={
-      //   checked
-      //     ? { backgroundImage: `url(sunlight.jpg)`, backgroundSize: "cover" }
-      //     : {
-      //         backgroundImage: `url(nightmountain.gif)`,
-      //         backgroundSize: "cover",
-      //       }
-      // }
+      className={`flex min-h-screen flex-col items-center justify-between bg-no-repeat	h-full p-5 relative overflow-hidden`}
+      style={
+        checked
+          ? { backgroundImage: `url(sunlight.jpg)`, backgroundSize: "cover" }
+          : {
+              backgroundImage: `url(nightmountain.gif)`,
+              backgroundSize: "cover",
+            }
+      }
     >
       {/* <div className="text-white text-3xl mb-5">Yêu Hương</div> */}
       {/* <div className="relative">

@@ -195,7 +195,9 @@ const ImageItem = ({
                 </div>
               </div>
               <div className="flex justify-center w-[px] h-[100px]">
-                <div className="absolute text-xs mt-[15%]">{time}</div>
+                <div className="absolute text-white text-xs mt-[15%]">
+                  {time}
+                </div>
                 <div>
                   <Heart
                     isClick={true} // Always allow clicking

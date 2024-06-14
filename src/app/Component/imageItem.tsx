@@ -142,15 +142,23 @@ const ImageItem = ({
         gridView && "h-[150px] px-1"
       }  ${styles.container}`}
     >
-      <Image
-        src={images}
-        alt="Example"
-        width={400}
-        height={400}
-        blurDataURL={"/loading.gif"}
-        placeholder="blur"
-        className={`rounded-lg ${!gridView && "h-[400px]"} `}
-      />
+      {images?.includes("MOV") ? (
+        <img
+          src={images}
+          alt="Example"
+          className={`rounded-lg ${!gridView && "h-[400px]"} `}
+        />
+      ) : (
+        <Image
+          src={images}
+          alt="Example"
+          width={400}
+          height={400}
+          blurDataURL={"/loading.gif"}
+          placeholder="blur"
+          className={`rounded-lg ${!gridView && "h-[400px]"} `}
+        />
+      )}
 
       <div
         className={`${

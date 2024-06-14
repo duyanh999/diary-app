@@ -154,7 +154,7 @@ const ImageItem = ({
           alt="Example"
           width={400}
           height={400}
-          blurDataURL={"/loading.gif"}
+          blurDataURL={"/pizza.jpg"}
           placeholder="blur"
           className={`rounded-lg ${!gridView && "h-[400px]"} `}
         />

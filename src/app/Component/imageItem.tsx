@@ -7,6 +7,7 @@ import { db } from "../firebase/config"; // Adjust the import path as necessary
 import { FaCloudArrowDown } from "react-icons/fa6";
 import { FaKissWinkHeart, FaLaughSquint } from "react-icons/fa";
 import { useSwitch } from "../context/SwitchContext";
+import Image from "next/image";
 
 interface Props {
   id: string;
@@ -141,9 +142,13 @@ const ImageItem = ({
         gridView && "h-[150px] px-1"
       }  ${styles.container}`}
     >
-      <img
+      <Image
         src={images}
         alt="Example"
+        width={400}
+        height={400}
+        blurDataURL={"/loading.gif"}
+        placeholder="blur"
         className={`rounded-lg ${!gridView && "h-[400px]"} `}
       />
 
